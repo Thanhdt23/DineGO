@@ -1,14 +1,10 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace DineGO_Api.Migrations
 {
-    /// <inheritdoc />
     public partial class InitialDB_V10 : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -81,7 +77,7 @@ namespace DineGO_Api.Migrations
                     res_rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     res_price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     res_discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    res_image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    res_images = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     cate_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -209,7 +205,6 @@ namespace DineGO_Api.Migrations
                 column: "cate_id");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

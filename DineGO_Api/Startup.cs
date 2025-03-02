@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DineGO_Api.Data;
 using Microsoft.EntityFrameworkCore;
+using DineGO_Api.Repository;
 
 namespace DineGO_Api
 {
@@ -37,7 +38,7 @@ namespace DineGO_Api
             //ConnectDB
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DineGO_Api", Version = "v1" });
@@ -69,6 +70,13 @@ namespace DineGO_Api
                 });
             services.AddAuthorization();
             services.AddHttpContextAccessor();
+
+            //Add dependency here
+            services.AddScoped<RestaurantDAO>();  
+            services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+             services.AddScoped<CategoryDAO>();  
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -38,7 +38,7 @@ namespace DineGO_Api.Model
 
         public decimal res_discount { get; set; }
 
-        public string res_image { get; set; }
+        public List<string> res_images { get; set; } = new List<string>();
 
         [Required]
         public int cate_id { get; set; } 

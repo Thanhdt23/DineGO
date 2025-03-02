@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-4">
+    <div id="restaurantCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @for (int i = 0; i < Model.res_images.Count; i++)
+            {
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="~/client/images/@Model.res_images[i]" class="d-block w-100" alt="Hình ảnh @(i+1)">
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#restaurantCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 info-container">
+            <p class="restaurant-name">@Model.res_name</p>
+            <div class="restaurant-info">
+                <span class="rating">⭐⭐⭐⭐☆</span>
+                <span class="price">@Model.res_price</span>
+            </div>
+            <p class="time-opened"><strong>Giờ mở cửa: 9:00am - 11:00pm</strong></p>
+            <p class="restaurant-type">@Model.res_type</p>
+
+            <p class="restaurant-content">
+                @Model.res_information
+            </p>
+        </div>
+
+        <div class="col-md-6 booking-container">
+            <h2><strong>Thông tin đặt bàn</strong></h2>
+            <p>Đặt bàn:</strong> @Model.res_phone</p> 
+            <p class="restaurant-address">Địa chỉ: @Model.res_address</p>
+            <button class="btn btn-primary btn-book">Đặt chỗ ngay</button>
+        </div>
+    </div>
+</div>
