@@ -406,7 +406,7 @@ h3 {
 
 
 
-/* Product - Thang _ START */
+/* Restaurant - Thang _ START */
 body {
   font-family: Arial, sans-serif;
   padding: 0;
@@ -445,7 +445,7 @@ body {
 }
 
 .restaurant-name {
-  font-size: 50px !important;
+  font-size: 20px !important;
   font-weight: bold;
   color: #000000;
 }
@@ -498,10 +498,10 @@ body {
 .btn-book:hover {
   background-color: #c0392b;
 }
-/* Product - END - Thang  */
+/* Restaurant - END - Thang  */
 
 
-/* Product Details - Start - Thang */
+/* Restaurant Details - Start - Thang */
 .container {
   display: inline-flexbox;
   justify-content: center;
@@ -522,4 +522,4 @@ body {
 .booking-container {
   padding-left: 200px;
 }
-/* Product Details - End - Thang */
+/* Restaurant Details - End - Thang */
