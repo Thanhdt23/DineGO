@@ -46,5 +46,7 @@ namespace Core.Constant
         public const string CART = "Cart";
         public const string CART_BY_CUSID = "Cart/CustomerID?CustomerID=";
         public const string CART_BY_ID = "Order/id?id=";
+
+        public const string RESTAURANT = "Restaurant";
     }
 }
