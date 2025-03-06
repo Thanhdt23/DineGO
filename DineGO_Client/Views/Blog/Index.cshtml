@@ -1,0 +1,95 @@
+@model List<DineGO_Client.Model.Blog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="blog-container">
+                <div class="container my-4">
+                    <h3 class="mb-4">Xem nhiều nhất tháng</h3>
+                    <div class="owl-carousel owl-theme">
+                        @foreach (var blog in Model.Take(3))
+                        {
+                            <div class="carousel-card">
+                                <img src="@(string.IsNullOrEmpty(blog.blog_image) ? "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" : blog.blog_image)"
+                                    alt="@blog.blog_title">
+                                <p>@blog.blog_title</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr>
+                <div class="container">
+                    <h3 class="mb-4">Blog mới</h3>
+                    <div class="row">
+                        @foreach (var blog in Model)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex">
+                                    <img src="@(string.IsNullOrEmpty(blog.blog_image) ? "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" : blog.blog_image)"
+                                        alt="@blog.blog_title" class="me-3">
+                                    <div>
+                                        <h6>
+                                            <a href="@Url.Action("ViewBlogDetail", "Blog", new { id = blog.blog_id })">
+                                                @blog.blog_title
+                                            </a>
+                                        </h6>
+                                        <p>@blog.blog_date.ToString("dd/MM/yyyy")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <hr>
+                <div class="container">
+                    <div class="blog-section">
+                        <h3>Kinh doanh ăn uống</h3>
+                        @foreach (var blog in Model.Where(b => b.blog_title.Contains("Kinh doanh") ||
+                                                b.blog_title.Contains("Marketing")))
+                        {
+                            <div class="blog-item">
+                                <img src="@(string.IsNullOrEmpty(blog.blog_image) ? "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" : blog.blog_image)"
+                                    alt="@blog.blog_title">
+                                <div class="blog-content">
+                                    <h3>@blog.blog_title</h3>
+                                    <p>@blog.blog_date.ToString("dd/MM/yyyy")</p>
+                                    <p>@blog.blog_information</p>
+                                </div>
+                            </div>
+                        }
+                        <a href="#" class="see-more">Xem thêm ></a>
+                    </div>
+                    <div class="blog-section">
+                        <h3>Công thức món ăn</h3>
+                        @foreach (var blog in Model.Where(b => b.blog_title.Contains("Công thức") ||
+                                                b.blog_title.Contains("Món ăn")))
+                        {
+                            <div class="blog-item">
+                                <img src="@(string.IsNullOrEmpty(blog.blog_image) ? "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" : blog.blog_image)"
+                                    alt="@blog.blog_title">
+                                <div class="blog-content">
+                                    <h3>@blog.blog_title</h3>
+                                    <p>@blog.blog_date.ToString("dd/MM/yyyy")</p>
+                                    <p>@blog.blog_information</p>
+                                </div>
+                            </div>
+                        }
+                        <a href="#" class="see-more">Xem thêm ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <h3 class="mt-5">Từ khóa</h3>
+            <div class="keywords">
+                <a href="#" class="btn btn-sm btn-outline-secondary">Kinh nghiệm mở quán</a>
+                <a href="#" class="btn btn-sm btn-outline-secondary">Công thức món ăn</a>
+                <a href="#" class="btn btn-sm btn-outline-secondary">Marketing nhà hàng</a>
+            </div>
+        </div>
+    </div>
+</div>

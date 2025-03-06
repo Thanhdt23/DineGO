@@ -35,7 +35,8 @@ namespace Core.Constant
             return $"Customer/checklogin?username={username}&password={password}";
         }
 
-        public const string BLOG = "Post";
+        public const string BLOG = "Blog";
+        public const string BLOG_BY_ID = "Blog/id?ID=";
 
         public const string ORDER = "Order";
         public const string ORDER_BY_ID = "Order/id?id=";

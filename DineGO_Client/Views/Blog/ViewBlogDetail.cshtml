@@ -1,61 +1,21 @@
+@model DineGO_Client.Model.Blog
+
 @{
-    ViewData["Title"] = "ViewBlogDetail";
+    ViewData["Title"] = Model?.blog_title ?? "Không có dữ liệu";
+    string defaultImage = "https://storage.googleapis.com/a1aa/image/Ro3xNxdYoS1VIFlm3jZvR__ygEMTBN2cPDfSwWOTqtg.jpg";
+    string imageUrl = string.IsNullOrEmpty(Model?.blog_image) ? defaultImage : Model.blog_image;
 }
+
 <div class="container all-container">
     <div class="row">
         <!-- Nội dung chính -->
         <div class="col-lg-8">
             <div class="blog-container">
-                <!-- Đề mục 1 -->
                 <div class="blog-section">
-                    <h3>1. Món ngon ngày hè: Các món nộm</h3>
-                    @{
-                        double rating = 2; // Giá trị đánh giá cố định
-                        int fullStars = (int)Math.Floor(rating); // Số sao đầy
-                        bool hasHalfStar = (rating - fullStars) >= 0.5; // Có nửa sao không?
-                        int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Số sao rỗng
-                    }
-                    <div class="rating">
-                        @for (int i = 0; i < fullStars; i++)
-                        {
-                            <span class="star">&#9733;</span> <!-- Sao đầy -->
-                        }
-                        @if (hasHalfStar)
-                        {
-                            <span class="star">&#9734;</span> <!-- Sao nửa -->
-                        }
-                        @for (int i = 0; i < emptyStars; i++)
-                        {
-                            <span class="star">&#9734;</span> <!-- Sao rỗng -->
-                        }
-                        <span>(@rating/5)</span>
-                    </div>
-
-                </div>
-
-                <!-- Đề mục con 1.1 -->
-                <div class="blog-section">
-                    <h3 class="text-secondary">1.1. Nộm hoa chuối tai heo</h3>
-                    <p>
-                        Nộm hoa chuối tai heo là món ăn mùa hè hoàn hảo với vị thanh mát. Thành phần chính là hoa chuối
-                        tươi
-                        kết hợp tai heo giòn, gia vị, nước mắm tạo nên sự hài hòa.
-                    </p>
-                    <img src="https://storage.googleapis.com/a1aa/image/Ro3xNxdYoS1VIFlm3jZvR__ygEMTBN2cPDfSwWOTqtg.jpg"
-                        alt="Nộm hoa chuối tai heo">
-                    <p><i>Món ăn giải nhiệt mùa hè</i></p>
-                </div>
-
-                <!-- Đề mục con 1.2 -->
-                <div class="blog-section">
-                    <h3 class="text-secondary">1.2. Món mướp đắng rướt</h3>
-                    <p>
-                        Mướp đắng mang đến nhiều lợi ích sức khỏe cùng vị đặc trưng, thích hợp cho bữa cơm gia đình mùa
-                        hè.
-                    </p>
-                    <img src="https://storage.googleapis.com/a1aa/image/Ro3xNxdYoS1VIFlm3jZvR__ygEMTBN2cPDfSwWOTqtg.jpg"
-                        alt="Nộm hoa chuối tai heo">
-                    <p><i>Món ăn giải nhiệt mùa hè</i></p>
+                    <h3>@Model?.blog_title</h3>
+                    <p><strong>Ngày đăng:</strong> @Model?.blog_date.ToString("dd/MM/yyyy")</p>
+                    <img src="@imageUrl" alt="Blog Image">
+                    <p>@Model?.blog_information</p>
                 </div>
             </div>
         </div>
@@ -65,8 +25,7 @@
             <div class="blog-container">
                 <h3>Blog mới</h3>
                 <div class="blog-item mt-4">
-                    <img src="https://storage.googleapis.com/a1aa/image/jyZGnwMle-G8xxriJzKkW3pn_15sh4dKAE8cM8iAauI.jpg"
-                        alt="Marketing">
+                    <img src="https://storage.googleapis.com/a1aa/image/jyZGnwMle-G8xxriJzKkW3pn_15sh4dKAE8cM8iAauI.jpg" alt="Marketing">
                     <div class="blog-content">
                         <h3>Tăng doanh thu nhà hàng</h3>
                         <p>15/01/2025</p>
@@ -74,8 +33,7 @@
                     </div>
                 </div>
                 <div class="blog-item">
-                    <img src="https://storage.googleapis.com/a1aa/image/NsAYbrGgbAnf4eynZgHAN2vqXGsQn10K_u6-uujH6L0.jpg"
-                        alt="Thực đơn">
+                    <img src="https://storage.googleapis.com/a1aa/image/NsAYbrGgbAnf4eynZgHAN2vqXGsQn10K_u6-uujH6L0.jpg" alt="Thực đơn">
                     <div class="blog-content">
                         <h3>Thực đơn hàng ngày đầy đủ dinh dưỡng</h3>
                         <p>19/12/2024</p>
