@@ -11,9 +11,6 @@ namespace DineGO_Client.Model
         [Key]
         public int cate_id { get; set; }
 
-        [Required]
-        public int res_id { get; set; }
-
         [Required, MaxLength(50)]
         public string cate_type { get; set; }
 

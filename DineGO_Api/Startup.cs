@@ -76,6 +76,8 @@ namespace DineGO_Api
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
              services.AddScoped<CategoryDAO>();  
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<BlogDAO>();  
+            services.AddScoped<IBlogRepositoy, BlogRepository>();
 
         }
 
