@@ -49,5 +49,9 @@ namespace Core.Constant
         public const string CART_BY_ID = "Order/id?id=";
 
         public const string RESTAURANT = "Restaurant";
+
+        public const string RESTAURANT_SEARCH = "Restaurant/search?name={0}&address={1}";
+
+
     }
 }

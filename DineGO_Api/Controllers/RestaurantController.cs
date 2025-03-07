@@ -26,7 +26,7 @@ namespace DineGO_Api.Controllers
         {
             return Ok(_restaurantsRepository.GetRestaurants());
         }
-        
+
         [HttpGet("{id}")]
         public IActionResult GetOne(int id)
         {
@@ -56,6 +56,13 @@ namespace DineGO_Api.Controllers
         {
             _restaurantsRepository.DeleteRestaurant(Id);
             return Ok(_restaurantsRepository.GetRestaurants());
+        }
+
+        [HttpGet("search")]
+        public IActionResult SearchRestaurants(string name, string address)
+        {
+            var result = _restaurantsRepository.SearchRestaurants(name, address);
+            return Ok(result);
         }
 
     }
