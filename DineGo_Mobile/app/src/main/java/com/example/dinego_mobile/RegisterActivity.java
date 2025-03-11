@@ -17,7 +17,7 @@ import Data.DatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity {
     private EditText edtUsername, edtPassword, edtName, edtEmail, edtPhone;
-    private Button btnRegister;
+    private Button btnRegister, btnBack; ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPhone = findViewById(R.id.edtPhone);
         btnRegister = findViewById(R.id.btnRegister);
-
+        btnBack = findViewById(R.id.btnBack);
         // Xử lý sự kiện khi nhấn nút Đăng ký
         btnRegister.setOnClickListener(view -> registerUser());
+        btnBack.setOnClickListener(v -> finish()); // Quay lại trang trước đó
     }
 
     private void registerUser() {
@@ -81,4 +82,5 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }).start();
     }
+
 }
