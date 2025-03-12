@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Lấy button từ layout
         Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
+
 
         // Bắt sự kiện click để mở LoginActivity
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -33,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
