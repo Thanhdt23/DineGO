@@ -10,11 +10,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Models.Restaurant;
+
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.34"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
@@ -69,4 +73,41 @@ public class DatabaseHelper {
             }
         });
     }
+
+
+    // Lấy danh sách nhà hàng
+    public void getRestaurants(Callback<List<Restaurant>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Restaurant> restaurantList = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String query = "SELECT res_name, res_address, res_phone, res_images FROM restaurants";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        String name = rs.getString("res_name");
+                        String address = rs.getString("res_address");
+                        String phone = rs.getString("res_phone");
+                        String image = rs.getString("res_images");
+
+                        restaurantList.add(new Restaurant(name, address, phone, image));
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Không thể lấy dữ liệu: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(restaurantList));
+        });
+    }
+
+    // Interface để xử lý callback
+    public interface Callback<T> {
+        void onResult(T result);
+    }
+
 }
