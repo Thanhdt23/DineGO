@@ -74,6 +74,39 @@ public class DatabaseHelper {
         });
     }
 
+    // Lấy danh sách thông báo
+    public void getNotifications(Callback<List<Notification>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Notification> notificationList = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String query = "SELECT noti_id, cus_id, re_id, noti_title, noti_content, noti_type, noti_date, noti_status FROM notifications";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        int id = rs.getInt("noti_id");
+                        int customerId = rs.getInt("cus_id");
+                        int restaurantId = rs.getInt("re_id");
+                        String title = rs.getString("noti_title");
+                        String content = rs.getString("noti_content");
+                        String type = rs.getString("noti_type");
+                        String date = rs.getString("noti_date");
+                        String status = rs.getString("noti_status");
+
+                        notificationList.add(new Notification(id, title, content, type, date, status, customerId, false));
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Không thể lấy dữ liệu thông báo: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(notificationList));
+        });
+    }
 
     // Lấy danh sách nhà hàng
     public void getRestaurants(Callback<List<Restaurant>> callback) {

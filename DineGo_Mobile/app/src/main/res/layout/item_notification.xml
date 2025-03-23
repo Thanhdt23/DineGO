@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp">
+
+    <!-- Icon thông báo -->
+    <ImageView
+        android:id="@+id/noti_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_notification"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="10dp"/>
+
+    <!-- Layout chứa nội dung thông báo -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Tiêu đề thông báo -->
+        <TextView
+            android:id="@+id/noti_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification Title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+
+        <!-- Nội dung thông báo -->
+        <TextView
+            android:id="@+id/noti_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification content goes here..."
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <!-- Ngày thông báo -->
+        <TextView
+            android:id="@+id/noti_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12/03/2024"
+            android:textSize="12sp"
+            android:textColor="@android:color/holo_blue_dark"/>
+    </LinearLayout>
+
+    <!-- Trạng thái (dấu tích xanh nếu đã đọc) -->
+    <ImageView
+        android:id="@+id/noti_status"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_check_circle"
+        android:visibility="gone"/>
+</LinearLayout>
