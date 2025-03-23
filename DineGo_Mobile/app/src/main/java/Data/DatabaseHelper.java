@@ -15,14 +15,16 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Models.Notification;
+import Models.Reservation;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.15"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "12345";
 
     public static Connection getConnection() {
         Connection connection = null;
@@ -135,6 +137,41 @@ public class DatabaseHelper {
             }
 
             new Handler(Looper.getMainLooper()).post(() -> callback.onResult(restaurantList));
+        });
+    }
+
+    public void getReservations(Callback<List<Reservation>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Reservation> reservationList = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String query = "SELECT re_id, cus_id, res_id, re_date , re_quantity , re_status , re_note FROM reservations";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        int id = rs.getInt("re_id");
+                        int customerId = rs.getInt("cus_id");
+                        int resId = rs.getInt("res_id");
+                        String reservationDate = rs.getString("re_date");
+                        String reservationQuantity = rs.getString("re_quantity");
+                        String reservationStatus = rs.getString("re_status");
+                        String reservationNote = rs.getString("re_note");
+
+
+                        reservationList.add(new Reservation(id, reservationStatus, reservationDate, reservationQuantity, reservationNote, customerId, resId));
+
+
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Không thể lấy dữ liệu thông báo: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(reservationList));
         });
     }
 

@@ -8,6 +8,7 @@ import Fragment.HomeFragment;
 import Fragment.RestaurantFragment;
 import Fragment.NotificationFragment;
 import Fragment.ProfileFragment;
+import Fragment.ReservationFragment;
 
 
 
@@ -34,7 +35,9 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (id == R.id.nav_home) {
                     selectedFragment = new HomeFragment();
-                } else if (id == R.id.nav_restaurant) {
+                }else if (id == R.id.nav_reservation) {
+                        selectedFragment = new ReservationFragment();}
+                else if (id == R.id.nav_restaurant) {
                     selectedFragment = new RestaurantFragment();
                 } else if (id == R.id.nav_notification) {
                     selectedFragment = new NotificationFragment();
