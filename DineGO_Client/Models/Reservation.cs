@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DineGO_Api.Model
+namespace DineGO_Client.Model
 {
     public class Reservation
     {
