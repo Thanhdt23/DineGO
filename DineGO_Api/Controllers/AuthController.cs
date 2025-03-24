@@ -59,21 +59,17 @@ namespace DineGO_Api.Controllers
         [HttpGet("forgetpassword")]
         public IActionResult ForgetPassword([FromQuery] string email)
         {
-            // 1. Kiểm tra email có tồn tại không
             var customer = _customerReository.IsMailExist(email);
             if (customer == null)
             {
                 return NotFound(new { message = "Email does not exist." });
             }
 
-            // 2. Tạo mật khẩu ngẫu nhiên
             string newPassword = _hashService.GenerateRandomPassword();
             string hashedPassword = _hashService.HashPassword(newPassword); // Hash mật khẩu
 
-            // 3. Cập nhật mật khẩu trong database
             _customerReository.ChangPassword(email, hashedPassword);
 
-            // 4. Gửi mật khẩu mới qua email
             _mailSenderRepository.SendMail(email, "Reset Mật Khẩu", () => $"Mật khẩu mới của bạn là: {newPassword}");
 
             return Ok(new { message = "New password has been sent to your email." });
