@@ -44,14 +44,12 @@
                         <span class="price">@Model.res_price</span>
                     </div>
                     <p class="time-opened"><strong>Giờ mở cửa: 9:00am - 11:00pm</strong></p>
-                    <p class="restaurant-type">@Model.res_type</p>
                     <p class="restaurant-content">
                         @Model.res_information
                     </p>
                 </div>
                 <div class="tab-pane fade" id="summary">
                     <h4>Tóm tắt</h4>
-                    <p>@Model.res_type</p>
                 </div>
             </div>
         </div>
@@ -83,7 +81,7 @@
                 </div>
 
                 <!-- Nút đặt chỗ -->
-                <a href="@Url.Action("Create", "Restaurant", new { id = @Model.res_id })" class="btn btn-danger w-100 fw-bold">
+                <a href="@Url.Action("Index", "Reservation", new { id = @Model.res_id })" class="btn btn-danger w-100 fw-bold">
                     Đặt chỗ ngay
                 </a>
 
