@@ -1,26 +1,29 @@
+@model DineGO_Client.Model.Category
+
 @{
     Layout = "../../Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "AddCategory";
+    ViewData["Title"] = "Add Category";
 }
 
 <div class="container">
     <div class="form-container">
         <h2 class="text-center mb-4">Add Category</h2>
-        <form>
+        <form asp-action="Create" method="post">
+            <!-- Ẩn trường Category ID -->
+            <input type="hidden" asp-for="cate_id" />
+
             <div class="form-group">
-                <label for="categoryId">Category ID</label>
-                <input type="text" class="form-control" id="categoryId" placeholder="Enter category ID">
-            </div>
-            <div class="form-group">
-                <label for="categoryType">Category Type</label>
-                <input type="text" class="form-control" id="restaurantName" placeholder="Enter category type">
+                <label for="cate_type">Category Type</label>
+                <input type="text" asp-for="cate_type" class="form-control" placeholder="Enter category type" required />
             </div>            
+
             <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="Enter category description"></textarea>
+                <label for="cate_description">Description</label>
+                <textarea asp-for="cate_description" class="form-control" rows="3" placeholder="Enter category description"></textarea>
             </div>          
+            
             <button type="submit" class="btn btn-primary btn-block">Add Category</button>
-            <a href="javascript:history.back()" class="btn btn-secondary btn-block mb-3">Back</a>
+            <a href="@Url.Action("Index", "Category", new { area = "Admin" })" class="btn btn-secondary btn-block mb-3">Back</a>
         </form>
     </div>
 </div>

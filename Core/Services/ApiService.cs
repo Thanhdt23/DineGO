@@ -112,5 +112,36 @@ namespace Core.Services
             var responseData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
+
+        /// <summary>
+/// Makes a DELETE request to the specified endpoint.
+/// </summary>
+/// <typeparam name="T">The type to which the response should be deserialized.</typeparam>
+/// <param name="endpoint">The API endpoint to call.</param>
+/// <returns>A task representing the asynchronous operation, with a result of the specified type.</returns>
+public async Task<T> DeleteAsync<T>(string endpoint)
+{
+    // Lấy token từ session
+    var token = "Test"; // Bạn có thể sửa lại để lấy token từ session nếu cần
+    if (!string.IsNullOrEmpty(token))
+    {
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    // Gửi yêu cầu DELETE
+    var response = await _httpClient.DeleteAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
+
+    // Kiểm tra nếu yêu cầu thành công
+    if (!response.IsSuccessStatusCode)
+    {
+        throw new HttpRequestException($"Delete request failed: {response.StatusCode}");
+    }
+
+    // Đọc dữ liệu phản hồi
+    var responseData = await response.Content.ReadAsStringAsync();
+
+    return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+}
+
     }
 }
