@@ -14,28 +14,33 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Menu"
-            android:textSize="24sp"
-            android:textColor="#FF5722"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" - Feast The Essence"
-            android:textSize="18sp"
-            android:textColor="#FF5722"
-            android:layout_marginStart="8dp" />
-
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:layout_marginStart="80dp"
-            android:src="@drawable/profile_icon" />
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/dinego_logo" />
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Welcome, "
+            android:gravity="right"
+            android:textColor="#FF5722"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="right"
+            android:text="admin"
+            android:textColor="#FF5722"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Search Bar -->
@@ -43,7 +48,6 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:queryHint="Search your desired meal here..."
         android:iconifiedByDefault="false" />
 
@@ -94,13 +98,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/pizza_cate"
-                android:contentDescription="Pizza category"
+                android:contentDescription="BBQ"
                 android:layout_marginBottom="4dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pizza"
+                android:text="BBQ"
                 android:gravity="center"
                 android:textColor="#800080"
                 android:textSize="14sp" />
@@ -120,13 +124,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/beef_burger"
-                android:contentDescription="Burger category"
+                android:contentDescription="Hotpot"
                 android:layout_marginBottom="4dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Burger"
+                android:text="Hotpot"
                 android:gravity="center"
                 android:textColor="#800080"
                 android:textSize="14sp" />
@@ -199,7 +203,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Today's Offer"
+            android:text="Welcome to"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -207,7 +211,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Free Box of Fries!"
+            android:text="DineGo!"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -215,7 +219,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="on all orders above $150"
+            android:text="This is an application that helps you make restaurant reservations simply and quickly."
             android:textColor="#FFFFFF"
             android:textSize="16sp" />
 
@@ -225,96 +229,31 @@
             android:layout_marginStart="200dp"
             android:layout_marginTop="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/fries_box" />
+            android:src="@drawable/ic_warning" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:text="Restaurants"
+        android:textColor="#FF5722"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Popular"
-            android:textColor="#FF5722"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRestaurants"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/beef_burger" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Beef Burger"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$20/"
-                    android:textColor="#FF5722"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/cart_but"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="Add to cart" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@drawable/pizza_tikka" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pizza-Tikka"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="$30/"
-                    android:textColor="#FF5722"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/cart_but"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="Add to cart" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 </LinearLayout>
