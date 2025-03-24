@@ -20,56 +20,56 @@ namespace DineGO_Client.Areas.Admin.Controllers
             _logger = logger;
             _apiService = apiService;
         }
-
-      public async Task<IActionResult> Index()
+    
+        public async Task<IActionResult> Index()
         {
             var response = await _apiService.GetAsync<List<Category>>(ApiEndpoints.CATEGORY);
-            return View(response);           
+            return View(response);
         }
-       public IActionResult AddCategory()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddCategory(Category model)
-    {
-        if (ModelState.IsValid)
+        public IActionResult AddCategory()
         {
-           await _apiService.PutAsync<Category, Category>($"{ApiEndpoints.CATEGORY}/{id}", model);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(Category model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _apiService.PutAsync<Category, Category>($"{ApiEndpoints.CATEGORY}", model);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> UpdateCategory(int id)
+        {
+            var category = await _apiService.GetAsync<Category>($"{ApiEndpoints.CATEGORY}/{id}");
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(int id, Category model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _apiService.PutAsync<Category, Category>($"{ApiEndpoints.CATEGORY}/{id}", model);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _apiService.DeleteAsync<object>($"{ApiEndpoints.CATEGORY}/{id}");
             return RedirectToAction(nameof(Index));
         }
-        return View(model);
-    }
-
-    public async Task<IActionResult> UpdateCategory(int id)
-    {
-        var category = await _apiService.GetAsync<Category>($"{ApiEndpoints.CATEGORY}/{id}");
-        if (category == null)
-        {
-            return NotFound();
-        }
-        return View(category);
-    }
-
-    
-    [HttpPost]
-    public async Task<IActionResult> UpdateCategory(int id, Category model)
-    {
-        if (ModelState.IsValid)
-        {
-            await _apiService.PutAsync($"{ApiEndpoints.CATEGORY}/{id}", model);
-            return RedirectToAction(nameof(Index));
-        }
-        return View(model);
-    }
-
-
-    [HttpPost]
-    public async Task<IActionResult> Delete(int id)
-    {
-        await _apiService.DeleteAsync($"{ApiEndpoints.CATEGORY}/{id}");
-        return RedirectToAction(nameof(Index));
-    }
     }
 }
