@@ -28,17 +28,17 @@ namespace DineGO_Client.Controllers
             return View();
         }
 
-      public async Task<IActionResult> Search(string name, string address)
-{
-    if (string.IsNullOrEmpty(address))
-    {
-        address = "";
-    }
+        public async Task<IActionResult> Search(string name, string address)
+        {
+            if (string.IsNullOrEmpty(address))
+            {
+                address = "";
+            }
 
-    string searchUrl = string.Format(ApiEndpoints.RESTAURANT_SEARCH, name ?? "", address);
-    var restaurants = await _apiService.GetAsync<List<Restaurant>>(searchUrl);
-    return Json(restaurants);
-}
+            string searchUrl = string.Format(ApiEndpoints.RESTAURANT_SEARCH, name ?? "", address);
+            var restaurants = await _apiService.GetAsync<List<Restaurant>>(searchUrl);
+            return Json(restaurants);
+        }
 
 
         public IActionResult Privacy()
