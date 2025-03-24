@@ -1,6 +1,7 @@
 package com.example.dinego_mobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +56,12 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     if (isSuccess) {
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        // Lưu username vào SharedPreferences khi đăng nhập thành công
+                        SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("USERNAME", username);
+                        editor.apply();
+
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
