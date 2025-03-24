@@ -1,34 +1,108 @@
-﻿@{
+﻿@model List<DineGO_Client.Model.Restaurant>
+@{
     ViewData["Title"] = "Home Page";
 }
-  <div class="container mt-4 search-section">
-        <div class="d-flex search-container">
-            <div class="search-bar">
-                <select>
-                    <option>Cần Thơ</option>
-                </select>
-                <input type="text" placeholder="Bạn muốn đặt chỗ đến đâu">
-                <button>
-                    <i class="bi bi-search"></i> Tìm kiếm
-                </button>
-            </div>
-            <div class="phone-number">
-                <i class="bi bi-telephone-fill"></i> 1900 6005
-            </div>
+<div class="container mt-4 search-section">
+    <div class="d-flex search-container">
+        <div class="search-bar">
+            <select id="searchLocation">
+                <option value="">Tất Cả</option>
+                <option value="Cần Thơ">Cần Thơ</option>
+                <option value="Bạc Liêu">Bạc Liêu</option>
+                <option value="Cà Mau">Cà Mau</option>
+                <option value="Hậu Giang">Hậu Giang</option>
+                <option value="Tiền Giang">Tiền Giang</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="Bạn muốn đặt chỗ đến đâu">
+            <button id="searchBtn">
+                <i class="bi bi-search"></i> Tìm kiếm
+            </button>
+        </div>
+        <div class="phone-number">
+            <i class="bi bi-telephone-fill"></i> 1900 6005
         </div>
     </div>
+</div>
 
-    <div class="container mt-5">
-        <div class="row align-items-center yellow-bg--banner">
-            <div class="col-md-6 col-12 text-center mb-3 mb-md-0">
-                <img src="/common/images/banner.jpg" alt="Hai Lạng Một" class="img-fluid">
-            </div>
-            <div class="col-md-6 col-12 text-center">
-                <h2 class="fw-bold">Hai Lạng Một - Cần Thơ</h2>
-                <p>Nhà hàng BBQ ngon, nổi tiếng tại Cần Thơ, kết hợp tinh hoa ẩm thực Trung, Nhật, Hàn.</p>
-                <button class="btn btn-custom--banner">Xem ngay</button>
-            </div>
+<!-- Kết quả tìm kiếm (ẩn mặc định) -->
+<div id="searchResults" class="container d-flex justify-content-center mt-4" style="display: none;">
+    <div class="card w-50 shadow">
+        <div class="card-body">
+            <h5 class="card-title text-center">Kết quả tìm kiếm</h5>
+            <ul id="resultList" class="list-group"></ul>
         </div>
     </div>
+</div>
 
 
+
+<div class="container mt-5">
+    <div class="row align-items-center yellow-bg--banner">
+        <div class="col-md-6 col-12 text-center mb-3 mb-md-0">
+            <img src="/common/images/banner.jpg" alt="Hai Lạng Một" class="img-fluid">
+        </div>
+        <div class="col-md-6 col-12 text-center">
+            <h2 class="fw-bold">Hai Lạng Một - Cần Thơ</h2>
+            <p>Nhà hàng BBQ ngon, nổi tiếng tại Cần Thơ, kết hợp tinh hoa ẩm thực Trung, Nhật, Hàn.</p>
+            <button class="btn btn-custom--banner">Xem ngay</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById("searchBtn").addEventListener("click", function () {
+    let name = document.getElementById("searchInput").value.trim();
+    let address = document.getElementById("searchLocation").value;
+
+    let url = `/Home/Search?name=${encodeURIComponent(name)}`;
+    if (address) {
+        url += `&address=${encodeURIComponent(address)}`;
+    }
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let resultList = document.getElementById("resultList");
+            resultList.innerHTML = ""; // remove old result
+
+            if (data.length > 0) {
+                data.forEach(res => {
+                    let li = document.createElement("li");
+                    li.className = "list-group-item d-flex align-items-center";
+
+                    // Image
+                    let img = document.createElement("img");
+                    img.src = res.imageUrl || "/common/images/banner.jpg";
+                    img.alt = res.res_name;
+                    img.className = "rounded me-3";
+                    img.style.width = "50px";
+                    img.style.height = "50px";
+                    img.style.objectFit = "cover";
+
+                    // Restaurant infor
+                    let info = document.createElement("div");
+                    info.className = "flex-grow-1";
+                    info.innerHTML = `<strong>${res.res_name}</strong><br><small>${res.res_address}</small>`;
+
+                    // detail button
+                    let detailBtn = document.createElement("a");
+                    detailBtn.href = `/Restaurant/Details/${res.res_id}`;
+                    detailBtn.className = "btn btn-primary btn-sm";
+                    detailBtn.textContent = "Xem chi tiết";
+
+                    li.appendChild(img);
+                    li.appendChild(info);
+                    li.appendChild(detailBtn);
+                    resultList.appendChild(li);
+                });
+            } else {
+                resultList.innerHTML = "<li class='list-group-item text-center'>Không tìm thấy nhà hàng nào.</li>";
+            }
+
+            document.getElementById("searchResults").style.display = "flex";
+        })
+        .catch(error => console.error("Error:", error));
+});
+
+</script>
