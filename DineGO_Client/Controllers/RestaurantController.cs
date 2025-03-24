@@ -34,5 +34,11 @@ namespace DineGO_Client.Controllers
             var response = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
             return View(response);
         }
+
+        public async Task<IActionResult> Create(int id)
+        {
+            var response = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
+            return View(response);
+        }
     }
 }

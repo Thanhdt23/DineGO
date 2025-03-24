@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DineGO_Client.Model
+namespace DineGO_Api.Model
 {
     public class Admin
     {

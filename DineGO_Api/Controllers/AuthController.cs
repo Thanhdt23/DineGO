@@ -16,23 +16,26 @@ namespace DineGO_Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
+
+        private readonly ApplicationDbContext _context;
+        private readonly HashService _hashService;
         private readonly TokenService _tokenService;
 
-        public AuthController(TokenService tokenService)
+        public AuthController(ApplicationDbContext context, TokenService tokenService, HashService hashService)
         {
+            _context = context;
             _tokenService = tokenService;
+            _hashService = hashService;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            if (loginRequest.Username == "admin" && loginRequest.Password == "password") // Ví dụ đơn giản
-            {
-                var token = _tokenService.GenerateToken(loginRequest.Username);
-                return Ok(new { Token = token });
-            }
-
-            return Unauthorized();
+            var user = _context.customers.SingleOrDefault(u => u.cus_username == loginRequest.Username);
+            if (user == null || !_hashService.VerifyPassword(loginRequest.Password, user.cus_password))
+                return Unauthorized("Invalid username or password.");
+            var token = _tokenService.GenerateToken(loginRequest.Username);
+            return Ok(new { Token = token });
         }
 
         [Authorize]

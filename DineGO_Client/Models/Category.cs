@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DineGO_Client.Model
+namespace DineGO_Api.Model
 {
     public class Category
     {
@@ -16,6 +16,6 @@ namespace DineGO_Client.Model
 
         public string cate_description { get; set; }
 
-        public virtual ICollection<Restaurant> restaurants { get; set; } = new List<Restaurant>();
+        public List<Restaurant> restaurants { get; set; }
     }
 }

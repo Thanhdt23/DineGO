@@ -1,14 +1,10 @@
-@{
-    ViewData["Title"] = "Details";
-}
-
 <div class="container mt-4">
     <div id="restaurantCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             @for (int i = 0; i < Model.res_images.Count; i++)
             {
                 <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <img src="~/client/images/@Model.res_images[i]" class="d-block w-100" alt="Hình ảnh @(i+1)">
+                    <img src="~/client/images/@Model.res_images[i]" class="d-block w-100" alt="Hình ảnh @(i + 1)">
                 </div>
             }
         </div>
@@ -21,27 +17,96 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-md-8 info-container">
-            <p class="restaurant-name">@Model.res_name</p>
-            <div class="restaurant-info">
-                <span class="rating">⭐⭐⭐⭐☆</span>
-                <span class="price">@Model.res_price</span>
-            </div>
-            <p class="time-opened"><strong>Giờ mở cửa: 9:00am - 11:00pm</strong></p>
-            <p class="restaurant-type">@Model.res_type</p>
+        <!-- Cột chứa thông tin nhà hàng (bên trái) -->
+        <div class="col-md-8">
+            <ul class="nav nav-tabs" id="restaurantTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="proposal-tab" data-bs-toggle="tab" href="#proposal">Thông tin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="summary-tab" data-bs-toggle="tab" href="#summary">Tóm tắt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pricing-tab" data-bs-toggle="tab" href="#pricing">Bảng giá</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="rules-tab" data-bs-toggle="tab" href="#rules">Quy định</a>
+                </li>
+            </ul>
 
-            <p class="restaurant-content">
-                @Model.res_information
-            </p>
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="proposal">
+                    <h3 class="restaurant-name">@Model.res_name</h3>
+                    <div class="restaurant-info">
+                        <span class="rating">⭐⭐⭐⭐☆</span>
+                        <span class="price">@Model.res_price</span>
+                    </div>
+                    <p class="time-opened"><strong>Giờ mở cửa: 9:00am - 11:00pm</strong></p>
+                    <p class="restaurant-type">@Model.res_type</p>
+                    <p class="restaurant-content">
+                        @Model.res_information
+                    </p>
+                </div>
+                <div class="tab-pane fade" id="summary">
+                    <h4>Tóm tắt</h4>
+                    <p>@Model.res_type</p>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-6 booking-container">
-            <h2><strong>Thông tin đặt bàn</strong></h2>
-            <p>Đặt bàn:</strong> @Model.res_phone</p> 
-            <p class="restaurant-address">Địa chỉ: @Model.res_address</p>
-            <button class="btn btn-primary btn-book">Đặt chỗ ngay</button>
+        <div class="col-md-4">
+            <div class="booking-container p-3 border rounded shadow bg-white">
+                <h5 class="fw-bold text-center">Đặt chỗ <span class="text-muted">(Để có chỗ trước khi đến)</span></h5>
+                <p class="text-danger text-center fw-bold">Đặt bàn giữ chỗ</p>
+
+                <!-- Chọn số lượng người lớn -->
+                <div class="mb-3">
+                    <label class="fw-bold"><i class="fas fa-user"></i> Người lớn:</label>
+                    <select class="form-select">
+                        <option>1</option>
+                        <option selected>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5+</option>
+                    </select>
+                </div>
+
+                <!-- Chọn thời gian đến -->
+                <div class="mb-3">
+                    <label class="fw-bold"><i class="fas fa-clock"></i> Thời gian đến</label>
+                    <div class="d-flex">
+                        <input type="date" class="form-control me-2" id="dateInput">
+                        <input type="time" class="form-control" id="timeInput">
+                    </div>
+                </div>
+
+                <!-- Nút đặt chỗ -->
+                <a href="@Url.Action("Create", "Restaurant", new { id = @Model.res_id })" class="btn btn-danger w-100 fw-bold">
+                    Đặt chỗ ngay
+                </a>
+
+            </div>
         </div>
     </div>
 </div>
+
+<!-- Thêm FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Script để cập nhật giá trị ngày & giờ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let now = new Date();
+
+        // Lấy ngày hiện tại ở định dạng YYYY-MM-DD
+        let today = now.toISOString().split("T")[0];
+        document.getElementById("dateInput").value = today;
+
+        // Lấy giờ hiện tại, làm tròn đến phút gần nhất (HH:MM)
+        let hours = now.getHours().toString().padStart(2, '0');
+        let minutes = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById("timeInput").value = `${hours}:${minutes}`;
+    });
+</script>

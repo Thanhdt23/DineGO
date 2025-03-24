@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DineGO_Client.Model
+namespace DineGO_Api.Model
 {
     public class Blog
     {
@@ -13,7 +13,7 @@ namespace DineGO_Client.Model
         public int blog_id { get; set; }
 
         [Required]
-        public int res_id { get; set; }
+        public int resOwner_id { get; set; }
 
         [Required, MaxLength(150)]
         public string blog_title { get; set; }
@@ -25,7 +25,7 @@ namespace DineGO_Client.Model
 
         public string blog_image { get; set; }
 
-        [ForeignKey("res_id")]
-        public Restaurant restaurant { get; set; }
+        [ForeignKey("resOwner_id")]
+        public RestaurantOwner restaurantOwner { get; set; }
     }
 }
