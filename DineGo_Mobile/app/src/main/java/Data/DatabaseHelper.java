@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Models.Notification;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.49"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
@@ -74,6 +76,39 @@ public class DatabaseHelper {
         });
     }
 
+    // Lấy danh sách thông báo
+    public void getNotifications(Callback<List<Notification>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Notification> notificationList = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String query = "SELECT noti_id, cus_id, re_id, noti_title, noti_content, noti_type, noti_date, noti_status FROM notifications";
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        int id = rs.getInt("noti_id");
+                        int customerId = rs.getInt("cus_id");
+                        int restaurantId = rs.getInt("re_id");
+                        String title = rs.getString("noti_title");
+                        String content = rs.getString("noti_content");
+                        String type = rs.getString("noti_type");
+                        String date = rs.getString("noti_date");
+                        String status = rs.getString("noti_status");
+
+                        notificationList.add(new Notification(id, title, content, type, date, status, customerId, false));
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Không thể lấy dữ liệu thông báo: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(notificationList));
+        });
+    }
 
     // Lấy danh sách nhà hàng
     public void getRestaurants(Callback<List<Restaurant>> callback) {
@@ -82,17 +117,17 @@ public class DatabaseHelper {
             List<Restaurant> restaurantList = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String query = "SELECT res_name, res_address, res_phone, res_images FROM restaurants";
+                    String query = "SELECT res_name, res_address, res_type, res_images FROM restaurants";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
 
                     while (rs.next()) {
                         String name = rs.getString("res_name");
                         String address = rs.getString("res_address");
-                        String phone = rs.getString("res_phone");
+                        String type = rs.getString("res_type");
                         String image = rs.getString("res_images");
 
-                        restaurantList.add(new Restaurant(name, address, phone, image));
+                        restaurantList.add(new Restaurant(name, address, type, image));
                     }
                     rs.close();
                     stmt.close();
@@ -104,6 +139,68 @@ public class DatabaseHelper {
             new Handler(Looper.getMainLooper()).post(() -> callback.onResult(restaurantList));
         });
     }
+
+    public void searchRestaurantsByName(String query, Callback<List<Restaurant>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Restaurant> filteredRestaurants = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String sql = "SELECT res_name, res_address, res_type, res_images FROM restaurants WHERE res_name LIKE ?";
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, "%" + query + "%"); // Tìm kiếm gần đúng
+
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        String name = rs.getString("res_name");
+                        String address = rs.getString("res_address");
+                        String type = rs.getString("res_type");
+                        String image = rs.getString("res_images");
+
+                        filteredRestaurants.add(new Restaurant(name, address, type, image));
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Lỗi khi tìm kiếm nhà hàng: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(filteredRestaurants));
+        });
+    }
+
+
+    public void searchRestaurantsByType(String resType, Callback<List<Restaurant>> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            List<Restaurant> filteredRestaurants = new ArrayList<>();
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String sql = "SELECT res_name, res_address, res_type, res_images FROM restaurants WHERE res_type LIKE ?";
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, "%" + resType + "%"); // Tìm kiếm theo loại
+
+                    ResultSet rs = stmt.executeQuery();
+                    while (rs.next()) {
+                        String name = rs.getString("res_name");
+                        String address = rs.getString("res_address");
+                        String type = rs.getString("res_type");
+                        String image = rs.getString("res_images");
+
+                        filteredRestaurants.add(new Restaurant(name, address, type, image));
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Lỗi khi tìm kiếm nhà hàng theo loại: " + e.getMessage(), e);
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(filteredRestaurants));
+        });
+    }
+
 
     // Interface để xử lý callback
     public interface Callback<T> {

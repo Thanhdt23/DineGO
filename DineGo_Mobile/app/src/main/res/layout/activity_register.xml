@@ -10,8 +10,8 @@
     <!-- Logo -->
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="263dp"
+        android:layout_height="181dp"
         android:scaleType="fitCenter"
         android:src="@drawable/dinego_logo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,21 +80,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edtName" />
 
-    <!-- Input Phone -->
-    <EditText
-        android:id="@+id/edtPhone"
+    <!-- Birthday -->
+    <!-- Birthday -->
+    <TextView
+        android:id="@+id/edtBirthday"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:hint="Phone Number"
-        android:inputType="phone"
+        android:background="@android:drawable/edit_text"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Select Birthday"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+
+
+    <EditText
+        android:id="@+id/edtGender"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:hint="Gender"
         android:padding="10dp"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+        app:layout_constraintTop_toBottomOf="@id/edtBirthday" />
 
     <!-- Button Register -->
 
@@ -107,7 +125,7 @@
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/edtGender" />
 
     <Button
         android:id="@+id/btnBack"
