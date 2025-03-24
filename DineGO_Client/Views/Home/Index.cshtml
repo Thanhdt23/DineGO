@@ -52,54 +52,57 @@
 
 <script>
     document.getElementById("searchBtn").addEventListener("click", function () {
-        let name = document.getElementById("searchInput").value.trim();
-        let address = document.getElementById("searchLocation").value;
-        if (name === "") return;
+    let name = document.getElementById("searchInput").value.trim();
+    let address = document.getElementById("searchLocation").value;
 
-        fetch(`/Home/Search?name=${encodeURIComponent(name)}&address=${encodeURIComponent(address)}`)
-            .then(response => response.json())
-            .then(data => {
-                let resultList = document.getElementById("resultList");
-                resultList.innerHTML = ""; // Xóa kết quả cũ
+    let url = `/Home/Search?name=${encodeURIComponent(name)}`;
+    if (address) {
+        url += `&address=${encodeURIComponent(address)}`;
+    }
 
-                if (data.length > 0) {
-                    data.forEach(res => {
-                        let li = document.createElement("li");
-                        li.className = "list-group-item d-flex align-items-center";
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let resultList = document.getElementById("resultList");
+            resultList.innerHTML = ""; // remove old result
 
-                        // Hình ảnh
-                        let img = document.createElement("img");
-                        img.src = res.imageUrl || "/common/images/banner.jpg"; // Dùng ảnh mặc định nếu không có
-                        img.alt = res.res_name;
-                        img.className = "rounded me-3";
-                        img.style.width = "50px";
-                        img.style.height = "50px";
-                        img.style.objectFit = "cover";
+            if (data.length > 0) {
+                data.forEach(res => {
+                    let li = document.createElement("li");
+                    li.className = "list-group-item d-flex align-items-center";
 
-                        // Thông tin nhà hàng
-                        let info = document.createElement("div");
-                        info.className = "flex-grow-1";
-                        info.innerHTML = `<strong>${res.res_name}</strong><br><small>${res.res_address}</small>`;
+                    // Image
+                    let img = document.createElement("img");
+                    img.src = res.imageUrl || "/common/images/banner.jpg";
+                    img.alt = res.res_name;
+                    img.className = "rounded me-3";
+                    img.style.width = "50px";
+                    img.style.height = "50px";
+                    img.style.objectFit = "cover";
 
-                        // Nút xem chi tiết
-                        let detailBtn = document.createElement("a");
-                        detailBtn.href = `/Restaurant/Details/${res.res_id}`;
-                        detailBtn.className = "btn btn-primary btn-sm";
-                        detailBtn.textContent = "Xem chi tiết";
-                        console.log(res); // Kiểm tra dữ liệu nhà hàng từ API
-                        console.log("Restaurant ID:", res.id);
+                    // Restaurant infor
+                    let info = document.createElement("div");
+                    info.className = "flex-grow-1";
+                    info.innerHTML = `<strong>${res.res_name}</strong><br><small>${res.res_address}</small>`;
 
-                        li.appendChild(img);
-                        li.appendChild(info);
-                        li.appendChild(detailBtn);
-                        resultList.appendChild(li);
-                    });
-                } else {
-                    resultList.innerHTML = "<li class='list-group-item text-center'>Không tìm thấy nhà hàng nào.</li>";
-                }
+                    // detail button
+                    let detailBtn = document.createElement("a");
+                    detailBtn.href = `/Restaurant/Details/${res.res_id}`;
+                    detailBtn.className = "btn btn-primary btn-sm";
+                    detailBtn.textContent = "Xem chi tiết";
 
-                document.getElementById("searchResults").style.display = "flex"; // Hiển thị kết quả
-            })
-            .catch(error => console.error("Error:", error));
-    });
+                    li.appendChild(img);
+                    li.appendChild(info);
+                    li.appendChild(detailBtn);
+                    resultList.appendChild(li);
+                });
+            } else {
+                resultList.innerHTML = "<li class='list-group-item text-center'>Không tìm thấy nhà hàng nào.</li>";
+            }
+
+            document.getElementById("searchResults").style.display = "flex";
+        })
+        .catch(error => console.error("Error:", error));
+});
+
 </script>
