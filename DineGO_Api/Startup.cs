@@ -44,6 +44,7 @@ namespace DineGO_Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DineGO_Api", Version = "v1" });
             });
             services.AddSingleton<TokenService>();
+            services.AddSingleton<HashService>();
             // Added: Đăng ký Distributed Memory Cache cho session
             services.AddDistributedMemoryCache();
             // Added: Đăng ký Session

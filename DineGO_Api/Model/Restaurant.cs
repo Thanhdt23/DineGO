@@ -11,18 +11,13 @@ namespace DineGO_Api.Model
     {
         [Key]
         public int res_id { get; set; }
-
-        [Required, MaxLength(50)]
-        public string res_username { get; set; }
-
-        [Required, MaxLength(100)]
-        public string res_password { get; set; }
+        [Required]
+        public int cate_id { get; set; } 
+        [Required]
+        public int resOwner_id { get; set; } 
 
         [Required, MaxLength(100)]
         public string res_name { get; set; }
-
-        [Required, MaxLength(50)]
-        public string res_type { get; set; }
 
         [MaxLength(200)]
         public string res_address { get; set; }
@@ -40,10 +35,11 @@ namespace DineGO_Api.Model
 
         public List<string> res_images { get; set; } = new List<string>();
 
-        [Required]
-        public int cate_id { get; set; } 
-
         [ForeignKey("cate_id")]
         public virtual Category category { get; set; }
+        [ForeignKey("resOwner_id")]
+        public virtual RestaurantOwner restaurantOwner { get; set; }
+
+        public List<Reservation> reservations { get; set; }
     }
 }

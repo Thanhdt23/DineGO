@@ -35,7 +35,11 @@ namespace DineGO_Client.Model
         public string cus_gender { get; set; }
 
         public string cus_image { get; set; }
+        public bool cus_isKYI { get; set; }
 
-        public ICollection<Notification> notifications { get; set; } = new List<Notification>();
+        public List<Reservation> reservations { get; set; }
+        public List<Payment> payments { get; set; }
+        public List<Notification> notifications { get; set; }
+        public List<RestaurantOwner> restaurantOwners { get; set; }
     }
 }
