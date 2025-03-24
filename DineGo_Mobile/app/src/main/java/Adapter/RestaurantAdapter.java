@@ -40,7 +40,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         Restaurant restaurant = restaurantList.get(position);
         holder.nameTextView.setText(restaurant.getName());
         holder.addressTextView.setText(restaurant.getAddress());
-        holder.typeTextView.setText(restaurant.getType());
+        holder.phoneTextView.setText(restaurant.getPhone());
 
         // Lấy ảnh đầu tiên từ chuỗi JSON
         String imageListStr = restaurant.getImageUrl(); // VD: '["res1.jpeg", "res2.jpeg"]'
@@ -70,14 +70,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, addressTextView, typeTextView;
+        TextView nameTextView, addressTextView, phoneTextView;
         ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.restaurant_name);
             addressTextView = itemView.findViewById(R.id.restaurant_address);
-            typeTextView = itemView.findViewById(R.id.restaurant_type);
+            phoneTextView = itemView.findViewById(R.id.restaurant_phone);
             imageView = itemView.findViewById(R.id.restaurant_image);
         }
     }
