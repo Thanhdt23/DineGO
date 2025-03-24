@@ -38,27 +38,33 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
-        holder.nameTextView.setText(restaurant.getName());
-        holder.addressTextView.setText(restaurant.getAddress());
-        holder.typeTextView.setText(restaurant.getType());
 
         // Lấy ảnh đầu tiên từ chuỗi JSON
         String imageListStr = restaurant.getImageUrl(); // VD: '["res1.jpeg", "res2.jpeg"]'
         String firstImage = "";
 
-        try {
-            JSONArray jsonArray = new JSONArray(imageListStr);
-            if (jsonArray.length() > 0) {
-                firstImage = jsonArray.getString(0); // Lấy ảnh đầu tiên
+        if (imageListStr != null && !imageListStr.isEmpty()) {
+            try {
+                JSONArray jsonArray = new JSONArray(imageListStr);
+                if (jsonArray.length() > 0) {
+                    firstImage = jsonArray.getString(0); // Lấy ảnh đầu tiên
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
-        // Load ảnh bằng Glide (cần thay `BASE_URL` thành đường dẫn thư mục ảnh của bạn)
-        String imageUrl = "E:/SE1707_Ky9/DineGo/DineGO/DineGO_Client/wwwroot/client/images/" + firstImage;
-        Glide.with(context)
-                .load(imageUrl)
+        // Nếu firstImage vẫn rỗng, đặt ảnh mặc định
+        String imageUrl;
+        if (!firstImage.isEmpty()) {
+            imageUrl = "E:/SE1707_Ky9/DineGo/DineGO/DineGO_Client/wwwroot/client/images/" + firstImage;
+        } else {
+            imageUrl = ""; // Hoặc đường dẫn ảnh mặc định
+        }
+
+        // Load ảnh bằng Glide
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl.isEmpty() ? R.drawable.dinego_logo : imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.drawable.dinego_logo) // Ảnh mặc định nếu lỗi
                 .into(holder.imageView);

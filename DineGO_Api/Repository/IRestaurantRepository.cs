@@ -13,5 +13,8 @@ namespace DineGO_Api.Repository
         void SaveRestaurant(Restaurant p);
         void UpdateRestaurant(Restaurant p);
         void DeleteRestaurant(int p);
+
+        List<Restaurant> SearchRestaurants(string name, string address);
+
     }
 }
