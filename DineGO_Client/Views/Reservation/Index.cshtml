@@ -1,0 +1,42 @@
+<body>
+    <div class="container">
+        <div class="booking-container">
+            <h3 class="text-center">Đặt chỗ đến @Model.res_name</h3>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Thông tin người đặt</h5>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Tên liên lạc *</label>
+                            <input type="text" class="form-control" value="Trần Minh Thắng" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại *</label>
+                            <input type="text" class="form-control" value="+84362336362" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" value="minhthang32095@gmail.com" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" placeholder="Nhập ghi chú"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">Tiếp tục</button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <h5>Thông tin đặt chỗ</h5>
+                    <div class="p-3 border rounded bg-light">
+                        <p><strong>@Model.res_name</strong></p>
+                        <p>2 người lớn</p>
+                        <p>Chủ nhật, ngày 09/03/2025 18:00</p>
+                        <button class="btn btn-outline-danger w-100">Chỉnh sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
