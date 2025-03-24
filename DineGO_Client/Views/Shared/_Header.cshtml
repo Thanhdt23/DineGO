@@ -30,7 +30,7 @@
     </div>
   </nav>
   <form asp-controller="Restaurant" asp-action="Search" method="get" class="row g-2">
-    <div class="col-12 col-md-2">
+    <div class="col-12 col-md-1">
       <select name="address" class="form-select">
         <option value="">Tất Cả</option>
         <option value="Cần Thơ">Cần Thơ</option>
@@ -40,15 +40,20 @@
         <option value="Tiền Giang">Tiền Giang</option>
       </select>
     </div>
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-8">
       <input type="text" name="name" class="form-control" placeholder="Bạn muốn đặt chỗ đến đâu">
     </div>
     <div class="col-12 col-md-1">
-      <button type="submit" class="btn btn-warning w-100">
+      <button type="submit" class="btn w-100" style="background-color: #C0392B; color: white; border: none;">
         <i class="bi bi-search"></i> Tìm kiếm
       </button>
     </div>
-  </form>
+     <div class="col-12 col-md-2 text-center"> 
+    <i class="bi bi-telephone-fill" style="color: #C0392B; font-size: 24px;"></i>
+  <span style="font-weight: bold; font-size: 20px; color: #C0392B;">1900 6005</span>
+      </span>
+    </div>
+</form>
 
 
 
