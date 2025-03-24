@@ -1,29 +1,21 @@
 @model List<DineGO_Client.Model.Restaurant>
-
 @{
-    ViewData["Title"] = "Restaurant";
+    ViewData["Title"] = "Search";
 }
-
 <div class="main">
     <div class="restaurant-container">
         @foreach (var restaurant in Model)
         {
             <a href="@Url.Action("Details", "Restaurant", new { id = restaurant.res_id })" class="restaurant-card-link">
                 <div class="restaurant-card">
-                    @if (restaurant.res_images != null && restaurant.res_images.Count > 0)
-                    {
-                        <img src="~/client/images/@restaurant.res_images.First()" alt="Restaurant Image" class="restaurant-image">
-                    }
-                    else
-                    {
-                        <img src="~/client/images/default.jpg" alt="No Image Available" class="restaurant-image">
-                    }
+                  <img src="@(restaurant.res_images != null && restaurant.res_images.Count > 0 ? Url.Content("~/client/images/" + restaurant.res_images.First()) : Url.Content("~/common/images/banner.jpg"))"
+     alt="Restaurant Image" class="restaurant-image">
                     <div class="restaurant-content">
                         <h3 class="restaurant-name">@restaurant.res_name</h3>
                         <p class="restaurant-address">@restaurant.res_address</p>
                         <div class="restaurant-info">
                             <span class="rating">⭐⭐⭐⭐☆</span>
-                            <span class="price">@restaurant.res_price</span>
+                            <span class="price">@restaurant.res_price VNĐ</span>
                         </div>
                         <p class="restaurant-type">@restaurant.res_type</p>
                         <button class="btn-book">Đặt chỗ ngay</button>
@@ -33,3 +25,4 @@
         }
     </div>
 </div>
+

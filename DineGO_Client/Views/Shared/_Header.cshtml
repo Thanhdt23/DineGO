@@ -10,7 +10,7 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
           <li class="nav-item">
-            <a class="nav-link" asp-controller="Restaurant" asp-action="Index">Nhà hàng gần bạn</a>
+            <a class="nav-link" asp-controller="Restaurant" asp-action="Search">Nhà hàng gần bạn</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Nhà hàng uy tín</a>
@@ -29,5 +29,28 @@
       </div>
     </div>
   </nav>
+  <form asp-controller="Restaurant" asp-action="Search" method="get" class="row g-2">
+    <div class="col-12 col-md-2">
+      <select name="address" class="form-select">
+        <option value="">Tất Cả</option>
+        <option value="Cần Thơ">Cần Thơ</option>
+        <option value="Bạc Liêu">Bạc Liêu</option>
+        <option value="Cà Mau">Cà Mau</option>
+        <option value="Hậu Giang">Hậu Giang</option>
+        <option value="Tiền Giang">Tiền Giang</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-9">
+      <input type="text" name="name" class="form-control" placeholder="Bạn muốn đặt chỗ đến đâu">
+    </div>
+    <div class="col-12 col-md-1">
+      <button type="submit" class="btn btn-warning w-100">
+        <i class="bi bi-search"></i> Tìm kiếm
+      </button>
+    </div>
+  </form>
+
+
+
 
 </div>
