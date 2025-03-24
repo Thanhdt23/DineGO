@@ -15,9 +15,6 @@ namespace DineGO_Client.Model
         [Required]
         public int cus_id { get; set; }
 
-        [Required]
-        public int re_id { get; set; }
-
         [Required, StringLength(100)]
         public string noti_title { get; set; }
 
@@ -30,13 +27,7 @@ namespace DineGO_Client.Model
         [Required]
         public DateTime noti_date { get; set; }
 
-        [Required]
-        public bool noti_status { get; set; }
-
         [ForeignKey("cus_id")]
         public virtual Customer customer { get; set; }
-
-        [ForeignKey("re_id")]
-        public virtual Reservation reservation { get; set; }
     }
 }
