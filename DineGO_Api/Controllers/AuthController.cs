@@ -66,7 +66,7 @@ namespace DineGO_Api.Controllers
             }
 
             string newPassword = _hashService.GenerateRandomPassword();
-            string hashedPassword = _hashService.HashPassword(newPassword); // Hash mật khẩu
+            string hashedPassword = _hashService.HashPassword(newPassword);
 
             _customerReository.ChangPassword(email, hashedPassword);
 
