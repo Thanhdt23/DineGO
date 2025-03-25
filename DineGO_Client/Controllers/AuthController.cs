@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Core.Common;
+using System.Text.Json;
 namespace DineGO_Client.Controllers
 {
     public class AuthController : Controller
@@ -83,6 +84,33 @@ namespace DineGO_Client.Controllers
         public class RegisterResponse
         {
             public string Message { get; set; }
+        }
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                ViewBag.Message = "Vui lòng nhập email.";
+                return View();
+            }
+
+            // Gửi yêu cầu đến API
+            var response = await _apiService.GetAsync<JsonElement>($"auth/forgetpassword?email={email}");
+
+            if (response.TryGetProperty("message", out JsonElement messageElement) && messageElement.GetString() == "Email does not exist.")
+            {
+                ViewBag.Message = "Email không tồn tại trong hệ thống.";
+                return View();
+            }
+
+            ViewBag.Message = "Mật khẩu mới đã được gửi đến email của bạn.";
+            return View();
         }
 
     }
