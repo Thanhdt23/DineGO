@@ -31,10 +31,10 @@ namespace DineGO_Api.Controllers
         public IActionResult GetOne(int id)
         {
             var restaurant = _restaurantsRepository.FindRestaurantById(id);
-            if (restaurant == null)
-            {
-                return NotFound($"Restaurant with ID {id} not found.");
-            }
+          if (restaurant == null)
+{
+    return NotFound(new { message = $"Restaurant with ID {id} not found." });
+}
             return Ok(restaurant);
         }
 

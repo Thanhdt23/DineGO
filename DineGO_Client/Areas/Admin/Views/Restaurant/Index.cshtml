@@ -10,13 +10,13 @@
         <tr>
             <th>Image</th>
             <th>Restaurant ID</th>
-            <th>Information</th>
+            <th>Name</th>
             <th>Address</th>
-            <th>Type</th>
+            <th>Phone</th>
+            <th>Information</th>
+            <th>Rate</th>
             <th>Price</th>
             <th>Discount</th>
-            <th>Phone</th>
-            <th>Rate</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -31,13 +31,19 @@
                     <p class="fw-bold mb-1">@restaurant.res_id</p>
                 </td>
                 <td>
-                    @restaurant.res_information
+                    <p class="fw-bold mb-1">@restaurant.res_name</p>
                 </td>
                 <td>
                     @restaurant.res_address
                 </td>
                 <td>
-                    <span class="badge badge-primary rounded-pill d-inline">@restaurant.res_type</span>
+                    <p class="fw-normal mb-1">@restaurant.res_phone</p>
+                </td>
+                <td>
+                    @restaurant.res_information
+                </td>
+                <td>
+                    <span class="badge badge-warning rounded-pill d-inline">@restaurant.res_rate</span>
                 </td>
                 <td>
                     <p class="fw-bold mb-1">$@restaurant.res_price</p>
@@ -46,21 +52,15 @@
                     <p class="fw-bold mb-1">@restaurant.res_discount%</p>
                 </td>
                 <td>
-                    <p class="fw-normal mb-1">@restaurant.res_phone</p>
-                </td>
-                <td>
-                    <span class="badge badge-warning rounded-pill d-inline">@restaurant.res_rate</span>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-link btn-sm btn-rounded">
+                  <a href="/Admin/Restaurant/AddRestaurant" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-plus"></i>
-                    </button>
-                    <button type="button" class="btn btn-link btn-sm btn-rounded">
+                    </a>
+                    <a href="/Admin/Restaurant/UpdateRestaurant" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-link btn-sm btn-rounded">
+                    </a>
+                    <a href="/Admin/Restaurant/DeleteRestaurant" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-trash"></i>
-                    </button>
+                    </a>
                 </td>
             </tr>
         }

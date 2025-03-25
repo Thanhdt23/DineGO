@@ -23,14 +23,38 @@ namespace DineGO_Client.Areas.Admin.Controllers
         {
             var response = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
             return View(response);
-        }        public IActionResult AddRestaurant()
+        }
+        public IActionResult AddRestaurant()
         {
             return View();
         }
-        public IActionResult UpdateRestaurant()
+        [HttpGet]
+        [Route("Restaurant/UpdateRestaurant/{id:int:min(1)}")]
+        public async Task<IActionResult> UpdateRestaurant(int id)
         {
-            return View();
+            var restaurant = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+            return View(restaurant);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRestaurant(Restaurant model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _apiService.PutAsync<Restaurant, Restaurant>($"{ApiEndpoints.RESTAURANT}/{model.res_id}", model);
+                if (response != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", "Error updating restaurant.");
+            }
+            return View(model);
+        }
+
         public IActionResult DeleteRestaurant()
         {
             return View();

@@ -23,10 +23,9 @@
                     <a class="nav-link" href="/Admin/Category/Index"><i class="fas fa-list"></i> Category</a>
                     <a class="nav-link" href="/Admin/Customer/Index"><i class="fas fa-chess-king"></i>Customer</a>
                     <a class="nav-link" href="/Admin/Reservation/Reservation"><i class="fas fa-hourglass-start"></i> Reservation</a>
-                    <a class="nav-link" href="/Admin/Blog/Blog"><i class="fas fa-newspaper"></i>Blog</a>                    
+                    <a class="nav-link" href="/Admin/Blog/Index"><i class="fas fa-newspaper"></i>Blog</a>                    
                 </div>
             </nav>
-            
         </div>
         <!-- Main Content -->
         <div class="flex-grow-1 p-4">
@@ -60,10 +59,12 @@
                     </div>
                 </div>
             </div>
-            
-        @RenderBody()
+            @RenderBody()
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         // Toggle user menu
@@ -71,5 +72,6 @@
             this.nextElementSibling.classList.toggle('show');
         });
     </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

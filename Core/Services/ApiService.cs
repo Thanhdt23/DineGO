@@ -128,16 +128,13 @@ namespace Core.Services
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            // Gửi yêu cầu DELETE
+
             var response = await _httpClient.DeleteAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
 
-            // Kiểm tra nếu yêu cầu thành công
             if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException($"Delete request failed: {response.StatusCode}");
             }
-
-            // Đọc dữ liệu phản hồi
             var responseData = await response.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
