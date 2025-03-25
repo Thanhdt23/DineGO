@@ -1,4 +1,6 @@
-﻿<div class="header-wrapper container">
+﻿@using Microsoft.AspNetCore.Http
+
+<div class="header-wrapper container">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a asp-controller="Home" asp-action="Index" class="logo-text">DineGO</a>
@@ -22,8 +24,24 @@
           <a class="nav-link" href="#">Báo cáo</a>
           </li>
         </ul>
+
+        @{
+          var cusId = Context.Session.GetInt32("cus_id");
+        }
+        @if (cusId.HasValue)
+        {
+          <p>Welcome, @cusId</p>
+        }
+        else
+        {
+          <p>Welcome, Guest</p>
+        }
+
         <a class="nav-link login-section" asp-controller="Auth" asp-action="Login">
           <i class="fas fa-user"></i> Tài khoản
+        </a>
+        <a class="nav-link login-section" asp-controller="Auth" asp-action="Logout">
+          <i class="fas fa-user"></i> Đăng xuất
         </a>
 
       </div>

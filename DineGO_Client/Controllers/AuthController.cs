@@ -26,6 +26,7 @@ namespace DineGO_Client.Controllers
             return View("Login");
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -34,20 +35,38 @@ namespace DineGO_Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
-            // Modified: Gọi apiService để thực hiện login từ API backend
             var loginData = new { Username = username, Password = password };
-            
-            // Giả sử endpoint trên API backend là "auth/login" và trả về token
             var response = await _apiService.PostAsync<LoginResponse, dynamic>("auth/login", loginData);
-
-            if (response != null && !string.IsNullOrEmpty(response.token))
+            if (response != null)
             {
-                // Modified: Lưu token vào session để sử dụng cho các request sau
                 HttpContext.Session.SetString("token", response.token);
-                return RedirectToAction("Index", "Home");
+                HttpContext.Session.SetInt32("cus_id", response.cus_id);
             }
 
-            return View("Login");
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(string name, string username, string password, string email, string phone)
+        {
+            var registerData = new { Username = username, Password = password, Name = name, Email = email, Phone = phone };
+            var response = await _apiService.PostAsync<RegisterResponse, dynamic>("auth/register", registerData);
+
+            if (response != null && response.Message == "User registered successfully.")
+            {
+                ViewBag.Success = "Registration successful. Please login.";
+                return RedirectToAction("Login", "Auth");
+            }
+
+            ViewBag.Error = "Username already exists.";
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("token");
+            HttpContext.Session.Remove("cus_id");
+            return RedirectToAction("Login");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -58,6 +77,13 @@ namespace DineGO_Client.Controllers
         public class LoginResponse
         {
             public string token { get; set; }
+            public int cus_id { get; set; }
         }
+
+        public class RegisterResponse
+        {
+            public string Message { get; set; }
+        }
+
     }
 }

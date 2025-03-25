@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Core.Constant;
 using Core.Services;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +24,7 @@ namespace DineGO_Client.Controllers
             _logger = logger;
             _apiService = apiService;
         }
-
+    
         public async Task<IActionResult> Index(){
             var response = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
             return View(response);

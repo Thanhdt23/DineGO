@@ -6,8 +6,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Services;
+using DineGO_Api.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 namespace DineGO_Api.Controllers
@@ -28,6 +30,25 @@ namespace DineGO_Api.Controllers
             _hashService = hashService;
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        {
+           if (_context.customers.AsNoTracking().Any(u => u.cus_username == registerRequest.Username))
+                return Ok(new { Message = "Username already exists." });
+
+            var cus = new Customer
+            {
+                cus_name = registerRequest.Name,
+                cus_username = registerRequest.Username,
+                cus_password = _hashService.HashPassword(registerRequest.Password),
+                cus_email = registerRequest.Email,
+                cus_phone = registerRequest.Phone,
+            };
+            _context.customers.Add(cus);
+            _context.SaveChanges();
+            return Ok(new { Message = "User registered successfully." });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
@@ -35,7 +56,8 @@ namespace DineGO_Api.Controllers
             if (user == null || !_hashService.VerifyPassword(loginRequest.Password, user.cus_password))
                 return Unauthorized("Invalid username or password.");
             var token = _tokenService.GenerateToken(loginRequest.Username);
-            return Ok(new { Token = token });
+            var cus_id = user.cus_id;
+            return Ok(new { Token = token , Cus_id = cus_id});
         }
 
         [Authorize]
@@ -49,6 +71,16 @@ namespace DineGO_Api.Controllers
         {
             public string Username { get; set; }
             public string Password { get; set; }
+        }
+
+
+        public class RegisterRequest
+        {
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string Name { get; set; }
+            public string Email {get; set;}
+            public string Phone {get; set;}
         }
     }
 }
