@@ -533,3 +533,54 @@ body {
   padding-left: 200px;
 }
 /* Restaurant Details - End - Thang */
+
+
+/* Profile_header - Start - Thang */
+.profile-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-right: 100px;
+}
+
+.profile-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+}
+
+.guest-text {
+  cursor: pointer;
+  color: black;
+}
+
+.guest-text:hover {
+  text-decoration: underline;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  width: 180px;
+  display: none;
+  padding: 10px;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+.profile-dropdown a:hover {
+  text-decoration: underline;
+}
+
+/* Profile_header - End - Thang */

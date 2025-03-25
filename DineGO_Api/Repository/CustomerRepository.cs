@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DineGO_Api.Data;
 using DineGO_Api.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace DineGO_Api.Repository
 {
@@ -18,4 +21,17 @@ namespace DineGO_Api.Repository
         public void UpdateCustomer(Customer c) => _customerDAO.UpdateCustomer(c);
         public void DeleteCustomer(int id) => _customerDAO.DeleteCustomer(id);
     }
-}
+
+
+        public Customer ChangPassword(string email, string newPassword)
+        {
+            return _customerDAO.ChangePassword(email, newPassword);
+        }
+
+        public Customer IsMailExist(string email)
+        {
+            return _customerDAO.GetCustomers().FirstOrDefault(c => c.cus_email == email);
+
+
+        }
+    }

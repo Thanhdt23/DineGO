@@ -1,88 +1,111 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using DineGO_Api.Data;
+using System.Threading.Tasks;
 using DineGO_Api.Model;
+using Microsoft.EntityFrameworkCore;
 
-public class CustomerDAO
+namespace DineGO_Api.Data
 {
-    private readonly ApplicationDbContext _context;
-
-    public CustomerDAO(ApplicationDbContext context)
+    public class CustomerDAO
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext _context;
 
-    // Get all customers
-    public List<Customer> GetCustomers()
-    {
-        try
+        public CustomerDAO(ApplicationDbContext context)
         {
-            return _context.customers.ToList();
+            _context = context;
         }
-        catch (Exception e)
-        {
-            throw new Exception($"Error fetching customers: {e.Message}");
-        }
-    }
 
-    // Get customer by ID
-    public Customer FindCustomerById(int id)
-    {
-        try
+        // Get all Customers
+        public List<Customer> GetCustomers()
         {
-            return _context.customers.SingleOrDefault(x => x.cus_id == id);
-        }
-        catch (Exception e)
-        {
-            throw new Exception($"Error finding customer: {e.Message}");
-        }
-    }
-
-    // Save a new customer
-    public void SaveCustomer(Customer customer)
-    {
-        try
-        {
-            _context.customers.Add(customer);
-            _context.SaveChanges();
-        }
-        catch (Exception e)
-        {
-            throw new Exception($"Error saving customer: {e.Message}");
-        }
-    }
-
-    // Update customer details
-    public void UpdateCustomer(Customer customer)
-    {
-        try
-        {
-            _context.Entry(customer).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-        catch (Exception e)
-        {
-            throw new Exception($"Error updating customer: {e.Message}");
-        }
-    }
-
-    // Delete customer by ID
-    public void DeleteCustomer(int id)
-    {
-        try
-        {
-            var customer = _context.customers.SingleOrDefault(x => x.cus_id == id);
-            if (customer != null)
+            try
             {
-                _context.customers.Remove(customer);
-                _context.SaveChanges();
+                return _context.customers.ToList();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error fetching Customers: {e.Message}");
             }
         }
-        catch (Exception e)
+
+        // Get Customer by ID
+        public Customer FindCustomerById(int id)
         {
-            throw new Exception($"Error deleting customer: {e.Message}");
+            try
+            {
+                return _context.customers.SingleOrDefault(x => x.cus_id == id);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error finding Customer: {e.Message}");
+            }
         }
+
+        // Save a new Customer
+        public void SaveCustomer(Customer Customer)
+        {
+            try
+            {
+                _context.customers.Add(Customer);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error saving Customer: {e.Message}");
+            }
+        }
+
+        // Update Customer details
+        public void UpdateCustomer(Customer Customer)
+        {
+            try
+            {
+                _context.Entry(Customer).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error updating Customer: {e.Message}");
+            }
+        }
+
+        // Delete Customer by ID
+        public void DeleteCustomer(int id)
+        {
+            try
+            {
+                var Customer = _context.customers.SingleOrDefault(x => x.cus_id == id);
+                if (Customer != null)
+                {
+                    _context.customers.Remove(Customer);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error deleting Customer: {e.Message}");
+            }
+        }
+
+        public Customer ChangePassword(string email, string newPassword)
+        {
+            try
+            {
+                var customer = _context.customers.SingleOrDefault(c => c.cus_email == email);
+                if (customer != null)
+                {
+                    customer.cus_password = newPassword; // Nên hash mật khẩu trước khi lưu
+                    _context.SaveChanges();
+                    return customer;
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error changing password: {e.Message}");
+            }
+        }
+
     }
 }

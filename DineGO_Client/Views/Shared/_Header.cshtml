@@ -1,4 +1,6 @@
-﻿<div class="header-wrapper container">
+﻿@using Microsoft.AspNetCore.Http
+
+<div class="header-wrapper container">
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a asp-controller="Home" asp-action="Index" class="logo-text">DineGO</a>
@@ -10,7 +12,7 @@
         <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
 
           <li class="nav-item">
-            <a class="nav-link" asp-controller="Restaurant" asp-action="Index">Nhà hàng gần bạn</a>
+            <a class="nav-link" asp-controller="Restaurant" asp-action="Search">Nhà hàng gần bạn</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Nhà hàng uy tín</a>
@@ -22,12 +24,53 @@
           <a class="nav-link" href="#">Báo cáo</a>
           </li>
         </ul>
-        <a class="nav-link login-section" asp-controller="Auth" asp-action="Login">
-          <i class="fas fa-user"></i> Tài khoản
-        </a>
-
+        @{
+          var cusId = Context.Session.GetInt32("cus_id");
+        }
+        <div class="profile-container" id="profileContainer">
+          <div class="profile-name">
+            @if (cusId.HasValue)
+            {
+              <span>👤 @cusId</span>
+              <div class="profile-dropdown" id="profileMenu">
+                <a href="#">Thông tin tài khoản</a>
+                <a href="#">Quản lý mật khẩu</a>
+                <a href="#">Lịch sử đặt chỗ</a>
+                <a class="logout-btn btn-danger" asp-controller="Auth" asp-action="Logout">Đăng xuất</a>
+              </div>
+            }
+            else
+            {
+              <span class="guest-text" onclick="location.href='@Url.Action("Login", "Auth")'">👤 guest</span>
+            }
+          </div>
+        </div>
       </div>
     </div>
-  </nav>
-
 </div>
+</nav>
+<form asp-controller="Restaurant" asp-action="Search" method="get" class="row g-2">
+  <div class="col-12 col-md-1">
+    <select name="address" class="form-select">
+      <option value="">Tất Cả</option>
+      <option value="Cần Thơ">Cần Thơ</option>
+      <option value="Bạc Liêu">Bạc Liêu</option>
+      <option value="Cà Mau">Cà Mau</option>
+      <option value="Hậu Giang">Hậu Giang</option>
+      <option value="Tiền Giang">Tiền Giang</option>
+    </select>
+  </div>
+  <div class="col-12 col-md-8">
+    <input type="text" name="name" class="form-control" placeholder="Bạn muốn đặt chỗ đến đâu">
+  </div>
+  <div class="col-12 col-md-1">
+    <button type="submit" class="btn w-100" style="background-color: #C0392B; color: white; border: none;">
+      <i class="bi bi-search"></i> Tìm kiếm
+    </button>
+  </div>
+  <div class="col-12 col-md-2 text-center">
+    <i class="bi bi-telephone-fill" style="color: #C0392B; font-size: 24px;"></i>
+    <span style="font-weight: bold; font-size: 20px; color: #C0392B;">1900 6005</span>
+    </span>
+  </div>
+</form>

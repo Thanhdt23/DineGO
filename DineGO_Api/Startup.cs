@@ -75,7 +75,7 @@ namespace DineGO_Api
             //Add dependency here
             services.AddScoped<RestaurantDAO>();  
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
-             services.AddScoped<CategoryDAO>();  
+            services.AddScoped<CategoryDAO>();  
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<BlogDAO>();  
             services.AddScoped<IBlogRepositoy, BlogRepository>();
@@ -83,6 +83,7 @@ namespace DineGO_Api
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ReservationDAO>();  
             services.AddScoped<IReservationRepository, ReservationRepository>();
+            services.AddScoped<IMailSenderRepository, MailSenderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

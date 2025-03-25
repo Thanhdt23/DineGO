@@ -4,11 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using DineGO_Api.Model;
 
-public interface ICustomerRepository
+namespace DineGO_Api.Repository
 {
-    List<Customer> GetCustomers();
-    Customer FindCustomerById(int ID);
-    void SaveCustomer(Customer customer);
-    void UpdateCustomer(Customer customer);
-    void DeleteCustomer(int customerId);
+    public interface ICustomerRepository
+    {
+        public Customer IsMailExist(string email);
+        public Customer ChangPassword(string email, string newpassword);
+        List<Customer> GetCustomers();
+        Customer FindCustomerById(int ID);
+        void SaveCustomer(Customer customer);
+        void UpdateCustomer(Customer customer);
+        void DeleteCustomer(int customerId);
+    }
 }
