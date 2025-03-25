@@ -25,27 +25,102 @@
           </li>
         </ul>
 
-        @{
-          var cusId = Context.Session.GetInt32("cus_id");
-        }
-        @if (cusId.HasValue)
-        {
-          <p>Welcome, @cusId</p>
-        }
-        else
-        {
-          <p>Welcome, Guest</p>
-        }
 
-        <a class="nav-link login-section" asp-controller="Auth" asp-action="Login">
-          <i class="fas fa-user"></i> Tài khoản
-        </a>
-        <a class="nav-link login-section" asp-controller="Auth" asp-action="Logout">
-          <i class="fas fa-user"></i> Đăng xuất
-        </a>
+@{
+  var cusId = Context.Session.GetInt32("cus_id");
+}
+        <div class="profile-container" id="profileContainer">
+          <div class="profile-name">
+            @if (cusId.HasValue)
+            {
+              <span>👤 @cusId</span>
+              <div class="profile-dropdown" id="profileMenu">
+                <a href="#">Thông tin tài khoản</a>
+                <a href="#">Quản lý mật khẩu</a>
+                <a href="#">Lịch sử đặt chỗ</a>
+                <a class="logout-btn btn-danger" asp-controller="Auth" asp-action="Logout">Đăng xuất</a>
+              </div>
+            }
+            else
+            {
+              <span class="guest-text" onclick="redirectToLogin()">👤 guest</span>
+            }
+          </div>
+        </div>
 
-      </div>
-    </div>
-  </nav>
+        <script>
+          function redirectToLogin() {
+            window.location.href = "@Url.Action("Login", "Auth")";
+          }
 
-</div>
+          let timeout;
+          document.getElementById("profileContainer").addEventListener("mouseenter", function () {
+            clearTimeout(timeout);
+            document.getElementById("profileMenu").style.display = "block";
+          });
+
+          document.getElementById("profileContainer").addEventListener("mouseleave", function () {
+            timeout = setTimeout(function () {
+              document.getElementById("profileMenu").style.display = "none";
+            }, 200);
+          });
+
+          document.getElementById("profileMenu").addEventListener("mouseenter", function () {
+            clearTimeout(timeout);
+          });
+
+          document.getElementById("profileMenu").addEventListener("mouseleave", function () {
+            timeout = setTimeout(function () {
+              document.getElementById("profileMenu").style.display = "none";
+            }, 200);
+          });
+        </script>
+
+        <style>
+          .profile-container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 100px;
+          }
+
+          .profile-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+          }
+
+          .guest-text {
+            cursor: pointer;
+            color: black;
+          }
+
+          .guest-text:hover {
+            text-decoration: underline;
+          }
+
+          .profile-dropdown {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background: white;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            width: 180px;
+            display: none;
+            padding: 10px;
+          }
+
+          .profile-dropdown a {
+            display: block;
+            padding: 8px;
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+          }
+
+          .profile-dropdown a:hover {
+            text-decoration: underline;
+          }
+        </style>
