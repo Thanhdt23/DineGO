@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Core.Constant;
 using Core.Services;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

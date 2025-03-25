@@ -17,13 +17,13 @@ namespace DineGO_Api.Model
         [Required, MaxLength(100)]
         public string cus_password { get; set; }
 
-        [Required, MaxLength(100)]
+        [MaxLength(100)]
         public string cus_name { get; set; }
 
         [Required, EmailAddress]
         public string cus_email { get; set; }
 
-        [Phone]
+        [Required, Phone]
         public string cus_phone { get; set; }
 
         [MaxLength(200)]
@@ -31,7 +31,6 @@ namespace DineGO_Api.Model
 
         public DateTime cus_birthday { get; set; }
 
-        [Required]
         public string cus_gender { get; set; }
 
         public string cus_image { get; set; }

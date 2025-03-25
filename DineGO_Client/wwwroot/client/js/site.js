@@ -81,3 +81,31 @@ $(document).ready(function () {
     });
 
 //Product - End - Thang
+
+
+
+
+//Profile_Header _ Thang _ Start
+  let timeout;
+  document.getElementById("profileContainer").addEventListener("mouseenter", function () {
+    clearTimeout(timeout);
+    document.getElementById("profileMenu").style.display = "block";
+  });
+
+  document.getElementById("profileContainer").addEventListener("mouseleave", function () {
+    timeout = setTimeout(function () {
+      document.getElementById("profileMenu").style.display = "none";
+    }, 200);
+  });
+
+  document.getElementById("profileMenu").addEventListener("mouseenter", function () {
+    clearTimeout(timeout);
+  });
+
+  document.getElementById("profileMenu").addEventListener("mouseleave", function () {
+    timeout = setTimeout(function () {
+      document.getElementById("profileMenu").style.display = "none";
+    }, 200);
+  });
+
+//Profile_Header _ Thang _ End
