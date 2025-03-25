@@ -28,5 +28,10 @@ namespace DineGO_Api.Repository
 
 
         }
+          public List<Customer> GetCustomers() => _customerDAO.GetCustomers();
+        public Customer FindCustomerById(int id) => _customerDAO.FindCustomerById(id);
+        public void SaveCustomer(Customer c) => _customerDAO.SaveCustomer(c);
+        public void UpdateCustomer(Customer c) => _customerDAO.UpdateCustomer(c);
+        public void DeleteCustomer(int id) => _customerDAO.DeleteCustomer(id);
     }
 }
