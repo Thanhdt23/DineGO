@@ -59,10 +59,16 @@ namespace Core.Services
             // Construct the full URL using the base URL, domain, and endpoint.
             var response = await _httpClient.GetAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
             // Kiểm tra nếu mã lỗi 401 (Unauthorized)
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
-                throw new UnauthorizedAccessException("Unauthorized");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new UnauthorizedAccessException(errorContent);
+            }else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(errorContent);
+
             }
             // Read the response content as a string.
             var responseData = await response.Content.ReadAsStringAsync();
@@ -101,8 +107,13 @@ namespace Core.Services
             // Kiểm tra nếu mã lỗi 401 (Unauthorized)
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
-                throw new UnauthorizedAccessException("Unauthorized");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new UnauthorizedAccessException(errorContent);
+            }else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(errorContent);
+
             }
             var responseData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -133,10 +144,16 @@ namespace Core.Services
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}", content);
             // Kiểm tra nếu mã lỗi 401 (Unauthorized)
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
-                throw new UnauthorizedAccessException("Unauthorized");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new UnauthorizedAccessException(errorContent);
+            }else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(errorContent);
+
             }
             var responseData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
@@ -162,9 +179,16 @@ namespace Core.Services
 
             var response = await _httpClient.DeleteAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
             
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
-                throw new UnauthorizedAccessException("Unauthorized");
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new UnauthorizedAccessException(errorContent);
+            }else if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(errorContent);
+
             }
 
             var responseData = await response.Content.ReadAsStringAsync();

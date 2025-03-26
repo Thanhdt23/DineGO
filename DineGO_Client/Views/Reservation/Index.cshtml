@@ -12,14 +12,14 @@
 }
 <div class="container">
     <div class="booking-container">
-        <h3 class="text-center">Đặt chỗ đến @Model.res_name</h3>
+        <h3 class="text-center">Đặt chỗ đến @Model.Restaurant.res_name</h3>
 
         <div class="row">
             <!-- Form Đặt Chỗ -->
             <div class="col-md">
                 <h5>Thông tin người đặt</h5>
                 <form id="reservationForm" action="/Reservation/CreateReservation" method="post">
-                    <input type="hidden" name="res_id" value="@Model.res_id">
+                    <input type="hidden" name="res_id" value="@Model.Restaurant.res_id">
                     <div class="col-md">
                         <div class="booking-container p-3 border rounded shadow bg-white">
                             <h5 class="fw-bold text-center">Đặt chỗ <span class="text-muted">(Để có chỗ trước khi
