@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DineGO_Client</title>
+    <link rel="icon" type="image/png" href="/common/images/favicon.ico" />
     <link rel="stylesheet" href="/common/lib/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="/common/lib/slider/owl.carousel.min.css" />
     <link rel="stylesheet" href="/common/lib/slider/owl.theme.default.min.css" />
@@ -26,7 +27,26 @@
                 <!-- Sidebar (Chiếm 4 cột) -->
                 <div class="col-md-4">
                     <div class="sidebar">
-                        <h3 class="text-center">Dashboard</h3>
+                        <div class="profile-info" onclick="toggleDropdown()">
+                            <div class="profile-avatar">
+                                <img src="@Model.cus_image" alt="Avatar">
+                            </div>
+                            <h3 class="profile-username">@Model.cus_name</h3>
+                            <div class="profile-icon">
+                                <i class="fas fa-chevron-down dropdown-arrow">
+                                </i>
+                                <!-- Dropdown Menu -->
+                                <div class="list-profile-dropdown" id="profileDropdown">
+                                    <div class="menu-item">
+                                        <i class="fas fa-user"></i> Profile
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </div>
+                                    <div class="menu-item">
+                                        <i class="fas fa-plus"></i> Create
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="menu-item" onclick="location.href='@Url.Action("Profile", "Customer")'">Profile</div>
                         <div class="menu-item" onclick="location.href='@Url.Action("Login", "Auth")'">Order History</div>

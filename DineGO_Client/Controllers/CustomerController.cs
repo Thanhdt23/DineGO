@@ -35,14 +35,7 @@ namespace DineGO_Client.Controllers
         public async Task<IActionResult> Profile()
         {
             var cus_id = HttpContext.Session.GetInt32("cus_id");
-
-            if (cus_id == null)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
             var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
-
             return View(customer);
         }
 
@@ -57,11 +50,6 @@ namespace DineGO_Client.Controllers
             }
 
             var cus_id = HttpContext.Session.GetInt32("cus_id");
-
-            if (cus_id == null || cus_id != customer.cus_id)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
 
             // Xử lý upload ảnh đại diện
             if (imageFile != null && imageFile.Length > 0)
