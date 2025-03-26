@@ -1,3 +1,4 @@
+@model DineGO_Client.Model.Customer
 @{
     ViewData["Title"] = "Register Page";
 }
@@ -7,28 +8,39 @@
         <div class="register-block">
             <h4 class="text-center">ĐĂNG KÝ THÀNH VIÊN DINEGO</h4>
             <form asp-controller="Auth" asp-action="Register" method="post">
-                <div class="form-group">
+                <div class="form-group register-form-group">
                     <input type="text" class="form-control" id="name" name="name" required placeholder="*Họ và tên" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("name")</div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group register-form-group">
                     <input type="text" class="form-control" id="username" name="username" required
                         placeholder="*Tài khoản" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("username")</div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group register-form-group">
                     <input type="password" class="form-control" id="password" name="password" required
                         placeholder="*Mật khẩu" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("password")</div>
                 </div>
-                <div class="form-group">
+                <div class="form-group register-form-group">
                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
                         placeholder="*Xác nhận mật khẩu" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("confirmPassword")</div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group register-form-group">
                     <input type="text" class="form-control" id="email" name="email" required placeholder="*Email" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("email")</div>
                 </div>
-                <div class="form-group">
+
+                <div class="form-group register-form-group">
                     <input type="text" class="form-control" id="phone" name="phone" required
-                        placeholder="*Só điện thoại" />
+                        placeholder="*Số điện thoại" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("phone")</div>
                 </div>
+
 
                 <div style="display: flex;">
                     <input type="checkbox" id="terms" name="terms" required />
@@ -45,3 +57,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
