@@ -9,6 +9,7 @@ using DineGO_Client.Models;
 using Core.Services;
 using Core.Constant;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace DineGO_Client.Controllers
 {
@@ -34,7 +35,13 @@ namespace DineGO_Client.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var errorMessage = HttpContext.Session.GetString("ErrorMessage");
+            var model = new ErrorViewModel 
+            { 
+                ErrorMessage = errorMessage, 
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier 
+            };
+            return View(model);
         }
     }
 }
