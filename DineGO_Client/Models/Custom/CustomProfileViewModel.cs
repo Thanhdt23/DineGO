@@ -10,5 +10,6 @@ namespace DineGO_Client.Models.Custom
     {
         public Customer Customer { get; set; }
         public List<RestaurantOwner> RestaurantOwners { get; set; }
+        public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
     }
 }
