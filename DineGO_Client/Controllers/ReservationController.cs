@@ -103,7 +103,7 @@ namespace DineGO_Client.Controllers
             return RedirectToAction("Index", new { id = model.res_id });
         }
 
-
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
