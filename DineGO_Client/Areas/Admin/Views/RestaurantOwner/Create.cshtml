@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Add Restaurant Owner";
+    Layout = "../../Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Add New Restaurant Owner</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="cus_id">Customer ID</label>
+        <input type="number" id="cus_id" name="cus_id" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="resOwner_name">Name</label>
+        <input type="text" id="resOwner_name" name="resOwner_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="resOwner_createdDate">Created Date</label>
+        <input type="date" id="resOwner_createdDate" name="resOwner_createdDate" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="resOwner_isAuthorize">Authorized</label>
+        <select id="resOwner_isAuthorize" name="resOwner_isAuthorize" class="form-control">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+</form>
+
+
+
+
+
