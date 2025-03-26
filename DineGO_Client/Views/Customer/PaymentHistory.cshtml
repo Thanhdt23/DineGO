@@ -1,5 +1,4 @@
-@model List<DineGO_Client.Model.Payment>
-
+@model DineGO_Client.Models.Custom.CustomProfileViewModel
 @{
     Layout = "../../Views/Shared/_Profile.cshtml";
     ViewData["Title"] = "PaymentHistory";
@@ -10,7 +9,7 @@
     <div class="profile-container_form">
         <h3 class="text-center mb-4">Lịch sử thanh toán</h3>
 
-        @if (Model == null || !Model.Any())
+        @if (Model.Payments == null || !Model.Payments.Any())
         {
             <div class="alert alert-info text-center">
                 Bạn chưa có giao dịch thanh toán nào.
@@ -29,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var payment in Model)
+                        @foreach (var payment in Model.Payments)
                         {
                             <tr>
                                 <td>@payment.pay_id</td>

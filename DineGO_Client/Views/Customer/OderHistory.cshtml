@@ -1,5 +1,4 @@
-@model List<DineGO_Client.Model.Reservation>
-
+@model DineGO_Client.Models.Custom.CustomProfileViewModel
 @{
     Layout = "../../Views/Shared/_Profile.cshtml";
     ViewData["Title"] = "OderHistory";
@@ -10,7 +9,7 @@
     <div class="profile-container_form">
         <h3 class="text-center mb-4">Lịch sử đặt bàn</h3>
 
-        @if (Model == null || !Model.Any())
+        @if (Model.Reservations == null || !Model.Reservations.Any())
         {
             <div class="alert alert-info text-center">
                 Bạn chưa có đơn đặt bàn nào.
@@ -30,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var reservation in Model)
+                        @foreach (var reservation in Model.Reservations)
                         {
                             <tr>
                                 <td>@reservation.res_id</td>
@@ -38,8 +37,7 @@
                                 <td>@reservation.reser_quantity</td>
                                 <td>@reservation.reser_note</td>
                                 <td>
-                                    <span
-                                        class="badge @(reservation.reser_status == "Confirmed" ? "bg-success" : "bg-warning")">
+                                    <span class="badge @(reservation.reser_status == "Confirmed" ? "bg-success" : "bg-warning")">
                                         @reservation.reser_status
                                     </span>
                                 </td>

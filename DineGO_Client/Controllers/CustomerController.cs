@@ -40,7 +40,7 @@ namespace DineGO_Client.Controllers
             // Giả sử bạn có endpoint cho restaurant owner, ví dụ:
             string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, cus_id);
             var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
-            
+
             var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
@@ -110,20 +110,41 @@ namespace DineGO_Client.Controllers
         public async Task<IActionResult> OderHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+            var reservations = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
 
-            var response = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
-
-            return View(response ?? new List<Reservation>());
+            var viewModel = await GetProfileViewModel(customerId, reservations);
+            return View(viewModel);
         }
 
         public async Task<IActionResult> PaymentHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+            var payments = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
 
-            var response = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
-
-            return View(response ?? new List<Payment>());
+            var viewModel = await GetProfileViewModel(customerId, payments: payments);
+            return View(viewModel);
         }
+
+        private async Task<CustomProfileViewModel> GetProfileViewModel(int customerId,
+        List<Reservation> reservations = null,
+        List<Payment> payments = null)
+        {
+            // Luôn lấy thông tin Customer
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{customerId}");
+
+            // Luôn lấy danh sách RestaurantOwner
+            string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId);
+            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
+
+            return new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = restaurantOwners,
+                Reservations = reservations ?? new List<Reservation>(),  // Tránh null
+                Payments = payments ?? new List<Payment>()  // Tránh null
+            };
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
