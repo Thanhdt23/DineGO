@@ -87,14 +87,6 @@ namespace DineGO_Client.Areas.Admin.Controllers
             // Gọi API để cập nhật
             var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.CATEGORY}", updateData);
 
-            if (response != null)
-            {
-                TempData["SuccessMessage"] = "Cập nhật category thành công!";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Cập nhật category thất bại!";
-            }
 
             return RedirectToAction("Index");
         }
