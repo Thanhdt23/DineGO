@@ -27,8 +27,11 @@
                 <td>@owner.resOwner_createdDate.ToString("yyyy-MM-dd")</td>
                 <td>@(owner.resOwner_isAuthorize ? "Yes" : "No")</td>
                 <td>
-                    <a href="@Url.Action("Edit", new { id = owner.resOwner_id })" class="btn btn-primary">Sửa</a>
-                    <a href="@Url.Action("Delete", new { id = owner.resOwner_id })" class="btn btn-danger">Xóa</a>
+                    <a href="@Url.Action("Edit", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
+                        class="btn btn-primary">Sửa</a>
+                    <a href="@Url.Action("Delete", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
+                        class="btn btn-danger">Xóa</a>
+
 
 
                 </td>
@@ -37,4 +40,5 @@
     </tbody>
 </table>
 
-<a href="@Url.Action("Create")" class="btn btn-primary">Thêm chủ nhà hàng mới</a>
+<a href="@Url.Action("Create", "RestaurantOwner", new { area = "Admin" })" class="btn btn-primary">Thêm chủ nhà hàng
+    mới</a>
