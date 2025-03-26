@@ -61,7 +61,7 @@ namespace DineGO_Api.Controllers
         }
 
          [HttpGet("cus_id")]
-        public IActionResult GetByCustomer(int cus_id)
+        public IActionResult GetReservationByCustomer(int cus_id)
         {
             var reservations = _reservationRepository.GetResByCusId(cus_id);
 

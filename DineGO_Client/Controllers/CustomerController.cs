@@ -110,10 +110,6 @@ namespace DineGO_Client.Controllers
         public async Task<IActionResult> OderHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
-            if (customerId == 0)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
 
             var response = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
 
@@ -123,13 +119,8 @@ namespace DineGO_Client.Controllers
         public async Task<IActionResult> PaymentHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
-            if (customerId == 0)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
 
             var response = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
-            Console.WriteLine(response);
 
             return View(response ?? new List<Payment>());
         }
