@@ -112,7 +112,7 @@ namespace DineGO_Client.Controllers
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
             var reservations = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
 
-            var viewModel = await GetProfileViewModel(customerId, reservations);
+            var viewModel = await GetProfileViewModel(customerId, ("Reservations", reservations));
             return View(viewModel);
         }
 
@@ -121,29 +121,31 @@ namespace DineGO_Client.Controllers
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
             var payments = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
 
-            var viewModel = await GetProfileViewModel(customerId, payments: payments);
+            var viewModel = await GetProfileViewModel(customerId, ("Payments", payments));
             return View(viewModel);
         }
 
-        private async Task<CustomProfileViewModel> GetProfileViewModel(int customerId,
-        List<Reservation> reservations = null,
-        List<Payment> payments = null)
+        private async Task<CustomProfileViewModel> GetProfileViewModel(int customerId, params (string key, object value)[] extraData)
         {
-            // Luôn lấy thông tin Customer
             var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{customerId}");
+            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(
+                string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId)
+            );
 
-            // Luôn lấy danh sách RestaurantOwner
-            string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId);
-            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
-
-            return new CustomProfileViewModel
+            var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
-                RestaurantOwners = restaurantOwners,
-                Reservations = reservations ?? new List<Reservation>(),  // Tránh null
-                Payments = payments ?? new List<Payment>()  // Tránh null
+                RestaurantOwners = restaurantOwners
             };
+
+            foreach (var (key, value) in extraData)
+            {
+                viewModel.Data[key] = value;
+            }
+            return viewModel;
         }
+
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

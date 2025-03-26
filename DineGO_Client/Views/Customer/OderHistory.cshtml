@@ -9,43 +9,50 @@
     <div class="profile-container_form">
         <h3 class="text-center mb-4">Lịch sử đặt bàn</h3>
 
-        @if (Model.Reservations == null || !Model.Reservations.Any())
+        @if (Model.Data.ContainsKey("Reservations"))
         {
-            <div class="alert alert-info text-center">
-                Bạn chưa có đơn đặt bàn nào.
-            </div>
+            var reservations = Model.Data["Reservations"] as List<DineGO_Client.Model.Reservation>;
+
+            if (reservations == null || !reservations.Any())
+            {
+                <div class="alert alert-info text-center">Bạn chưa có đơn đặt bàn nào.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Nhà hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Số lượng</th>
+                                <th>Ghi chú</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reservation in reservations)
+                            {
+                                <tr>
+                                    <td>@reservation.res_id</td>
+                                    <td>@reservation.reser_date.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@reservation.reser_quantity</td>
+                                    <td>@reservation.reser_note</td>
+                                    <td>
+                                        <span class="badge @(reservation.reser_status == "Confirmed" ? "bg-success" : "bg-warning")">
+                                            @reservation.reser_status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
         else
         {
-            <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Nhà hàng</th>
-                            <th>Ngày đặt</th>
-                            <th>Số lượng</th>
-                            <th>Ghi chú</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var reservation in Model.Reservations)
-                        {
-                            <tr>
-                                <td>@reservation.res_id</td>
-                                <td>@reservation.reser_date.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>@reservation.reser_quantity</td>
-                                <td>@reservation.reser_note</td>
-                                <td>
-                                    <span class="badge @(reservation.reser_status == "Confirmed" ? "bg-success" : "bg-warning")">
-                                        @reservation.reser_status
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <div class="alert alert-info text-center">Bạn chưa có đơn đặt bàn nào.</div>
         }
     </div>
 </div>
