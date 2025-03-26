@@ -42,6 +42,7 @@ namespace DineGO_Client.Controllers
                 var loginData = new { Username = username, Password = password };
                 var response = await _apiService.PostAsync<LoginResponse, dynamic>("auth/login", loginData);
                 HttpContext.Session.SetString("token", response.token);
+                HttpContext.Session.SetString("cus_name", response.cus_name);
                 HttpContext.Session.SetInt32("cus_id", response.cus_id);
                 return RedirectToAction("Index", "Home");
             }
@@ -84,6 +85,7 @@ namespace DineGO_Client.Controllers
         {
             public string token { get; set; }
             public int cus_id { get; set; }
+            public string cus_name { get; set; }
         }
 
         public class RegisterResponse

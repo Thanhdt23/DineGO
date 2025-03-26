@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using DineGO_Api.Data;
 using DineGO_Api.Model;
 
@@ -7,20 +10,31 @@ namespace DineGO_Api.Repository
     public class RestaurantOwnerRepository : IRestaurantOwnerRepository
     {
         private readonly RestaurantOwnerDAO _restaurantOwnerDAO;
-
         public RestaurantOwnerRepository(RestaurantOwnerDAO restaurantOwnerDAO)
-        {
+        =>
             _restaurantOwnerDAO = restaurantOwnerDAO;
-        }
 
-        public List<RestaurantOwner> GetRestaurantOwners() => _restaurantOwnerDAO.GetRestaurantOwners();
+        public void DeleteRestaurantOwner(int Id)
+        =>
+            _restaurantOwnerDAO.DeleteRestaurantOwner(Id);
 
-        public RestaurantOwner FindRestaurantOwnerById(int id) => _restaurantOwnerDAO.FindRestaurantOwnerById(id);
+        public RestaurantOwner FindRestaurantOwnerById(int Id)
+        =>
+             _restaurantOwnerDAO.FindRestaurantOwnerById(Id);
+        public List<RestaurantOwner> FindRestaurantOwnersByCusId(int cusId)
+        =>
+             _restaurantOwnerDAO.FindRestaurantOwnersByCusId(cusId);
 
-        public void SaveRestaurantOwner(RestaurantOwner owner) => _restaurantOwnerDAO.SaveRestaurantOwner(owner);
+        public List<RestaurantOwner> GetRestaurantOwners()
 
-        public void UpdateRestaurantOwner(RestaurantOwner owner) => _restaurantOwnerDAO.UpdateRestaurantOwner(owner);
+            => _restaurantOwnerDAO.GetRestaurantOwners();
 
-        public void DeleteRestaurantOwner(int id) => _restaurantOwnerDAO.DeleteRestaurantOwner(id);
+        public void SaveRestaurantOwner(RestaurantOwner restaurantOwner)
+        =>
+            _restaurantOwnerDAO.SaveRestaurantOwner(restaurantOwner);
+
+        public void UpdateRestaurantOwner(RestaurantOwner restaurantOwner)
+        =>
+            _restaurantOwnerDAO.UpdateRestaurantOwner(restaurantOwner);
     }
 }

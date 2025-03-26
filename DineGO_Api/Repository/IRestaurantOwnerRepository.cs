@@ -1,11 +1,19 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
 using DineGO_Api.Model;
 
-public interface IRestaurantOwnerRepository
+namespace DineGO_Api.Repository
 {
-    List<RestaurantOwner> GetRestaurantOwners();
-    RestaurantOwner FindRestaurantOwnerById(int ID);
-    void SaveRestaurantOwner(RestaurantOwner owner);
-    void UpdateRestaurantOwner(RestaurantOwner owner);
-    void DeleteRestaurantOwner(int ownerId);
+    public interface IRestaurantOwnerRepository
+    {
+        List<RestaurantOwner> GetRestaurantOwners();
+        RestaurantOwner FindRestaurantOwnerById(int Id);
+        List<RestaurantOwner> FindRestaurantOwnersByCusId(int cusId);
+        void SaveRestaurantOwner(RestaurantOwner restaurantOwner);
+        void UpdateRestaurantOwner(RestaurantOwner restaurantOwner);
+        void DeleteRestaurantOwner(int Id);
+    }
 }

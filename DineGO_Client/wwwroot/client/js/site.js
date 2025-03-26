@@ -107,7 +107,26 @@ $(document).ready(function () {
       document.getElementById("profileMenu").style.display = "none";
     }, 200);
   });
+  //Add js _ Phuonghh _ Start
+  function toggleDropdown() {
+        let dropdown = document.getElementById("profileDropdown");
+        let arrow = document.querySelector(".dropdown-arrow");
+        dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        arrow.style.transform = dropdown.style.display === "block" ? "rotate(180deg)" : "rotate(0deg)";
+    }
 
+    // Ẩn dropdown khi click ra ngoài
+    document.addEventListener("click", function (event) {
+        let profileInfo = document.querySelector(".profile-info");
+        let dropdown = document.getElementById("profileDropdown");
+
+        if (!profileInfo.contains(event.target)) {
+            dropdown.style.display = "none";
+            document.querySelector(".dropdown-arrow").style.transform = "rotate(0deg)";
+        }
+    });
+
+  //Add js _ Phuonghh _ End
 //Profile_Header _ Thang _ End
 
 

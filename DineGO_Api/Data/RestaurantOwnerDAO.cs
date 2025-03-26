@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DineGO_Api.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace DineGO_Api.Data
             _context = context;
         }
 
-        // Get all restaurant owners
+        // Get all RestaurantOwners
         public List<RestaurantOwner> GetRestaurantOwners()
         {
             try
@@ -24,11 +25,11 @@ namespace DineGO_Api.Data
             }
             catch (Exception e)
             {
-                throw new Exception($"Error fetching restaurant owners: {e.Message}");
+                throw new Exception($"Error fetching Blogs: {e.Message}");
             }
         }
 
-        // Get restaurant owner by ID
+        // Get RestaurantOwner by ID
         public RestaurantOwner FindRestaurantOwnerById(int id)
         {
             try
@@ -37,54 +38,70 @@ namespace DineGO_Api.Data
             }
             catch (Exception e)
             {
-                throw new Exception($"Error finding restaurant owner: {e.Message}");
+                throw new Exception($"Error finding Blog: {e.Message}");
             }
         }
 
-        // Save a new restaurant owner
-        public void SaveRestaurantOwner(RestaurantOwner owner)
+        // Get RestaurantOwner by customer ID
+        public List<RestaurantOwner> FindRestaurantOwnersByCusId(int cusId)
         {
             try
             {
-                _context.restaurantOwners.Add(owner);
+                return _context.restaurantOwners
+                       .Where(x => x.cus_id == cusId)
+                       .ToList();
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Error finding Blog: {e.Message}");
+            }
+        }
+
+        // Save a new RestaurantOwner
+        public void SaveRestaurantOwner(RestaurantOwner restaurantOwner)
+        {
+            try
+            {
+                _context.restaurantOwners.Add(restaurantOwner);
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
-                throw new Exception($"Error saving restaurant owner: {e.Message}");
+                throw new Exception($"Error saving Blog: {e.Message}");
             }
         }
 
-        // Update restaurant owner details
-        public void UpdateRestaurantOwner(RestaurantOwner owner)
+        // Update RestaurantOwner details
+        public void UpdateRestaurantOwner(RestaurantOwner restaurantOwner)
         {
             try
             {
-                _context.Entry(owner).State = EntityState.Modified;
+                _context.Entry(restaurantOwner).State = EntityState.Modified;
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
-                throw new Exception($"Error updating restaurant owner: {e.Message}");
+                throw new Exception($"Error updating Blog: {e.Message}");
             }
         }
 
-        // Delete restaurant owner by ID
+        // Delete RestaurantOwner by ID
         public void DeleteRestaurantOwner(int id)
         {
             try
             {
-                var owner = _context.restaurantOwners.SingleOrDefault(x => x.resOwner_id == id);
-                if (owner != null)
+                var restaurantOwner = _context.blogs.SingleOrDefault(x => x.resOwner_id == id);
+                if (restaurantOwner != null)
                 {
-                    _context.restaurantOwners.Remove(owner);
+                    _context.blogs.Remove(restaurantOwner);
                     _context.SaveChanges();
                 }
             }
             catch (Exception e)
             {
-                throw new Exception($"Error deleting restaurant owner: {e.Message}");
+                throw new Exception($"Error deleting Blog: {e.Message}");
             }
         }
+        
     }
 }

@@ -61,8 +61,7 @@ namespace DineGO_Api.Controllers
             if (user == null || !_hashService.VerifyPassword(loginRequest.Password, user.cus_password))
                 return BadRequest("Invalid username or password.");
             var token = _tokenService.GenerateToken(loginRequest.Username);
-            var cus_id = user.cus_id;
-            return Ok(new { Token = token , Cus_id = cus_id});
+            return Ok(new { token = token , cus_id = user.cus_id, cus_name = user.cus_name});
         }
 
         [Authorize]

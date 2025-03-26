@@ -1,59 +1,58 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using DineGO_Api.Model;
+using DineGO_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace DineGO_Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class RestaurantOwnerController : ControllerBase
+    public class RestaurantOwnerController : Controller
     {
         private readonly IRestaurantOwnerRepository _restaurantOwnerRepository;
-
-        public RestaurantOwnerController(IRestaurantOwnerRepository restaurantOwnerRepository)
+        public RestaurantOwnerController(IRestaurantOwnerRepository restaurantOwnerRepository )
         {
             _restaurantOwnerRepository = restaurantOwnerRepository;
         }
-
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
         }
-
-        [HttpGet("{id}")]
-        public IActionResult GetOne(int id)
+        [HttpGet("id")]
+        public IActionResult GetOne(int Id)
         {
-            var owner = _restaurantOwnerRepository.FindRestaurantOwnerById(id);
-            if (owner == null)
-                return NotFound($"Restaurant Owner with ID {id} not found");
-            return Ok(owner);
+            return Ok(_restaurantOwnerRepository.FindRestaurantOwnerById(Id));
+        }
+        [HttpGet("cusId")]
+        public IActionResult GetRestaurantOwnerByCusId(int Id)
+        {
+            return Ok(_restaurantOwnerRepository.FindRestaurantOwnersByCusId(Id));
         }
 
         [HttpPost]
-        public IActionResult AddRestaurantOwner(RestaurantOwner owner)
+        public IActionResult Addblog(RestaurantOwner restaurantOwner)
         {
-            _restaurantOwnerRepository.SaveRestaurantOwner(owner);
-            return CreatedAtAction(nameof(GetOne), new { id = owner.resOwner_id }, owner);
+            _restaurantOwnerRepository.SaveRestaurantOwner(restaurantOwner);
+            return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
         }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateRestaurantOwner(int id, RestaurantOwner owner)
+        [HttpPut]
+        public IActionResult Updateblog(RestaurantOwner restaurantOwner)
         {
-            if (id != owner.resOwner_id)
-                return BadRequest("Restaurant Owner ID mismatch");
-
-            _restaurantOwnerRepository.UpdateRestaurantOwner(owner);
-            return Ok(new { message = "RestaurantOwner updated successfully" });
+            _restaurantOwnerRepository.UpdateRestaurantOwner(restaurantOwner);
+            return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
         }
-
-        [HttpDelete("{id}")]
-        public IActionResult DeleteRestaurantOwner(int id)
+        [HttpDelete]
+        public IActionResult Deleteblog(int Id)
         {
-            _restaurantOwnerRepository.DeleteRestaurantOwner(id);
+            _restaurantOwnerRepository.DeleteRestaurantOwner(Id);
             return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
         }
     }

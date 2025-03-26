@@ -82,7 +82,8 @@ namespace DineGO_Api
             services.AddScoped<CustomerDAO>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMailSenderRepository, MailSenderRepository>();
-
+            services.AddScoped<RestaurantOwnerDAO>();  
+            services.AddScoped<IRestaurantOwnerRepository, RestaurantOwnerRepository>();
             services.AddScoped<ReservationDAO>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<IRestaurantOwnerRepository, RestaurantOwnerRepository>();
