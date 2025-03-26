@@ -1,0 +1,44 @@
+@model List<DineGO_Client.Model.RestaurantOwner>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "../../Views/Shared/_Layout.cshtml";
+}
+
+<h2>Quản lí chủ nhà hàng</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>ID Khách hàng</th>
+            <th>Tên</th>
+            <th>Ngày tạo</th>
+            <th>Được xác thực</th>
+            <th>Sửa/Xóa</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var owner in Model)
+        {
+            <tr>
+                <td>@owner.resOwner_id</td>
+                <td>@owner.cus_id</td>
+                <td>@owner.resOwner_name</td>
+                <td>@owner.resOwner_createdDate.ToString("yyyy-MM-dd")</td>
+                <td>@(owner.resOwner_isAuthorize ? "Yes" : "No")</td>
+                <td>
+                    <a href="@Url.Action("Edit", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
+                        class="btn btn-primary">Sửa</a>
+                    <a href="@Url.Action("Delete", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
+                        class="btn btn-danger">Xóa</a>
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "RestaurantOwner", new { area = "Admin" })" class="btn btn-primary">Thêm chủ nhà hàng
+    mới</a>
