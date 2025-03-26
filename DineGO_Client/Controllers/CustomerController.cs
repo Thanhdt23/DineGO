@@ -124,11 +124,5 @@ namespace DineGO_Client.Controllers
 
             return View(response ?? new List<Payment>());
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
-        }
     }
 }

@@ -54,9 +54,9 @@ namespace DineGO_Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string name, string username, string password, string email, string phone)
+        public async Task<IActionResult> Register(string cus_name, string cus_username, string cus_password, string cus_email, string cus_phone)
         {
-            var registerData = new { Username = username, Password = password, Name = name, Email = email, Phone = phone };
+            var registerData = new { Username = cus_username, Password = cus_password, Name = cus_name, Email = cus_email, Phone = cus_phone };
             var response = await _apiService.PostAsync<RegisterResponse, dynamic>("auth/register", registerData);
 
             if (response != null && response.Message == "User registered successfully.")

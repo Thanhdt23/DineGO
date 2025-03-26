@@ -1,3 +1,4 @@
+@model DineGO_Client.Model.Customer
 @{
     ViewData["Title"] = "Register Page";
 }
@@ -8,26 +9,48 @@
             <h4 class="text-center">ĐĂNG KÝ THÀNH VIÊN DINEGO</h4>
             <form asp-controller="Auth" asp-action="Register" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="name" name="name" required placeholder="*Họ và tên" />
+                    <input asp-for="cus_name" class="form-control" placeholder="*Họ và tên" />
+                    <span class="text-danger" asp-validation-for="cus_name"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="text" class="form-control" id="username" name="username" required
-                        placeholder="*Tài khoản" />
+                    <input asp-for="cus_username" class="form-control" placeholder="*Tài khoản" />
+                    <span class="text-danger" asp-validation-for="cus_username"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="password" class="form-control" id="password" name="password" required
-                        placeholder="*Mật khẩu" />
+                    <input asp-for="cus_password" type="password" class="form-control" placeholder="*Mật khẩu" />
+                    <span class="text-danger" asp-validation-for="cus_password"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                    <input asp-for="confirm_password" type="password" class="form-control"
                         placeholder="*Xác nhận mật khẩu" />
+                    <span class="text-danger" asp-validation-for="confirm_password"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="text" class="form-control" id="email" name="email" required placeholder="*Email" />
+                    <input asp-for="cus_email" class="form-control" placeholder="*Email" />
+                    <span class="text-danger" asp-validation-for="cus_email"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="text" class="form-control" id="phone" name="phone" required
-                        placeholder="*Só điện thoại" />
+                    <input asp-for="cus_phone" class="form-control" placeholder="*Số điện thoại" />
+                    <span class="text-danger" asp-validation-for="cus_phone"></span>
+                </div>
+
+                <div class="form-group">
+                    <input asp-for="cus_birthday" type="date" class="form-control" placeholder="*Ngày sinh" />
+                    <span class="text-danger" asp-validation-for="cus_birthday"></span>
+                </div>
+
+                <div class="form-group">
+                    <select asp-for="cus_gender" class="form-control">
+                        <option value="">*Chọn giới tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="cus_gender"></span>
                 </div>
 
                 <div style="display: flex;">
@@ -35,6 +58,7 @@
                     <label class="form-check-label" for="terms">Tôi đồng ý với <a href="#">điều khoản và điều
                             kiện</a></label>
                 </div>
+
                 <p class="text-danger">@ViewBag.Error</p>
                 <button type="submit" class="btn btn-primary">Đăng ký</button>
 

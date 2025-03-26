@@ -42,19 +42,21 @@
                                     @foreach (var restaurantOwner in Model.RestaurantOwners)
                                     {
                                         var displayName = restaurantOwner.resOwner_name;
-                                        if(!string.IsNullOrEmpty(displayName) && displayName.Length > 10)
+                                        if (!string.IsNullOrEmpty(displayName) && displayName.Length > 10)
                                         {
                                             displayName = displayName.Substring(0, 10) + "...";
                                         }
                                         <div class="menu-item">
-                                            <a href="@Url.Action("Index", "RestaurantOwner", new { Id = restaurantOwner.resOwner_id })" style="text-decoration:none; color:inherit;">
+                                            <a href="@Url.Action("Profile", "RestaurantOwner", new { Id = restaurantOwner.resOwner_id })"
+                                                style="text-decoration:none; color:inherit;">
                                                 <i class="fas fa-user"></i> @displayName
                                                 <i class="fas fa-sign-out-alt"></i>
                                             </a>
                                         </div>
                                     }
                                     <div class="menu-item open-dynamic-modal" data-title="Nhập thông tin chủ nhà hàng"
-                                        data-fields="Name" data-action="Create" data-controller="RestaurantOwner" data-method="POST">
+                                        data-fields="Name" data-action="Create" data-controller="RestaurantOwner"
+                                        data-method="POST">
                                         <i class="fas fa-plus"></i> Create
                                     </div>
                                 </div>
@@ -63,9 +65,11 @@
                         <hr>
                         <div class="menu-item" onclick="location.href='@Url.Action("Profile", "Customer")'">Profile
                         </div>
-                        <div class="menu-item" onclick="location.href='@Url.Action("OderHistory", "Customer")'">Order History
+                        <div class="menu-item" onclick="location.href='@Url.Action("OderHistory", "Customer")'">Order
+                            History
                         </div>
-                        <div class="menu-item" onclick="location.href='@Url.Action("PaymentHistory", "Customer")'">Payment History</div>
+                        <div class="menu-item" onclick="location.href='@Url.Action("PaymentHistory", "Customer")'">
+                            Payment History</div>
                         <div class="menu-item">Settings</div>
                         <div class="menu-item" onclick="location.href='@Url.Action("Logout", "Auth")'">Logout</div>
                     </div>

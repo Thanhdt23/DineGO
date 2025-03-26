@@ -11,7 +11,7 @@ namespace DineGO_Api.Model
     {
         [Key]
         public int res_id { get; set; }
-        [Required]
+
         public int cate_id { get; set; } 
         [Required]
         public int resOwner_id { get; set; } 
