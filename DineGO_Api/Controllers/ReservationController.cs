@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DineGO_Api.Model;
 using DineGO_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineGO_Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReservationController : ControllerBase
