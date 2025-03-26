@@ -1,42 +1,59 @@
-<body>
-    <div class="container">
-        <div class="booking-container">
-            <h3 class="text-center">Đặt chỗ đến @Model.Restaurant.res_name</h3>
-            
-            <div class="row">
-                <div class="col-md-8">
-                    <h5>Thông tin người đặt</h5>
-                    <form>
-                        <div class="mb-3">
-                            <label class="form-label">Tên liên lạc *</label>
-                            <input type="text" class="form-control" value="@Model.Customer.cus_name" disabled>
+@{
+    ViewData["Title"] = "Booking";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+<div class="container">
+    <div class="booking-container">
+        <h3 class="text-center">Đặt chỗ đến @Model.Restaurant.res_name</h3>
+
+        <div class="row">
+            <!-- Form Đặt Chỗ -->
+            <div class="col-md">
+                <h5>Thông tin người đặt</h5>
+                <form id="reservationForm" action="/Reservation/CreateReservation" method="post">
+                    <input type="hidden" name="res_id" value="@Model.Restaurant.res_id">
+                    <div class="col-md">
+                        <div class="booking-container p-3 border rounded shadow bg-white">
+                            <h5 class="fw-bold text-center">Đặt chỗ <span class="text-muted">(Để có chỗ trước khi
+                                    đến)</span></h5>
+                            <!-- Chọn số lượng -->
+                            <div class="mb-3">
+                                <label class="fw-bold"><i class="fas fa-user"></i> Người lớn:</label>
+                                <select class="form-select" name="reser_quantity">
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5+</option>
+                                </select>
+                            </div>
+                            <!-- Chọn ngày và giờ -->
+                            <div class="mb-3">
+                                <label class="fw-bold"><i class="fas fa-clock"></i> Thời gian đến</label>
+                                <div class="d-flex">
+                                    <input type="date" class="form-control me-2" name="reser_date_date" required>
+                                    <input type="time" class="form-control" name="reser_date_time" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control" name="reser_note" placeholder="Nhập ghi chú"></textarea>
+                            </div>
+                            <p class="text-danger text-center fw-bold">Đặt bàn giữ chỗ</p>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Số điện thoại *</label>
-                            <input type="text" class="form-control" value="@Model.Customer.cus_phone" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" class="form-control" value="@Model.Customer.cus_email" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" placeholder="Nhập ghi chú"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-danger w-100">Tiếp tục</button>
-                    </form>
-                </div>
-                <div class="col-md-4">
-                    <h5>Thông tin đặt chỗ</h5>
-                    <div class="p-3 border rounded bg-light">
-                        <p><strong>@Model.Restaurant.res_name</strong></p>
-                        <p>2 người lớn</p>
-                        <p>Chủ nhật, ngày 09/03/2025 18:00</p>
-                        <button class="btn btn-outline-danger w-100">Chỉnh sửa</button>
                     </div>
-                </div>
+                    <hr>
+                    <button type="submit" class="btn btn-danger w-100">Xác nhận đặt chỗ</button>
+                </form>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>

@@ -28,14 +28,15 @@
                     <div class="sidebar">
                         <h3 class="text-center">Dashboard</h3>
                         <hr>
-                        <div class="menu-item" onclick="location.href='@Url.Action("Profile", "Customer")'">Profile</div>
-                        <div class="menu-item" onclick="location.href='@Url.Action("Login", "Auth")'">Order History</div>
+                        <div class="menu-item" onclick="location.href='@Url.Action("Profile", "Customer")'">Profile
+                        </div>
+                        <div class="menu-item" onclick="location.href='@Url.Action("Login", "Auth")'">Order History
+                        </div>
                         <div class="menu-item">Payment History</div>
                         <div class="menu-item">Settings</div>
                         <div class="menu-item" onclick="location.href='@Url.Action("Logout", "Auth")'">Logout</div>
                     </div>
                 </div>
-
                 @RenderBody()
             </div>
         </div>
