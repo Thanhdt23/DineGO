@@ -1,7 +1,7 @@
 <body>
     <div class="container">
         <div class="booking-container">
-            <h3 class="text-center">Đặt chỗ đến @Model.res_name</h3>
+            <h3 class="text-center">Đặt chỗ đến @Model.Restaurant.res_name</h3>
             
             <div class="row">
                 <div class="col-md-8">
@@ -9,15 +9,15 @@
                     <form>
                         <div class="mb-3">
                             <label class="form-label">Tên liên lạc *</label>
-                            <input type="text" class="form-control" value="Trần Minh Thắng" disabled>
+                            <input type="text" class="form-control" value="@Model.Customer.cus_name" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại *</label>
-                            <input type="text" class="form-control" value="+84362336362" disabled>
+                            <input type="text" class="form-control" value="@Model.Customer.cus_phone" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email *</label>
-                            <input type="email" class="form-control" value="minhthang32095@gmail.com" disabled>
+                            <input type="email" class="form-control" value="@Model.Customer.cus_email" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Ghi chú</label>
@@ -29,7 +29,7 @@
                 <div class="col-md-4">
                     <h5>Thông tin đặt chỗ</h5>
                     <div class="p-3 border rounded bg-light">
-                        <p><strong>@Model.res_name</strong></p>
+                        <p><strong>@Model.Restaurant.res_name</strong></p>
                         <p>2 người lớn</p>
                         <p>Chủ nhật, ngày 09/03/2025 18:00</p>
                         <button class="btn btn-outline-danger w-100">Chỉnh sửa</button>

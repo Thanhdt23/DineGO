@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http;
 
 <div class="header-wrapper container">
   <nav class="navbar navbar-expand-lg">
@@ -33,7 +33,7 @@
             {
               <span>👤 @cusId</span>
               <div class="profile-dropdown" id="profileMenu">
-                <a href="#">Thông tin tài khoản</a>
+                <a asp-controller="Customer" asp-action="Profile">Thông tin tài khoản</a>
                 <a href="#">Quản lý mật khẩu</a>
                 <a href="#">Lịch sử đặt chỗ</a>
                 <a class="logout-btn btn-danger" asp-controller="Auth" asp-action="Logout">Đăng xuất</a>
@@ -41,13 +41,12 @@
             }
             else
             {
-              <span class="guest-text" onclick="location.href='@Url.Action("Login", "Auth")'">👤 guest</span>
+              <span class="guest-text" onclick="location.href='@Url.Action("Login", "Auth")'">👤 Đăng nhập</span>
             }
           </div>
         </div>
       </div>
     </div>
-
 </nav>
 <form asp-controller="Restaurant" asp-action="Search" method="get" class="row g-2">
   <div class="col-12 col-md-1">
