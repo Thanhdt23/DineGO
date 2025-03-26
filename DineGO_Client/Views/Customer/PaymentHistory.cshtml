@@ -1,5 +1,4 @@
-@model List<DineGO_Client.Model.Payment>
-
+@model DineGO_Client.Models.Custom.CustomProfileViewModel
 @{
     Layout = "../../Views/Shared/_Profile.cshtml";
     ViewData["Title"] = "PaymentHistory";
@@ -10,41 +9,48 @@
     <div class="profile-container_form">
         <h3 class="text-center mb-4">Lịch sử thanh toán</h3>
 
-        @if (Model == null || !Model.Any())
+        @if (Model.Data.ContainsKey("Payments"))
         {
-            <div class="alert alert-info text-center">
-                Bạn chưa có giao dịch thanh toán nào.
-            </div>
+            var payments = Model.Data["Payments"] as List<DineGO_Client.Model.Payment>;
+
+            if (payments == null || !payments.Any())
+            {
+                <div class="alert alert-info text-center">Bạn chưa có giao dịch thanh toán nào.</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Mã giao dịch</th>
+                                <th>Ngày thanh toán</th>
+                                <th>Số tiền</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in payments)
+                            {
+                                <tr>
+                                    <td>@payment.pay_id</td>
+                                    <td>@payment.pay_createdDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@payment.pay_price.ToString("N0") VND</td>
+                                    <td>
+                                        <span class="badge @(payment.pay_status == "Success" ? "bg-success" : "bg-danger")">
+                                            @payment.pay_status
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
         else
         {
-            <div class="table-responsive">
-                <table class="table table-bordered text-center">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Mã giao dịch</th>
-                            <th>Ngày thanh toán</th>
-                            <th>Số tiền</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var payment in Model)
-                        {
-                            <tr>
-                                <td>@payment.pay_id</td>
-                                <td>@payment.pay_createdDate.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>@payment.pay_price.ToString("N0") VND</td>
-                                <td>
-                                    <span class="badge @(payment.pay_status == "Success" ? "bg-success" : "bg-danger")">
-                                        @payment.pay_status
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+            <div class="alert alert-info text-center">Bạn chưa có giao dịch thanh toán nào.</div>
         }
     </div>
-</div>  
+</div>
