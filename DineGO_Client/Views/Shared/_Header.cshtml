@@ -26,12 +26,13 @@
         </ul>
         @{
           var cusId = Context.Session.GetInt32("cus_id");
+          var cusName = Context.Session.GetString("cus_name"); 
         }
         <div class="profile-container" id="profileContainer">
           <div class="profile-name">
             @if (cusId.HasValue)
             {
-              <span>👤 @cusId</span>
+              <span>👤 @cusName</span>
               <div class="profile-dropdown" id="profileMenu">
                 <a asp-controller="Customer" asp-action="Profile">Thông tin tài khoản</a>
                 <a href="#">Quản lý mật khẩu</a>
