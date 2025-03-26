@@ -47,14 +47,14 @@ namespace DineGO_Api.Controllers
                 return BadRequest("Restaurant Owner ID mismatch");
 
             _restaurantOwnerRepository.UpdateRestaurantOwner(owner);
-            return NoContent();
+            return Ok(new { message = "RestaurantOwner updated successfully" });
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteRestaurantOwner(int id)
         {
             _restaurantOwnerRepository.DeleteRestaurantOwner(id);
-            return NoContent();
+            return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
         }
     }
 }

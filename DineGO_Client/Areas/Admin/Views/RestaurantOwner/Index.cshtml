@@ -4,17 +4,17 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
 }
 
-<h2>Restaurant Owners</h2>
+<h2>Quản lí chủ nhà hàng</h2>
 
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Customer ID</th>
-            <th>Name</th>
-            <th>Created Date</th>
-            <th>Authorized</th>
-            <th>Actions</th>
+            <th>ID Khách hàng</th>
+            <th>Tên</th>
+            <th>Ngày tạo</th>
+            <th>Được xác thực</th>
+            <th>Sửa/Xóa</th>
         </tr>
     </thead>
     <tbody>
@@ -27,14 +27,8 @@
                 <td>@owner.resOwner_createdDate.ToString("yyyy-MM-dd")</td>
                 <td>@(owner.resOwner_isAuthorize ? "Yes" : "No")</td>
                 <td>
-                    <a href="@Url.Action("Edit", new { id = owner.resOwner_id })">Edit</a>
-
-                    <form asp-action="Delete" method="post" style="display:inline;"
-                        onsubmit="return confirm('Are you sure you want to delete this owner?');">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="id" value="@owner.resOwner_id" />
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
+                    <a href="@Url.Action("Edit", new { id = owner.resOwner_id })" class="btn btn-primary">Sửa</a>
+                    <a href="@Url.Action("Delete", new { id = owner.resOwner_id })" class="btn btn-danger">Xóa</a>
 
 
                 </td>
@@ -43,4 +37,4 @@
     </tbody>
 </table>
 
-<a href="@Url.Action("Create")" class="btn btn-primary">Add New Owner</a>
+<a href="@Url.Action("Create")" class="btn btn-primary">Thêm chủ nhà hàng mới</a>

@@ -9,6 +9,7 @@ using DineGO_Client.Models;
 using DineGO_Client.Model;
 using Core.Services;
 using Core.Constant;
+using Newtonsoft.Json;
 
 namespace DineGO_Client.Areas.Admin.Controllers
 
@@ -45,12 +46,13 @@ namespace DineGO_Client.Areas.Admin.Controllers
             }
             return View(owner);
         }
+
         public async Task<IActionResult> Edit(int id)
-        {       
+        {
+
             try
             {
                 var response = await _apiService.GetAsync<RestaurantOwner>($"{ApiEndpoints.RESTAURANT_OWNER}/{id}");
-              _logger.LogInformation($"Response for ID {id}: {Newtonsoft.Json.JsonConvert.SerializeObject(response)}");
                 if (response == null)
                 {
                     _logger.LogError($"No RestaurantOwner found with ID: {id}");
@@ -67,29 +69,67 @@ namespace DineGO_Client.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(RestaurantOwner owner)
         {
-            if (ModelState.IsValid)
+
+            var updateData = new
             {
-                var response = await _apiService.PutAsync<RestaurantOwner, RestaurantOwner>(ApiEndpoints.RESTAURANT_OWNER, owner);
+                resOwner_id = owner.resOwner_id,
+                cus_id = owner.cus_id,
+                resOwner_name = owner.resOwner_name,
+                resOwner_createdDate = owner.resOwner_createdDate,
+                resOwner_isAuthorize = owner.resOwner_isAuthorize,
+            };
+            var jsonContent = JsonConvert.SerializeObject(updateData);
+
+            var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.RESTAURANT_OWNER}/{owner.resOwner_id}", updateData);
+
+            if (response != null)
+            {
+                TempData["SuccessMessage"] = "Cập nhật thành công!";
                 return RedirectToAction("Index");
             }
-            return View(owner);
+            else
+            {
+                TempData["ErrorMessage"] = "Cập nhật thất bại!";
+                return View(owner);
+            }
         }
 
-        [HttpPost]
+        // Add this to your RestaurantOwnerController.cs
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await _apiService.DeleteAsync<int>($"{ApiEndpoints.RESTAURANT_OWNER_BY_ID}{id}");
-                return RedirectToAction("Index");
+                var response = await _apiService.GetAsync<RestaurantOwner>($"{ApiEndpoints.RESTAURANT_OWNER}/{id}");
+                if (response == null)
+                {
+                    _logger.LogError($"No RestaurantOwner found with ID: {id}");
+                    return NotFound();
+                }
+                return View(response);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting restaurant owner with ID {id}: {ex.Message}");
+                _logger.LogError($"Error fetching RestaurantOwner with ID {id}: {ex.Message}");
                 return RedirectToAction("Index");
             }
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirm(int id)
+        {   
+            Console.WriteLine("aaaaaaaaa" + id);
+            try
+            {
+                var response = await _apiService.DeleteAsync<object>($"{ApiEndpoints.RESTAURANT_OWNER}/{id}");
+                TempData["SuccessMessage"] = "Xóa chủ nhà hàng thành công!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting RestaurantOwner with ID {id}: {ex.Message}");
+                TempData["ErrorMessage"] = "Xóa chủ nhà hàng thất bại!";
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

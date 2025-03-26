@@ -5,36 +5,35 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
 }
 
-<form asp-action="Edit" method="post">
-    @Html.AntiForgeryToken()
-    
+<form asp-action="Edit"  method="post">
+
     <div class="form-group">
-        <label asp-for="resOwner_id" class="control-label">ID</label>
-        <input asp-for="resOwner_id" class="form-control" readonly />
+            <label asp-for="resOwner_id" class="control-label">ID</label>
+        <input id="resOwner_id" type="readonly" name="resOwner_id" class="form-control" value="@Model.resOwner_id">
         <span asp-validation-for="resOwner_id" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="cus_id" class="control-label">Customer ID</label>
-        <input asp-for="cus_id" class="form-control" />
+        <input id="cus_id" name="cus_id" class="form-control" value="@Model.cus_id">
         <span asp-validation-for="cus_id" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="resOwner_name" class="control-label">Name</label>
-        <input asp-for="resOwner_name" class="form-control" />
+        <input id="resOwner_name" name="resOwner_name" class="form-control" value="@Model.resOwner_name" />
         <span asp-validation-for="resOwner_name" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="resOwner_createdDate" class="control-label">Created Date</label>
-        <input asp-for="resOwner_createdDate" class="form-control" type="date" />
+        <input id="resOwner_createdDate" name="resOwner_createdDate"  class="form-control" type="date" value="@Model.resOwner_createdDate" />
         <span asp-validation-for="resOwner_createdDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="resOwner_isAuthorize" class="control-label">Authorized</label>
-        <select asp-for="resOwner_isAuthorize" class="form-control">
+        <select id="resOwner_isAuthorize" name="resOwner_isAuthorize" class="form-control">
             <option value="true">Yes</option>
             <option value="false">No</option>
         </select>
@@ -43,6 +42,6 @@
 
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+          <a href="@Url.Action("Index")" class="btn btn-secondary">Hủy</a>
     </div>
 </form>
