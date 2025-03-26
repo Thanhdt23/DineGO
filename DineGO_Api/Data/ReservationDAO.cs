@@ -85,4 +85,31 @@ public class ReservationDAO
             throw new Exception($"Error deleting reservation: {e.Message}");
         }
     }
+
+    public List<object> GetResByCusId(int cus_id)
+    {
+        try
+        {
+            return _context.reservations
+                           .Include(r => r.restaurant)
+                           .Where(r => r.cus_id == cus_id)
+                           .Select(r => new
+                           {
+                               r.reser_id,
+                               r.cus_id,
+                               r.res_id,
+                               r.reser_date,
+                               r.reser_quantity,
+                               r.reser_status,
+                               r.reser_note,
+                               RestaurantName = r.restaurant != null ? r.restaurant.res_name : "Không có dữ liệu"
+                           })
+                           .ToList<object>();
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Error fetching reservations: {e.Message}");
+        }
+    }
+
 }

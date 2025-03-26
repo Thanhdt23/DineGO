@@ -34,7 +34,7 @@
                             @foreach (var reservation in reservations)
                             {
                                 <tr>
-                                    <td>@reservation.res_id</td>
+                                    <td>@reservation.restaurantName</td> <!-- Thay vì res_id, dùng restaurantName -->
                                     <td>@reservation.reser_date.ToString("dd/MM/yyyy HH:mm")</td>
                                     <td>@reservation.reser_quantity</td>
                                     <td>@reservation.reser_note</td>

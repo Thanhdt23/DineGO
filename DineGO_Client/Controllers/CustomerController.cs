@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using DineGO_Client.Models.Custom;
+using System.Text.Json;
 
 namespace DineGO_Client.Controllers
 {
@@ -110,11 +111,17 @@ namespace DineGO_Client.Controllers
         public async Task<IActionResult> OderHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
-            var reservations = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
+
+            var reservations = await _apiService.GetAsync<List<Reservation>>(
+                $"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}"
+            );
 
             var viewModel = await GetProfileViewModel(customerId, ("Reservations", reservations));
+
             return View(viewModel);
         }
+
+
 
         public async Task<IActionResult> PaymentHistory()
         {
