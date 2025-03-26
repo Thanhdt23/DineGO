@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Core.Constant;
 using Core.Services;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -26,9 +27,25 @@ namespace DineGO_Client.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Index(int id)
         {
-            var response = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
-            return View(response);
+            var restaurant = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
+            var cus_id = HttpContext.Session.GetInt32("cus_id");
+
+            if (cus_id == null)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
+
+            var viewModel = new BookingViewModel
+            {
+                Restaurant = restaurant,
+                Customer = customer
+            };
+
+            return View(viewModel);
         }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -37,4 +54,11 @@ namespace DineGO_Client.Controllers
             return View("Error!");
         }
     }
+
+    public class BookingViewModel
+    {
+        public Restaurant Restaurant { get; set; }
+        public Customer Customer { get; set; }
+    }
+
 }
