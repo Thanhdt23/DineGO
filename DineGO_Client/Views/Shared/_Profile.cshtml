@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model DineGO_Client.Models.Custom.CustomProfileViewModel
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="/common/lib/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="/common/lib/slider/owl.carousel.min.css" />
     <link rel="stylesheet" href="/common/lib/slider/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="/common/css/popup.css" />
     <link rel="stylesheet" href="/client/css/site.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
@@ -20,7 +22,7 @@
     <header>
         @Html.Partial("_Header")
     </header>
-
+    @Html.Partial("_PopupForm")
     <main role="main" class="pb-3">
         <div class="container mt-5">
             <div class="row container-profile">
@@ -29,19 +31,30 @@
                     <div class="sidebar">
                         <div class="profile-info" onclick="toggleDropdown()">
                             <div class="profile-avatar">
-                                <img src="@Model.cus_image" alt="Avatar">
+                                <img src="/client/images/@Model.Customer.cus_image" alt="Avatar">
                             </div>
-                            <h3 class="profile-username">@Model.cus_name</h3>
+                            <h3 class="profile-username">@Model.Customer.cus_name</h3>
                             <div class="profile-icon">
                                 <i class="fas fa-chevron-down dropdown-arrow">
                                 </i>
                                 <!-- Dropdown Menu -->
                                 <div class="list-profile-dropdown" id="profileDropdown">
-                                    <div class="menu-item">
-                                        <i class="fas fa-user"></i> Profile
-                                        <i class="fas fa-sign-out-alt"></i>
-                                    </div>
-                                    <div class="menu-item">
+                                    @foreach (var restaurantOwner in Model.RestaurantOwners)
+                                    {
+                                        var displayName = restaurantOwner.resOwner_name;
+                                        if(!string.IsNullOrEmpty(displayName) && displayName.Length > 10)
+                                        {
+                                            displayName = displayName.Substring(0, 10) + "...";
+                                        }
+                                        <div class="menu-item">
+                                            <a href="@Url.Action("Index", "RestaurantOwner", new { Id = restaurantOwner.resOwner_id })" style="text-decoration:none; color:inherit;">
+                                                <i class="fas fa-user"></i> @displayName
+                                                <i class="fas fa-sign-out-alt"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    <div class="menu-item open-dynamic-modal" data-title="Nhập thông tin chủ nhà hàng"
+                                        data-fields="Name" data-action="Create" data-controller="RestaurantOwner" data-method="POST">
                                         <i class="fas fa-plus"></i> Create
                                     </div>
                                 </div>
@@ -66,6 +79,7 @@
         @Html.Partial("_Footer")
     </footer>
 
+    <script src="/common/js/popup.js"></script>
     <script src="/common/lib/jquery/jquery-3.6.0.min.js"></script>
     <script src="/common/lib/bootstrap/bootstrap.min.js"></script>
     <script src="/common/lib/slider/owl.carousel.min.js"></script>

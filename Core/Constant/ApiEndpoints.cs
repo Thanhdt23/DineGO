@@ -53,5 +53,7 @@ namespace Core.Constant
         public const string RESTAURANT_SEARCH = "Restaurant/search?name={0}&address={1}";
 
         public const string RESERVATION ="reservation";
+        public const string RESTAURANT_OWNER ="RestaurantOwner";
+        public const string RESTAURANT_OWNER_BY_CUS_ID ="RestaurantOwner/cusId?Id={0}";
     }
 }

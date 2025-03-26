@@ -13,6 +13,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
+using DineGO_Client.Models.Custom;
 
 namespace DineGO_Client.Controllers
 {
@@ -36,7 +37,16 @@ namespace DineGO_Client.Controllers
         {
             var cus_id = HttpContext.Session.GetInt32("cus_id");
             var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
-            return View(customer);
+            // Giả sử bạn có endpoint cho restaurant owner, ví dụ:
+            string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, cus_id);
+            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
+            
+            var viewModel = new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = restaurantOwners
+            };
+            return View(viewModel);
         }
 
 
@@ -87,12 +97,14 @@ namespace DineGO_Client.Controllers
             if (response != null)
             {
                 TempData["SuccessMessage"] = "Cập nhật thành công!";
+                TempData.Keep("SuccessMessage");
             }
             else
             {
                 TempData["ErrorMessage"] = "Cập nhật thất bại!";
+                TempData.Keep("ErrorMessage");
             }
-            return View("Profile", customer);
+            return RedirectToAction("Profile", "Customer");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
