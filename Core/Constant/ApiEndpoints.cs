@@ -52,6 +52,6 @@ namespace Core.Constant
 
         public const string RESTAURANT_SEARCH = "Restaurant/search?name={0}&address={1}";
 
-
+        public const string RESERVATION ="reservation";
     }
 }
