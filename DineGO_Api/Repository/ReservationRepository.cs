@@ -18,10 +18,6 @@ namespace DineGO_Api.Repository
         public void SaveReservation(Reservation r) => _reservationDAO.SaveReservation(r);
         public void UpdateReservation(Reservation r) => _reservationDAO.UpdateReservation(r);
         public void DeleteReservation(int id) => _reservationDAO.DeleteReservation(id);
-
-        public List<Reservation> GetResByCusId(int id)
-        {
-            return GetReservations().Where(p => p.cus_id == id).ToList();
-        }
+        public List<Object> GetResByCusId(int id) => _reservationDAO.GetResByCusId(id);
     }
 }
