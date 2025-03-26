@@ -109,3 +109,19 @@ $(document).ready(function () {
   });
 
 //Profile_Header _ Thang _ End
+
+
+//Image_Profile _ Thang _ Start
+function previewImage(event) {
+    const profilePic = document.querySelector(".profile-pic");
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            profilePic.style.backgroundImage = `url(${e.target.result})`;
+            profilePic.textContent = "";
+        };
+        reader.readAsDataURL(file);
+    }
+}
+//Image_Profile _ Thang _ End

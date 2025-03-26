@@ -50,8 +50,10 @@ namespace DineGO_Api.Controllers
                 return BadRequest("Customer ID mismatch");
 
             _customerRepository.UpdateCustomer(customer);
-            return NoContent();
+
+            return Ok(new { message = "Customer updated successfully" }); // Trả về JSON thay vì NoContent()
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteCustomer(int id)

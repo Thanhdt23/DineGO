@@ -9,6 +9,7 @@ using Core.Services;
 using Microsoft.AspNetCore.Http;
 using Core.Common;
 using System.Text.Json;
+using System.Net.Http;
 namespace DineGO_Client.Controllers
 {
     public class AuthController : Controller
@@ -36,15 +37,19 @@ namespace DineGO_Client.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
-            var loginData = new { Username = username, Password = password };
-            var response = await _apiService.PostAsync<LoginResponse, dynamic>("auth/login", loginData);
-            if (response != null)
+            try
             {
+                var loginData = new { Username = username, Password = password };
+                var response = await _apiService.PostAsync<LoginResponse, dynamic>("auth/login", loginData);
                 HttpContext.Session.SetString("token", response.token);
                 HttpContext.Session.SetInt32("cus_id", response.cus_id);
+                return RedirectToAction("Index", "Home");
             }
-
-            return RedirectToAction("Index", "Home");
+            catch (HttpRequestException ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View("Login");
+            }
         }
 
         [HttpPost]

@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DineGO_Client</title>
+    <link rel="stylesheet" href="/common/lib/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="/common/lib/slider/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/common/lib/slider/owl.theme.default.min.css" />
+    <link rel="stylesheet" href="/client/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+</head>
+
+<body>
+
+    <header>
+        @Html.Partial("_Header")
+    </header>
+
+    <main role="main" class="pb-3">
+        <div class="container mt-5">
+            <div class="row container-profile">
+                <!-- Sidebar (Chiếm 4 cột) -->
+                <div class="col-md-4">
+                    <div class="sidebar">
+                        <h3 class="text-center">Dashboard</h3>
+                        <hr>
+                        <div class="menu-item" onclick="location.href='@Url.Action("Profile", "Customer")'">Profile</div>
+                        <div class="menu-item" onclick="location.href='@Url.Action("Login", "Auth")'">Order History</div>
+                        <div class="menu-item">Payment History</div>
+                        <div class="menu-item">Settings</div>
+                        <div class="menu-item" onclick="location.href='@Url.Action("Logout", "Auth")'">Logout</div>
+                    </div>
+                </div>
+
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        @Html.Partial("_Footer")
+    </footer>
+
+    <script src="/common/lib/jquery/jquery-3.6.0.min.js"></script>
+    <script src="/common/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="/common/lib/slider/owl.carousel.min.js"></script>
+    <script src="/client/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
