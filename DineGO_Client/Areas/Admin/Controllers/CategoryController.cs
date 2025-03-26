@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Constant;
 using Core.Services;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -24,6 +25,12 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+            {
+                // Redirect về page Login (giả sử controller Auth nằm bên Root area)
+                return RedirectToAction("Login", "Auth", new { area = "Admin" });
+            }
             var categories = await _apiService.GetAsync<List<Category>>(ApiEndpoints.CATEGORY);
             return View(categories);
         }
@@ -36,6 +43,7 @@ namespace DineGO_Client.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory(Category category)
         {
+            
             if (ModelState.IsValid)
             {
                 var addData = new

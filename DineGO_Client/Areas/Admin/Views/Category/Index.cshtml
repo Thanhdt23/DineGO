@@ -14,6 +14,9 @@
         </tr>
     </thead>
     <tbody>
+        <a href="@Url.Action("AddCategory", "Category")" class="btn btn-link btn-sm btn-rounded text-success">
+                        <i class="fas fa-plus"></i>
+                    </a>  
         @foreach (var category in Model)
         {
             <tr>
@@ -24,10 +27,7 @@
                 <td class="description">
                     @category.cate_description
                 </td>
-                <td> 
-                     <a href="@Url.Action("AddCategory", "Category", new { id = category.cate_id })" class="btn btn-link btn-sm btn-rounded text-success">
-                        <i class="fas fa-plus"></i>
-                    </a>                  
+                <td>            
                     <a href="@Url.Action("UpdateCategory", "Category", new { id = category.cate_id })" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-edit"></i>
                     </a>
@@ -37,5 +37,6 @@
                 </td>
             </tr>
         }
+
     </tbody>
 </table>

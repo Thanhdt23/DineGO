@@ -10,6 +10,7 @@ using DineGO_Client.Model;
 using Core.Services;
 using Core.Constant;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace DineGO_Client.Areas.Admin.Controllers
 
@@ -28,6 +29,12 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+            {
+                // Redirect về page Login (giả sử controller Auth nằm bên Root area)
+                return RedirectToAction("Login", "Auth", new { area = "Admin" });
+            }
             var response = await _apiService.GetAsync<List<RestaurantOwner>>(ApiEndpoints.RESTAURANT_OWNER);
             return View(response);
         }

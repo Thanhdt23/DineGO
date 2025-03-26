@@ -15,98 +15,38 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                <p class="fw-bold mb-1">1</p>
-            </td>
-            <td>
-                <span class="badge badge-success rounded-pill d-inline">Booked</span>
-            </td>
-            <td>
-                <p class="fw-bold mb-1">5</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">2021-06-01 12:00</p>
-            </td>
-
-            <td class="description">
-                People often think that eating at home is healthier. I completely agreed with this point of view until I
-                visited Rutass restaurant. When I started college, cooking took up a lot of my time. When the wonderful
-                time comes to go, I realized that Rutass is the best restaurant I have ever known.
-            </td>
-            <td>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p class="fw-bold mb-1">1</p>
-            </td>
-            <td>
-                <span class="badge badge-success rounded-pill d-inline">Booked</span>
-            </td>
-            <td>
-                <p class="fw-bold mb-1">5</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">2021-06-01 12:00</p>
-            </td>
-
-            <td class="description">
-                People often think that eating at home is healthier. I completely agreed with this point of view until I
-                visited Rutass restaurant. When I started college, cooking took up a lot of my time. When the wonderful
-                time comes to go, I realized that Rutass is the best restaurant I have ever known.
-            </td>
-            <td>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p class="fw-bold mb-1">1</p>
-            </td>
-            <td>
-                <span class="badge badge-warning rounded-pill d-inline">Empty</span>
-            </td>
-            <td>
-                <p class="fw-bold mb-1">5</p>
-            </td>
-            <td>
-                <p class="fw-normal mb-1">2021-06-01 12:00</p>
-            </td>
-
-            <td class="description">
-                People often think that eating at home is healthier. I completely agreed with this point of view until I
-                visited Rutass restaurant. When I started college, cooking took up a lot of my time. When the wonderful
-                time comes to go, I realized that Rutass is the best restaurant I have ever known.
-            </td>
-            <td>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        </tr>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>
+                    <p class="fw-bold mb-1">@reservation.reser_id</p>
+                </td>
+                <td>
+                    <span class="badge @(reservation.reser_status == "Booked" ? "badge-success" : "badge-warning") rounded-pill d-inline">
+                        @reservation.reser_status
+                    </span>
+                </td>
+                <td>
+                    <p class="fw-bold mb-1">@reservation.reser_quantity</p>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1">@reservation.reser_date.ToString("yyyy-MM-dd HH:mm")</p>
+                </td>
+                <td class="description">
+                    @reservation.reser_note
+                </td>
+                <td>
+                    <a href="@Url.Action("ViewReservation", "Reservation", new { id = reservation.reser_id })" class="btn btn-link btn-sm btn-rounded">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <a href="@Url.Action("EditReservation", "Reservation", new { id = reservation.reser_id })" class="btn btn-link btn-sm btn-rounded">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="@Url.Action("DeleteReservation", "Reservation", new { id = reservation.reser_id })" class="btn btn-link btn-sm btn-rounded">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
