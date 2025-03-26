@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineGO_Api.Controllers
-{
+{   
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -58,6 +58,15 @@ namespace DineGO_Api.Controllers
         {
             _reservationRepository.DeleteReservation(id);
             return NoContent();
+        }
+
+         [HttpGet("cus_id")]
+        public IActionResult GetByCustomer(int cus_id)
+        {
+            var reservations = _reservationRepository.GetResByCusId(cus_id);
+
+            return Ok(reservations ?? new List<Reservation>());
+
         }
     }
 }

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using DineGO_Api.Model;
 using DineGO_Api.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineGO_Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PaymentController : ControllerBase
@@ -52,12 +54,7 @@ namespace DineGO_Api.Controllers
         {
             var payments = _paymentRepositoy.GetByCusId(cus_id);
 
-            if (payments == null || !payments.Any())
-            {
-                return NotFound(new { message = "Không tìm thấy thanh toán nào!" });
-            }
-
-            return Ok(payments);
+            return Ok(payments ?? new List<Payment>());
 
         }
     }
