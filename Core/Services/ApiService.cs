@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Core.Common;
 using System.Text;
+using System;
 
 /// <summary>
 /// Represents the service for API configuration.
@@ -42,7 +43,13 @@ namespace Core.Services
         {
             // Retrieve the token from the session.
             // var token = _httpContextAccessor.HttpContext.Session.GetString("token");
-            var token = "Test";
+            // var token = HttpContext.Session.GetString("token");
+            string token = null;
+            if (_httpContextAccessor?.HttpContext?.Session != null &&
+                _httpContextAccessor.HttpContext.Session.TryGetValue("token", out byte[] tokenBytes))
+            {
+                token = Encoding.UTF8.GetString(tokenBytes);
+            }
             // Set the Authorization header with the token.
             if (!string.IsNullOrEmpty(token))
             {
@@ -51,7 +58,12 @@ namespace Core.Services
 
             // Construct the full URL using the base URL, domain, and endpoint.
             var response = await _httpClient.GetAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
-            
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
+                throw new UnauthorizedAccessException("Unauthorized");
+            }
             // Read the response content as a string.
             var responseData = await response.Content.ReadAsStringAsync();
 
@@ -86,6 +98,12 @@ namespace Core.Services
 
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}", content);
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
+                throw new UnauthorizedAccessException("Unauthorized");
+            }
             var responseData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
@@ -101,7 +119,12 @@ namespace Core.Services
         public async Task<T> PutAsync<T, TData>(string endpoint, TData data)
         {
             // var token = _httpContextAccessor.HttpContext.Session.GetString("token");
-            var token = "Test";
+            string token = null;
+            if (_httpContextAccessor?.HttpContext?.Session != null &&
+                _httpContextAccessor.HttpContext.Session.TryGetValue("token", out byte[] tokenBytes))
+            {
+                token = Encoding.UTF8.GetString(tokenBytes);
+            }
             if (!string.IsNullOrEmpty(token))
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -109,6 +132,41 @@ namespace Core.Services
 
             var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
             var response = await _httpClient.PutAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}", content);
+            // Kiểm tra nếu mã lỗi 401 (Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                // Xử lý theo nhu cầu: có thể throw exception, redirect hoặc refresh token...
+                throw new UnauthorizedAccessException("Unauthorized");
+            }
+            var responseData = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+        /// <summary>
+        /// Makes a DELETE request to the specified endpoint and deserializes the response to the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type to which the response should be deserialized.</typeparam>
+        /// <param name="endpoint">The API endpoint to call.</param>
+        /// <returns>A task representing the asynchronous operation, with a result of the specified type.</returns>
+        public async Task<T> DeleteAsync<T>(string endpoint)
+        {
+            string token = null;
+            if (_httpContextAccessor?.HttpContext?.Session != null &&
+                _httpContextAccessor.HttpContext.Session.TryGetValue("token", out byte[] tokenBytes))
+            {
+                token = Encoding.UTF8.GetString(tokenBytes);
+            }
+            if (!string.IsNullOrEmpty(token))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+
+            var response = await _httpClient.DeleteAsync($"{_apiSettings.BaseUrl}/{_apiSettings.ApiDomain}/{endpoint}");
+            
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                throw new UnauthorizedAccessException("Unauthorized");
+            }
+
             var responseData = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(responseData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }

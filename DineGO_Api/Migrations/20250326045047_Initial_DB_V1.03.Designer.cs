@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DineGO_Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250325095530_InitalDB_V1.03")]
-    partial class InitalDB_V103
+    [Migration("20250326045047_Initial_DB_V1.03")]
+    partial class Initial_DB_V103
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

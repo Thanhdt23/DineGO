@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Core.Common;
 using Core.Services;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
 namespace DineGO_Client
 {
     public class Startup
@@ -55,6 +56,25 @@ namespace DineGO_Client
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
+            app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    context.Response.Redirect("/Auth/Login");
+                }
+                catch (Exception ex)
+                {
+                    // Ghi log lỗi hoặc xử lý lỗi khác
+                    // Lưu exception vào TempData bằng cách sử dụng session
+                    context.Session.SetString("ErrorMessage", ex.Message);
+                    context.Response.Redirect("/Home/Error");
+                }
+            });
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             // Serve static files from wwwroot/admin
@@ -75,7 +95,7 @@ namespace DineGO_Client
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseSession();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
