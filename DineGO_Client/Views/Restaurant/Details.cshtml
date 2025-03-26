@@ -58,28 +58,6 @@
             <div class="booking-container p-3 border rounded shadow bg-white">
                 <h5 class="fw-bold text-center">Đặt chỗ <span class="text-muted">(Để có chỗ trước khi đến)</span></h5>
                 <p class="text-danger text-center fw-bold">Đặt bàn giữ chỗ</p>
-
-                <!-- Chọn số lượng người lớn -->
-                <div class="mb-3">
-                    <label class="fw-bold"><i class="fas fa-user"></i> Người lớn:</label>
-                    <select class="form-select">
-                        <option>1</option>
-                        <option selected>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5+</option>
-                    </select>
-                </div>
-
-                <!-- Chọn thời gian đến -->
-                <div class="mb-3">
-                    <label class="fw-bold"><i class="fas fa-clock"></i> Thời gian đến</label>
-                    <div class="d-flex">
-                        <input type="date" class="form-control me-2" id="dateInput">
-                        <input type="time" class="form-control" id="timeInput">
-                    </div>
-                </div>
-
                 <!-- Nút đặt chỗ -->
                 <a href="@Url.Action("Index", "Reservation", new { id = @Model.res_id })" class="btn btn-danger w-100 fw-bold">
                     Đặt chỗ ngay
