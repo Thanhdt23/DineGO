@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using DineGO_Client.Models.Custom;
+using DineGO_Client.Models;
 
 namespace DineGO_Client.Controllers
 {
@@ -145,6 +146,87 @@ namespace DineGO_Client.Controllers
             return viewModel;
         }
 
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var cus_id = HttpContext.Session.GetInt32("cus_id");
+            if (cus_id == null)
+            {
+                TempData["ErrorMessage"] = "Bạn chưa đăng nhập!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
+
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy tài khoản!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            var hashService = new HashService();
+
+            // Kiểm tra mật khẩu hiện tại
+            if (!hashService.VerifyPassword(model.CurrentPassword, customer.cus_password))
+            {
+                TempData["ErrorMessage"] = "Mật khẩu hiện tại không chính xác!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            if (model.NewPassword != model.ConfirmNewPassword)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới và xác nhận mật khẩu không khớp!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            // Hash mật khẩu mới
+            string hashedNewPassword = hashService.HashPassword(model.NewPassword);
+
+            // Cập nhật thông tin khách hàng với mật khẩu đã hash
+            var updateData = new
+            {
+                cus_id = customer.cus_id,
+                cus_username = customer.cus_username,
+                cus_password = hashedNewPassword,  // Cập nhật mật khẩu mới đã hash
+                cus_name = customer.cus_name,
+                cus_email = customer.cus_email,
+                cus_phone = customer.cus_phone,
+                cus_address = customer.cus_address,
+                cus_birthday = customer.cus_birthday,
+                cus_gender = customer.cus_gender,
+                cus_image = customer.cus_image,
+                cus_isKYI = customer.cus_isKYI
+            };
+
+            var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.CUSTOMER}/{cus_id}", updateData);
+
+            if (response != null)
+            {
+                TempData["SuccessMessage"] = "Đổi mật khẩu thành công!";
+                TempData.Keep("SuccessMessage");
+                return RedirectToAction("ChangePassword");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Đổi mật khẩu thất bại!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+        }
 
 
 
