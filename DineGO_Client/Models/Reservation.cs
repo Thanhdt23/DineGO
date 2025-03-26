@@ -26,6 +26,8 @@ namespace DineGO_Client.Model
 
         public string reser_note { get; set; }
 
+        public string restaurantName { get; set; } 
+
         [ForeignKey("cus_id")]
         public Customer customer { get; set; }
 

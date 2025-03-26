@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DineGO_Api.Controllers
-{   
-    [Authorize]
+{
+
     [ApiController]
     [Route("api/[controller]")]
     public class ReservationController : ControllerBase
@@ -60,13 +60,10 @@ namespace DineGO_Api.Controllers
             return NoContent();
         }
 
-         [HttpGet("cus_id")]
-        public IActionResult GetReservationByCustomer(int cus_id)
+        [HttpGet("cus_id")]
+        public IActionResult GetReservationsWithRestaurantName(int cus_id)
         {
-            var reservations = _reservationRepository.GetResByCusId(cus_id);
-
-            return Ok(reservations ?? new List<Reservation>());
-
+            return Ok(_reservationRepository.GetResByCusId(cus_id));
         }
     }
 }
