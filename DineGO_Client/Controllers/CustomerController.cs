@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using DineGO_Client.Models.Custom;
+using System.Text.Json;
 
 namespace DineGO_Client.Controllers
 {
@@ -40,7 +41,7 @@ namespace DineGO_Client.Controllers
             // Giả sử bạn có endpoint cho restaurant owner, ví dụ:
             string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, cus_id);
             var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
-            
+
             var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
@@ -111,19 +112,48 @@ namespace DineGO_Client.Controllers
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
 
-            var response = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
+            var reservations = await _apiService.GetAsync<List<Reservation>>(
+                $"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}"
+            );
 
-            return View(response ?? new List<Reservation>());
+            var viewModel = await GetProfileViewModel(customerId, ("Reservations", reservations));
+
+            return View(viewModel);
         }
+
+
 
         public async Task<IActionResult> PaymentHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+            var payments = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
 
-            var response = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
-
-            return View(response ?? new List<Payment>());
+            var viewModel = await GetProfileViewModel(customerId, ("Payments", payments));
+            return View(viewModel);
         }
+
+        private async Task<CustomProfileViewModel> GetProfileViewModel(int customerId, params (string key, object value)[] extraData)
+        {
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{customerId}");
+            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(
+                string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId)
+            );
+
+            var viewModel = new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = restaurantOwners
+            };
+
+            foreach (var (key, value) in extraData)
+            {
+                viewModel.Data[key] = value;
+            }
+            return viewModel;
+        }
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

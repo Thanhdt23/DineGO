@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Core.Common;
 using System.Text.Json;
 using System.Net.Http;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 namespace DineGO_Client.Controllers
 {
     public class AuthController : Controller
@@ -52,10 +54,35 @@ namespace DineGO_Client.Controllers
                 return View("Login");
             }
         }
-
         [HttpPost]
-        public async Task<IActionResult> Register(string name, string username, string password, string email, string phone)
+        public async Task<IActionResult> Register(string name, string username, string password, string confirmPassword, string email, string phone)
         {
+            // Kiểm tra lỗi validation trước khi gọi API
+            if (string.IsNullOrWhiteSpace(name))
+                ModelState.AddModelError("name", "Họ và tên không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(username))
+                ModelState.AddModelError("username", "Tài khoản không được để trống.");
+
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 3)
+                ModelState.AddModelError("password", "Mật khẩu phải có ít nhất 3 ký tự.");
+
+            if (password != confirmPassword)
+                ModelState.AddModelError("confirmPassword", "Xác nhận mật khẩu không khớp.");
+
+            if (string.IsNullOrWhiteSpace(email) || !new EmailAddressAttribute().IsValid(email))
+                ModelState.AddModelError("email", "Email không hợp lệ.");
+
+            if (string.IsNullOrWhiteSpace(phone) || !Regex.IsMatch(phone, @"^\d{10,11}$"))
+                ModelState.AddModelError("phone", "Số điện thoại không hợp lệ.");
+
+            // Nếu có lỗi validation, trả về lại View với thông báo lỗi
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            // Nếu hợp lệ, gọi API để đăng ký
             var registerData = new { Username = username, Password = password, Name = name, Email = email, Phone = phone };
             var response = await _apiService.PostAsync<RegisterResponse, dynamic>("auth/register", registerData);
 
@@ -68,6 +95,8 @@ namespace DineGO_Client.Controllers
             ViewBag.Error = "Username already exists.";
             return View();
         }
+
+
 
         public IActionResult Logout()
         {

@@ -11,5 +11,5 @@ public interface IReservationRepository
     void SaveReservation(Reservation reservation);
     void UpdateReservation(Reservation reservation);
     void DeleteReservation(int reservationId);
-    List<Reservation> GetResByCusId(int id); 
+    List<Object> GetResByCusId(int id); 
 }
