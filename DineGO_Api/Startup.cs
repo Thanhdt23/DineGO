@@ -73,19 +73,22 @@ namespace DineGO_Api
             services.AddHttpContextAccessor();
 
             //Add dependency here
-            services.AddScoped<RestaurantDAO>();  
+            services.AddScoped<RestaurantDAO>();
             services.AddScoped<IRestaurantRepository, RestaurantRepository>();
-            services.AddScoped<CategoryDAO>();  
+            services.AddScoped<CategoryDAO>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<BlogDAO>();  
+            services.AddScoped<BlogDAO>();
             services.AddScoped<IBlogRepositoy, BlogRepository>();
-            services.AddScoped<CustomerDAO>();  
+            services.AddScoped<CustomerDAO>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IMailSenderRepository, MailSenderRepository>();
             services.AddScoped<RestaurantOwnerDAO>();  
             services.AddScoped<IRestaurantOwnerRepository, RestaurantOwnerRepository>();
-            services.AddScoped<ReservationDAO>();  
+            services.AddScoped<ReservationDAO>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
+
+            services.AddScoped<PaymentDAO>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
