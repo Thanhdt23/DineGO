@@ -578,6 +578,7 @@ body {
   width: 180px;
   display: none;
   padding: 10px;
+  z-index: 999;
 }
 
 .profile-dropdown a {
