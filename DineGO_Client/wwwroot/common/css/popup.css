@@ -1,0 +1,81 @@
+/* Định dạng nền mờ cho modal */
+.modal.fade {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Định dạng modal content */
+.modal-content {
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    border: none;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Header của modal */
+.modal-header {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    color: white;
+    padding: 15px;
+    border-bottom: none;
+}
+
+.modal-title {
+    font-weight: bold;
+}
+
+.btn-close {
+    color: white;
+    opacity: 0.8;
+}
+
+.btn-close:hover {
+    opacity: 1;
+}
+
+/* Body của modal */
+.modal-body {
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+/* Input fields trong form */
+#formFields input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+#formFields input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+/* Nút Submit */
+button.btn-success {
+    width: 100%;
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+button.btn-success:hover {
+    background: linear-gradient(135deg, #45A049, #2E7D32);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Hiệu ứng fade-in cho modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
