@@ -107,6 +107,24 @@ namespace DineGO_Client.Controllers
             return View("Profile", customer);
         }
 
+        public async Task<IActionResult> OderHistory()
+        {
+            int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+
+            var response = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
+
+            return View(response ?? new List<Reservation>());
+        }
+
+        public async Task<IActionResult> PaymentHistory()
+        {
+            int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+
+            var response = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
+
+            return View(response ?? new List<Payment>());
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
