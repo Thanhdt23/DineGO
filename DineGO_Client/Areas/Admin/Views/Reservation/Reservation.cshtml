@@ -11,7 +11,7 @@
             <th>Quantity</th>
             <th>Date and Time</th>
             <th>Note</th>
-            <th>Actions</th>
+            @* <th>Actions</th> *@
         </tr>
     </thead>
     <tbody>
@@ -35,7 +35,7 @@
                 <td class="description">
                     @reservation.reser_note
                 </td>
-                <td>
+                @* <td>
                     <a href="@Url.Action("ViewReservation", "Reservation", new { id = reservation.reser_id })" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-plus"></i>
                     </a>
@@ -45,7 +45,7 @@
                     <a href="@Url.Action("DeleteReservation", "Reservation", new { id = reservation.reser_id })" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-trash"></i>
                     </a>
-                </td>
+                </td> *@
             </tr>
         }
     </tbody>

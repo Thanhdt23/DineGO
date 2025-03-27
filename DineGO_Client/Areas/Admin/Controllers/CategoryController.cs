@@ -98,9 +98,22 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult DeleteCategory()
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            return View();
+            // Giả sử API trả về đối tượng Category theo id
+            var category = await _apiService.GetAsync<Category>($"{ApiEndpoints.CATEGORY_BY_ID}{id}");
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(Category category)
+        {
+            bool isDeleted = await _apiService.DeleteAsync<dynamic>($"{ApiEndpoints.CATEGORY}/{category.cate_id}");
+            return RedirectToAction("Index");
         }
     }
 }

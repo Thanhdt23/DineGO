@@ -16,6 +16,7 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
 {
     [Area("Admin")]
+
     public class RestaurantOwnerController : Controller
     {
         private readonly ApiService _apiService;
@@ -102,41 +103,19 @@ namespace DineGO_Client.Areas.Admin.Controllers
         }
 
         // Add this to your RestaurantOwnerController.cs
+        [HttpGet("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                var response = await _apiService.GetAsync<RestaurantOwner>($"{ApiEndpoints.RESTAURANT_OWNER}/{id}");
-                if (response == null)
-                {
-                    _logger.LogError($"No RestaurantOwner found with ID: {id}");
-                    return NotFound();
-                }
-                return View(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error fetching RestaurantOwner with ID {id}: {ex.Message}");
-                return RedirectToAction("Index");
-            }
+            var response = await _apiService.GetAsync<RestaurantOwner>($"{ApiEndpoints.RESTAURANT_OWNER_BY_ID}{id}");
+            return View(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        public async Task<IActionResult> DeleteConfirm(int resOwner_id)
         {   
-            Console.WriteLine("aaaaaaaaa" + id);
-            try
-            {
-                var response = await _apiService.DeleteAsync<object>($"{ApiEndpoints.RESTAURANT_OWNER}/{id}");
-                TempData["SuccessMessage"] = "Xóa chủ nhà hàng thành công!";
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Error deleting RestaurantOwner with ID {id}: {ex.Message}");
-                TempData["ErrorMessage"] = "Xóa chủ nhà hàng thất bại!";
-                return RedirectToAction("Index");
-            }
+            var response = await _apiService.DeleteAsync<object>($"{ApiEndpoints.RESTAURANT_OWNER}?Id={resOwner_id}");
+            System.Console.WriteLine("response" + response);
+            return RedirectToAction("Index", "RestaurantOwner", new { area = "Admin" });
         }
     }
 }
