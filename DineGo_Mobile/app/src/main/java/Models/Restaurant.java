@@ -6,6 +6,8 @@ public class Restaurant {
     private String phone;
     private String type;
     private String imageUrl;
+    private String information;
+    private Double price;
 
     public Restaurant(String name, String address, String type, String imageUrl) {
         this.name = name;
@@ -14,10 +16,21 @@ public class Restaurant {
         this.imageUrl = imageUrl;
     }
 
+    public Restaurant(String name, String address, String type, String imageUrl, String information, Double price) {
+        this.name = name;
+        this.address = address;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.information = information;
+        this.price = price;
+    }
+
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getPhone() { return phone; }
     public String getType() { return type; }
     public String getImageUrl() { return imageUrl; }
+    public String getInformation() { return information; }
+    public Double getPrice() { return price; }
 }
 

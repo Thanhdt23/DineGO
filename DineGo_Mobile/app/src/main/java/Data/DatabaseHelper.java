@@ -21,7 +21,7 @@ import Models.Reservation;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.195"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
@@ -118,7 +118,7 @@ public class DatabaseHelper {
             List<Restaurant> restaurantList = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String query = "SELECT res_name, res_address, res_phone, res_images FROM restaurants";
+                    String query = "SELECT res_name, res_address, res_phone, res_images, res_information, res_price FROM restaurants";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
 
@@ -127,8 +127,10 @@ public class DatabaseHelper {
                         String address = rs.getString("res_address");
                         String phone = rs.getString("res_phone");
                         String image = rs.getString("res_images");
+                        String information = rs.getString("res_information");
+                        Double price = rs.getDouble("res_price");
 
-                        restaurantList.add(new Restaurant(name, address, phone, image));
+                        restaurantList.add(new Restaurant(name, address, phone, image, information, price));
                     }
                     rs.close();
                     stmt.close();

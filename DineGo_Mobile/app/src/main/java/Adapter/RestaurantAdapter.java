@@ -1,6 +1,7 @@
 package Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.dinego_mobile.R;
+import com.example.dinego_mobile.RestaurantDetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,35 +41,28 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Restaurant restaurant = restaurantList.get(position);
 
-        // Lấy ảnh đầu tiên từ chuỗi JSON
-        String imageListStr = restaurant.getImageUrl(); // VD: '["res1.jpeg", "res2.jpeg"]'
-        String firstImage = "";
+        String imageUrl = restaurant.getImageUrl();
 
-        if (imageListStr != null && !imageListStr.isEmpty()) {
-            try {
-                JSONArray jsonArray = new JSONArray(imageListStr);
-                if (jsonArray.length() > 0) {
-                    firstImage = jsonArray.getString(0); // Lấy ảnh đầu tiên
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // Nếu firstImage vẫn rỗng, đặt ảnh mặc định
-        String imageUrl;
-        if (!firstImage.isEmpty()) {
-            imageUrl = "E:/SE1707_Ky9/DineGo/DineGO/DineGO_Client/wwwroot/client/images/" + firstImage;
-        } else {
-            imageUrl = ""; // Hoặc đường dẫn ảnh mặc định
-        }
-
-        // Load ảnh bằng Glide
-        Glide.with(holder.itemView.getContext())
-                .load(imageUrl.isEmpty() ? R.drawable.dinego_logo : imageUrl)
+        Glide.with(context)
+                .load(imageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.dinego_logo) // Ảnh mặc định nếu lỗi
+                .error(R.drawable.dinego_logo)
                 .into(holder.imageView);
+
+        holder.nameTextView.setText(restaurant.getName());
+        holder.addressTextView.setText(restaurant.getAddress());
+        holder.typeTextView.setText(restaurant.getType());
+
+        // Bắt sự kiện nhấn vào nhà hàng
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), RestaurantDetailActivity.class);
+            intent.putExtra("restaurant_name", restaurant.getName());
+            intent.putExtra("restaurant_address", restaurant.getAddress());
+            intent.putExtra("restaurant_type", restaurant.getType());
+            intent.putExtra("restaurant_image", imageUrl);
+            intent.putExtra("restaurant_information", restaurant.getInformation());// Truyền đường dẫn ảnh
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
