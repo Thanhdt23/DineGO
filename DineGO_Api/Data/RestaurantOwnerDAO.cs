@@ -90,16 +90,16 @@ namespace DineGO_Api.Data
         {
             try
             {
-                var restaurantOwner = _context.blogs.SingleOrDefault(x => x.resOwner_id == id);
+                var restaurantOwner = _context.restaurantOwners.SingleOrDefault(x => x.resOwner_id == id);
                 if (restaurantOwner != null)
                 {
-                    _context.blogs.Remove(restaurantOwner);
+                    _context.restaurantOwners.Remove(restaurantOwner);
                     _context.SaveChanges();
                 }
             }
             catch (Exception e)
             {
-                throw new Exception($"Error deleting Blog: {e.Message}");
+                throw new Exception($"Error deleting restaurantOwner: {e.Message}");
             }
         }
         

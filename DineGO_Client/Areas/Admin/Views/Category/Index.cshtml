@@ -4,16 +4,19 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Category";
 }
-
+<h2>Quản lí danh mục</h2>
 <table class="table align-middle mb-0 bg-white shadow-lg">
     <thead class="bg-light">      
             <!-- Loại bỏ Category ID -->
-            <th>Type</th>
-            <th>Description</th>
-            <th>Actions</th>
+            <th>Loại</th>
+            <th>Mô tả</th>
+            <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
+        <a href="@Url.Action("AddCategory", "Category")" class="btn btn-link btn-sm btn-rounded text-success">
+                        <i class="fas fa-plus"></i>
+                    </a>  
         @foreach (var category in Model)
         {
             <tr>
@@ -24,10 +27,7 @@
                 <td class="description">
                     @category.cate_description
                 </td>
-                <td> 
-                     <a href="@Url.Action("AddCategory", "Category", new { id = category.cate_id })" class="btn btn-link btn-sm btn-rounded text-success">
-                        <i class="fas fa-plus"></i>
-                    </a>                  
+                <td>            
                     <a href="@Url.Action("UpdateCategory", "Category", new { id = category.cate_id })" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-edit"></i>
                     </a>
@@ -37,5 +37,6 @@
                 </td>
             </tr>
         }
+
     </tbody>
 </table>

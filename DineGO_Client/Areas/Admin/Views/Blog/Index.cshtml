@@ -4,15 +4,18 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Blog";
 }
-
+<h2>Quản lí bài viết</h2>
+@* <a href="@Url.Action("AddBlog", "Blog")" class="btn btn-link btn-sm btn-rounded text-success">
+    <i class="fas fa-plus"></i>
+</a> *@
 <table class="table align-middle mb-0 bg-white shadow-lg">
     <thead class="bg-light">
         <tr>
-            <th>Image</th>
-            <th>Blog ID</th>
-            <th>Date</th>
-            <th>Information</th>
-            <th>Actions</th>
+            <th>Hình ảnh</th>
+            <th>Mã Blog</th>
+            <th>Ngày</th>
+            <th>Thông tin</th>
+            <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
@@ -31,17 +34,14 @@
                 <td>
                     @blog.blog_information
                 </td>
-                <td>
-                       <a href="@Url.Action("AddBlog", "Blog", new { id = blog.blog_id })" class="btn btn-link btn-sm btn-rounded text-success">
-                        <i class="fas fa-plus"></i>
-                    </a>
+                @* <td>
                     <a href="@Url.Action("EditBlog", "Blog", new { id = blog.blog_id })" class="btn btn-link btn-sm btn-rounded">
                         <i class="fas fa-edit"></i>
                     </a>
                     <a href="@Url.Action("DeleteBlog", "Blog", new { id = blog.blog_id })" class="btn btn-link btn-sm btn-rounded text-danger">
                         <i class="fas fa-trash"></i>
                     </a>
-                </td>
+                </td> *@
             </tr>
         }
     </tbody>

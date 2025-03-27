@@ -1,18 +1,18 @@
 @{
-    ViewData["Title"] = "Add Category";
+    ViewData["Title"] = "Thêm Danh Mục";
     Layout = "../../Views/Shared/_Layout.cshtml";
 }
 
-<h2>Add New Category</h2>
+<h2>Thêm Danh Mục Mới</h2>
 
 <form asp-action="AddCategory" method="post">
     <div class="form-group">
-        <label for="cate_type">Category Type</label>
+        <label for="cate_type">Loại Danh Mục</label>
         <input type="text" id="cate_type" name="cate_type" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="cate_description">Description</label>
+        <label for="cate_description">Mô Tả</label>
         <textarea id="cate_description" name="cate_description" class="form-control" rows="3"></textarea>
     </div>
 

@@ -17,6 +17,7 @@ namespace Core.Constant
         /// Endpoint for category-related operations.
         /// </summary>
         public const string CATEGORY = "Category";
+        public const string CATEGORY_BY_ID = "Category/id?ID=";
 
         /// <summary>
         /// Endpoint for retrieving a product by its ID.

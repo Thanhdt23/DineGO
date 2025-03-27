@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Core.Constant;
 using Core.Services;
 using DineGO_Client.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -24,6 +25,12 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+            {
+                // Redirect về page Login (giả sử controller Auth nằm bên Root area)
+                return RedirectToAction("Login", "Auth", new { area = "Admin" });
+            }
             var categories = await _apiService.GetAsync<List<Category>>(ApiEndpoints.CATEGORY);
             return View(categories);
         }
@@ -36,6 +43,7 @@ namespace DineGO_Client.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory(Category category)
         {
+            
             if (ModelState.IsValid)
             {
                 var addData = new
@@ -90,9 +98,22 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult DeleteCategory()
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            return View();
+            // Giả sử API trả về đối tượng Category theo id
+            var category = await _apiService.GetAsync<Category>($"{ApiEndpoints.CATEGORY_BY_ID}{id}");
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteCategory(Category category)
+        {
+            var response = await _apiService.DeleteAsync<dynamic>($"{ApiEndpoints.CATEGORY}?Id={category.cate_id}");
+            return RedirectToAction("Index");
         }
     }
 }
