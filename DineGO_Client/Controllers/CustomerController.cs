@@ -153,10 +153,31 @@ namespace DineGO_Client.Controllers
             return viewModel;
         }
 
-        public IActionResult ChangePassword()
+        public async Task<IActionResult> ChangePassword()
         {
-            return View();
+            int? cus_id = HttpContext.Session.GetInt32("cus_id");
+            if (cus_id == null)
+            {
+                TempData["ErrorMessage"] = "Bạn chưa đăng nhập!";
+                return RedirectToAction("Login", "Auth");
+            }
+
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy tài khoản!";
+                return RedirectToAction("ChangePassword");
+            }
+
+            var viewModel = new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = new List<RestaurantOwner>()
+            };
+
+            return View(viewModel);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
