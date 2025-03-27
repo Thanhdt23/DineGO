@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DineGO_Api.Controllers
 {   
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ReservationController : ControllerBase
@@ -46,7 +45,7 @@ namespace DineGO_Api.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateReservation(int id, Reservation reservation)
         {
-            if (id != reservation.res_id)
+            if (id != reservation.reser_id)
                 return BadRequest("Reservation ID mismatch");
 
             _reservationRepository.UpdateReservation(reservation);
@@ -67,6 +66,14 @@ namespace DineGO_Api.Controllers
 
             return Ok(reservations ?? new List<Reservation>());
 
+        }
+
+        [HttpGet("res_id")]
+        public IActionResult GetReservationByRestaurant(int res_id)
+        {
+            var reservations = _reservationRepository.GetResByResId(res_id);
+
+            return Ok(reservations ?? new List<Reservation>());
         }
     }
 }

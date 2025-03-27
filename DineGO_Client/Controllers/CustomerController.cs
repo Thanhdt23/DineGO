@@ -41,12 +41,14 @@ namespace DineGO_Client.Controllers
             string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, cus_id);
             var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
             var restaurant = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
+            var reservation = await _apiService.GetAsync<List<Reservation>>(ApiEndpoints.RESERVATION);
 
             var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
                 RestaurantOwners = restaurantOwners,
-                Restaurant = restaurant
+                Restaurant = restaurant,
+                Reservation = reservation
             };
             return View(viewModel);
         }

@@ -11,5 +11,8 @@ namespace DineGO_Client.Models.Custom
         public Customer Customer { get; set; }
         public List<RestaurantOwner> RestaurantOwners { get; set; }
         public List<Restaurant> Restaurant { get; set; }
+        public List<Reservation> Reservation { get; set; }
+        public List<Reservation> ConfirmedOrRejectedReservations { get; set; }
+        public List<Reservation> PendingReservations { get; set; }
     }
 }

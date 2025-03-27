@@ -26,8 +26,24 @@ namespace DineGO_Client.Controllers
             _apiService = apiService;
         }
 
+        [HttpGet("ProfileRestaurant/{id}")] // Explicit route
         public async Task<IActionResult> ProfileRestaurant(int id)
         {
+            var reservation = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_RESID}{id}");
+
+            var confirmedOrRejectedReservations = reservation
+                .Where(r => r.reser_status == "Đã xác nhận" || r.reser_status == "Từ chối")
+                .ToList();
+
+            var pendingReservations = reservation
+                .Where(r => r.reser_status == "Chờ xử lý")
+                .ToList();
+            var viewModel = new CustomProfileViewModel
+            {
+                ConfirmedOrRejectedReservations = confirmedOrRejectedReservations,
+                PendingReservations = pendingReservations
+            };
+
             var response = await _apiService.GetAsync<Restaurant>($"{ApiEndpoints.RESTAURANT}/{id}");
 
             ViewBag.res_id = response.res_id;
@@ -42,10 +58,29 @@ namespace DineGO_Client.Controllers
             ViewBag.cate_id = response.cate_id;
             ViewBag.resOwner_id = response.resOwner_id;
 
-            return View();
+            return View(viewModel);
         }
 
-        [HttpPost]
+        [HttpPost("UpdateReservationStatus")] // Unique route
+        public async Task<IActionResult> UpdateReservationStatus(Reservation reservation)
+        {
+            var updateData = new
+            {
+                reser_id = reservation.reser_id,
+                cus_id = reservation.cus_id,
+                res_id = reservation.res_id,
+                reser_date = reservation.reser_date,
+                reser_quantity = reservation.reser_quantity,
+                reser_status = reservation.reser_status
+            };
+
+            System.Console.WriteLine(updateData.ToString());
+            var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.RESERVATION}/{reservation.reser_id}", updateData);
+
+            return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = HttpContext.Session.GetInt32("res_id") });
+        }
+
+        [HttpPost("UpdateProfileRestaurant")] // Unique route
         public async Task<IActionResult> UpdateProfileRestaurant(Restaurant restaurant)
         {
             var updateData = new
@@ -62,11 +97,8 @@ namespace DineGO_Client.Controllers
                 cate_id = restaurant.cate_id,
                 resOwner_id = restaurant.resOwner_id
             };
-            var jsonContent = JsonConvert.SerializeObject(updateData);
-            System.Console.WriteLine(jsonContent);
+
             var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.RESTAURANT}", updateData);
-            System.Console.WriteLine(response);
-            System.Console.WriteLine(response.ToString());
             var res_id = HttpContext.Session.GetInt32("res_id");
             if (response != null)
             {
@@ -104,7 +136,7 @@ namespace DineGO_Client.Controllers
 
             HttpContext.Session.SetInt32("resOwner_id", response.resOwner_id);
 
-            return RedirectToAction("Profile", "RestaurantOwner" ,new { id = response.resOwner_id});
+            return RedirectToAction("Profile", "RestaurantOwner", new { id = response.resOwner_id });
         }
 
         [HttpGet("Profile/{Id}")]
@@ -115,7 +147,7 @@ namespace DineGO_Client.Controllers
             {
                 resOwner_id = Id,
                 res_name = "New Restaurant",
-                cate_id = 2
+                cate_id = 1
             };
 
             var responseRestaurant = await _apiService.PostAsync<ResResponse, dynamic>($"{ApiEndpoints.RESTAURANT}", restaurant);
