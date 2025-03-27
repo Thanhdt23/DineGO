@@ -144,18 +144,25 @@ namespace DineGO_Client.Controllers
                 string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId)
             );
 
+            var restaurants = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
+            var reservations = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
+
             var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
-                RestaurantOwners = restaurantOwners
+                RestaurantOwners = restaurantOwners,
+                Restaurant = restaurants,
+                Reservation = reservations
             };
 
             foreach (var (key, value) in extraData)
             {
                 viewModel.Data[key] = value;
             }
+
             return viewModel;
         }
+
 
         public async Task<IActionResult> ChangePassword()
         {
