@@ -4,20 +4,20 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Customer";
 }
-
+<h2>Danh sách khách hàng</h2>
 <table class="table align-middle mb-0 bg-white shadow-lg">
     <thead class="bg-light">
         <tr>
-            <th>Image</th>
-            <th>Customer ID</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Name</th>
-            <th>Birthday</th>
-            <th>Gender</th>
-            <th>Phone</th>
+            <th>Hình ảnh</th>
+            <th>Đã xác thực?</th>
+            <th>Tên đăng nhập</th>
+            <th>Mật khẩu</th>
+            <th>Họ và tên</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Address</th>
+            <th>Địa chỉ</th>
             @* <th>Actions</th> *@
         </tr>
     </thead>
@@ -30,7 +30,18 @@
                         style="width: 50px; height: 50px; border-radius: 50%;">
                 </td>
                 <td>
-                    <p class="fw-bold mb-1">@customer.cus_id</p>
+                    @if (customer.cus_isKYI)
+                    {
+                        <a href="@Url.Action("BlockCustomer", "Customer", new { area = "Admin", id = customer.cus_id })" class="fw-bold mb-1 text-success">
+                            Đã Xác Thực
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("AuthorizeCustomer", "Customer", new { area = "Admin", id = customer.cus_id })" class="fw-bold mb-1 text-danger">
+                            Chưa Xác Thực
+                        </a>
+                    }
                 </td>
                 <td>
                     <p class="fw-normal mb-1">@customer.cus_username</p>

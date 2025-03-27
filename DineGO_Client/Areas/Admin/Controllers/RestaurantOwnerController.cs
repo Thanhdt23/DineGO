@@ -37,6 +37,11 @@ namespace DineGO_Client.Areas.Admin.Controllers
                 return RedirectToAction("Login", "Auth", new { area = "Admin" });
             }
             var response = await _apiService.GetAsync<List<RestaurantOwner>>(ApiEndpoints.RESTAURANT_OWNER);
+            foreach (var r in response)
+            {
+                var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{r.cus_id}");
+                r.customer = customer;
+            }
             return View(response);
         }
         public IActionResult Create()

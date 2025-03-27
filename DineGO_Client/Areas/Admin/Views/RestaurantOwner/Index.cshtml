@@ -5,16 +5,18 @@
 }
 
 <h2>Quản lí chủ nhà hàng</h2>
-
+@* <a href="@Url.Action("Add", "RestaurantOwner", new { area = "Admin" })" class="btn btn-link btn-sm btn-rounded text-success">
+                        <i class="fas fa-plus"></i>
+                    </a> *@
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
-            <th>ID Khách hàng</th>
-            <th>Tên</th>
+            <th>Khách hàng</th>
+            <th>Tên chủ nhà hàng</th>
             <th>Ngày tạo</th>
             <th>Được xác thực</th>
-            <th>Sửa/Xóa</th>
+            <th>Xác thực/Chặn</th>
         </tr>
     </thead>
     <tbody>
@@ -22,20 +24,26 @@
         {
             <tr>
                 <td>@owner.resOwner_id</td>
-                <td>@owner.cus_id</td>
+                <td>@owner.customer.cus_name</td>
                 <td>@owner.resOwner_name</td>
                 <td>@owner.resOwner_createdDate.ToString("yyyy-MM-dd")</td>
                 <td>@(owner.resOwner_isAuthorize ? "Yes" : "No")</td>
+                
                 <td>
-                    <a href="@Url.Action("Edit", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
-                        class="btn btn-primary">Sửa</a>
-                    <a href="@Url.Action("Delete", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })"
-                        class="btn btn-danger">Xóa</a>
+                    @if(owner.resOwner_isAuthorize)
+                    {
+                        <a href="@Url.Action("Block", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })" class="btn btn-link btn-sm btn-rounded text-warning">
+                            Chặn
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Authorize", "RestaurantOwner", new { area = "Admin", id = owner.resOwner_id })" class="btn btn-link btn-sm btn-rounded text-success">
+                            Xác thực
+                        </a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<a href="@Url.Action("Create", "RestaurantOwner", new { area = "Admin" })" class="btn btn-primary">Thêm chủ nhà hàng
-    mới</a>

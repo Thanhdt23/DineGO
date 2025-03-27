@@ -15,14 +15,14 @@
 <body class="body-login">
     <div class="login-container text-center">
         <img src="\client\images\logo.jpg" alt="Logo">
-        <h1>Account Login</h1>
+        <h1>Trang Quản Trị</h1>
         <form asp-controller="Auth" asp-action="Login" method="post">
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="text" id="username" name="username" class="form-control" required placeholder="Username">
+                    <input type="text" id="username" name="username" class="form-control" required placeholder="Tài Khoản">
                 </div>
             </div>
             <div class="form-group">
@@ -30,7 +30,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-lock"></i></span>
                     </div>
-                    <input type="password" id="password" name="password" class="form-control" required placeholder="Password">
+                    <input type="password" id="password" name="password" class="form-control" required placeholder="Mật Khẩu">
                 </div>
             </div>
             <button type="submit" class="btn btn-login btn-block text-white">Login</button>

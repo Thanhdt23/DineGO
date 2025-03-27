@@ -25,6 +25,12 @@ namespace DineGO_Client.Areas.Admin.Controllers
                 return RedirectToAction("Login", "Auth", new { area = "Admin" });
             }
             var restaurants = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
+            foreach (var r in restaurants)
+            {
+                // Ví dụ: nếu ApiEndpoints.CATEGORY_BY_ID không có dấu '/' cuối, hãy cẩn thận với url.
+                var category = await _apiService.GetAsync<Category>($"{ApiEndpoints.CATEGORY_BY_ID}{r.cate_id}");
+                r.category = category;
+            }
             return View(restaurants);
         }
         [HttpGet]

@@ -112,7 +112,7 @@ namespace DineGO_Client.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCategory(Category category)
         {
-            bool isDeleted = await _apiService.DeleteAsync<dynamic>($"{ApiEndpoints.CATEGORY}/{category.cate_id}");
+            var response = await _apiService.DeleteAsync<dynamic>($"{ApiEndpoints.CATEGORY}?Id={category.cate_id}");
             return RedirectToAction("Index");
         }
     }

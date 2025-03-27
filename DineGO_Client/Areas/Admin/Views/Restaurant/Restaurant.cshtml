@@ -2,18 +2,19 @@
     Layout = "../../Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Restaurant";
 }
+<h2>Quản lí nhà hàng</h2>
 <table class="table align-middle mb-0 bg-white shadow-lg">
     <thead class="bg-light">
         <tr>
-            <th>Image</th>
-            <th>Restaurant ID</th>
-            <th>Information</th>
-            <th>Address</th>
-            <th>Price</th>
-            <th>Discount</th>
-            <th>Phone</th>
-            <th>Rate</th>
-            <th>Category</th>
+            <th>Hình ảnh</th>
+            <th>ID Nhà hàng</th>
+            <th>Thông tin</th>
+            <th>Địa chỉ</th>
+            <th>Giá</th>
+            <th>Giảm giá</th>
+            <th>Số điện thoại</th>
+            <th>Đánh giá</th>
+            <th>Danh mục</th>
             @* <th>Owner</th>
             <th>Actions</th> *@
         </tr>
@@ -33,7 +34,7 @@
                 <td>@restaurant.res_discount%</td>
                 <td>@restaurant.res_phone</td>
                 <td>@restaurant.res_rate</td>
-                <td>@restaurant.category</td>
+                <td>@restaurant.category.cate_type</td>
             </tr>
         }
     </tbody>

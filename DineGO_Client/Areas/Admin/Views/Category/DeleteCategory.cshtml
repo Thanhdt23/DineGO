@@ -1,6 +1,6 @@
 @{
     Layout = "../../Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Delete Category";
+    ViewData["Title"] = "Xóa Danh Mục";
 }
 
 <div class="container mt-4">
@@ -10,23 +10,23 @@
         <input type="hidden" name="cate_id" value="@Model.cate_id" />
 
         <div class="mb-3">
-            <label class="form-label">Category ID</label>
+            <label class="form-label">Mã Danh Mục</label>
             <input type="text" class="form-control" value="@Model.cate_id" readonly>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Category Type</label>
+            <label class="form-label">Loại Danh Mục</label>
             <input type="text" class="form-control" value="@Model.cate_type" readonly>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Description</label>
+            <label class="form-label">Mô Tả</label>
             <textarea class="form-control" rows="3" readonly>@Model.cate_description</textarea>
         </div>
 
         <div class="d-flex justify-content-between mt-4">
-            <button type="submit" class="btn btn-danger">Delete Category</button>
-            <a asp-action="Index" asp-controller="Category" asp-area="Admin" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-danger">Xóa Danh Mục</button>
+           <a href="@Url.Action("Index")" class="btn btn-secondary">Quay lại</a>
         </div>
     </form>
 
