@@ -578,6 +578,7 @@ body {
   width: 180px;
   display: none;
   padding: 10px;
+  z-index: 999;
 }
 
 .profile-dropdown a {
@@ -758,3 +759,9 @@ body {
 /* Add Css - Phuonghh - End */
 
 /*Profile - Start - Thang */
+/*Register - Start - Khoi */
+.register-form-group {
+  display: block;
+}
+
+/*Register - End - Khoi */

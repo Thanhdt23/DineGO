@@ -8,50 +8,39 @@
         <div class="register-block">
             <h4 class="text-center">ĐĂNG KÝ THÀNH VIÊN DINEGO</h4>
             <form asp-controller="Auth" asp-action="Register" method="post">
-                <div class="form-group">
-                    <input asp-for="cus_name" class="form-control" placeholder="*Họ và tên" />
-                    <span class="text-danger" asp-validation-for="cus_name"></span>
+                <div class="form-group register-form-group">
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="*Họ và tên" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("name")</div>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="cus_username" class="form-control" placeholder="*Tài khoản" />
-                    <span class="text-danger" asp-validation-for="cus_username"></span>
+                <div class="form-group register-form-group">
+                    <input type="text" class="form-control" id="username" name="username" required
+                        placeholder="*Tài khoản" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("username")</div>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="cus_password" type="password" class="form-control" placeholder="*Mật khẩu" />
-                    <span class="text-danger" asp-validation-for="cus_password"></span>
+                <div class="form-group register-form-group">
+                    <input type="password" class="form-control" id="password" name="password" required
+                        placeholder="*Mật khẩu" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("password")</div>
                 </div>
-
-                <div class="form-group">
-                    <input asp-for="confirm_password" type="password" class="form-control"
+                <div class="form-group register-form-group">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
                         placeholder="*Xác nhận mật khẩu" />
-                    <span class="text-danger" asp-validation-for="confirm_password"></span>
+                    <div class="text-danger mt-1">@Html.ValidationMessage("confirmPassword")</div>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="cus_email" class="form-control" placeholder="*Email" />
-                    <span class="text-danger" asp-validation-for="cus_email"></span>
+                <div class="form-group register-form-group">
+                    <input type="text" class="form-control" id="email" name="email" required placeholder="*Email" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("email")</div>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="cus_phone" class="form-control" placeholder="*Số điện thoại" />
-                    <span class="text-danger" asp-validation-for="cus_phone"></span>
+                <div class="form-group register-form-group">
+                    <input type="text" class="form-control" id="phone" name="phone" required
+                        placeholder="*Số điện thoại" />
+                    <div class="text-danger mt-1">@Html.ValidationMessage("phone")</div>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="cus_birthday" type="date" class="form-control" placeholder="*Ngày sinh" />
-                    <span class="text-danger" asp-validation-for="cus_birthday"></span>
-                </div>
-
-                <div class="form-group">
-                    <select asp-for="cus_gender" class="form-control">
-                        <option value="">*Chọn giới tính</option>
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="cus_gender"></span>
-                </div>
 
                 <div style="display: flex;">
                     <input type="checkbox" id="terms" name="terms" required />
@@ -69,3 +58,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -28,5 +28,6 @@ namespace DineGO_Api.Repository
         {
             return GetReservations().Where(p => p.res_id == id).ToList();
         }
+        public List<Object> GetResByCusId(int id) => _reservationDAO.GetResByCusId(id);
     }
 }

@@ -14,6 +14,8 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using DineGO_Client.Models.Custom;
+using DineGO_Client.Models;
+using System.Text.Json;
 
 namespace DineGO_Client.Controllers
 {
@@ -115,18 +117,155 @@ namespace DineGO_Client.Controllers
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
 
-            var response = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}");
+            var reservations = await _apiService.GetAsync<List<Reservation>>(
+                $"{ApiEndpoints.RESERVATION_BY_CUSID}{customerId}"
+            );
 
-            return View(response ?? new List<Reservation>());
+            var viewModel = await GetProfileViewModel(customerId, ("Reservations", reservations));
+
+            return View(viewModel);
         }
+
+
 
         public async Task<IActionResult> PaymentHistory()
         {
             int customerId = HttpContext.Session.GetInt32("cus_id") ?? 0;
+            var payments = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
 
-            var response = await _apiService.GetAsync<List<Payment>>($"{ApiEndpoints.PAYMENT_BY_CUSID}{customerId}");
+            var viewModel = await GetProfileViewModel(customerId, ("Payments", payments));
+            return View(viewModel);
+        }
 
-            return View(response ?? new List<Payment>());
+        private async Task<CustomProfileViewModel> GetProfileViewModel(int customerId, params (string key, object value)[] extraData)
+        {
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{customerId}");
+            var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(
+                string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, customerId)
+            );
+
+            var viewModel = new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = restaurantOwners
+            };
+
+            foreach (var (key, value) in extraData)
+            {
+                viewModel.Data[key] = value;
+            }
+            return viewModel;
+        }
+
+        public async Task<IActionResult> ChangePassword()
+        {
+            int? cus_id = HttpContext.Session.GetInt32("cus_id");
+            if (cus_id == null)
+            {
+                TempData["ErrorMessage"] = "Bạn chưa đăng nhập!";
+                return RedirectToAction("Login", "Auth");
+            }
+
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy tài khoản!";
+                return RedirectToAction("ChangePassword");
+            }
+
+            var viewModel = new CustomProfileViewModel
+            {
+                Customer = customer,
+                RestaurantOwners = new List<RestaurantOwner>()
+            };
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var cus_id = HttpContext.Session.GetInt32("cus_id");
+            if (cus_id == null)
+            {
+                TempData["ErrorMessage"] = "Bạn chưa đăng nhập!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            var customer = await _apiService.GetAsync<Customer>($"{ApiEndpoints.CUSTOMER}/{cus_id}");
+
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy tài khoản!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            var hashService = new HashService();
+
+            // Kiểm tra mật khẩu hiện tại
+            if (!hashService.VerifyPassword(model.CurrentPassword, customer.cus_password))
+            {
+                TempData["ErrorMessage"] = "Mật khẩu hiện tại không chính xác!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            if (model.NewPassword != model.ConfirmNewPassword)
+            {
+                TempData["ErrorMessage"] = "Mật khẩu mới và xác nhận mật khẩu không khớp!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+
+            // Hash mật khẩu mới
+            string hashedNewPassword = hashService.HashPassword(model.NewPassword);
+
+            // Cập nhật thông tin khách hàng với mật khẩu đã hash
+            var updateData = new
+            {
+                cus_id = customer.cus_id,
+                cus_username = customer.cus_username,
+                cus_password = hashedNewPassword,  // Cập nhật mật khẩu mới đã hash
+                cus_name = customer.cus_name,
+                cus_email = customer.cus_email,
+                cus_phone = customer.cus_phone,
+                cus_address = customer.cus_address,
+                cus_birthday = customer.cus_birthday,
+                cus_gender = customer.cus_gender,
+                cus_image = customer.cus_image,
+                cus_isKYI = customer.cus_isKYI
+            };
+
+            var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.CUSTOMER}/{cus_id}", updateData);
+
+            if (response != null)
+            {
+                TempData["SuccessMessage"] = "Đổi mật khẩu thành công!";
+                TempData.Keep("SuccessMessage");
+                return RedirectToAction("ChangePassword");
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Đổi mật khẩu thất bại!";
+                TempData.Keep("ErrorMessage");
+                return RedirectToAction("ChangePassword");
+            }
+        }
+
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View("Error!");
         }
     }
 }

@@ -14,5 +14,6 @@ namespace DineGO_Client.Models.Custom
         public List<Reservation> Reservation { get; set; }
         public List<Reservation> ConfirmedOrRejectedReservations { get; set; }
         public List<Reservation> PendingReservations { get; set; }
+        public Dictionary<string, object> Data { get; set; } = new Dictionary<string, object>();
     }
 }

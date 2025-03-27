@@ -13,4 +13,5 @@ public interface IReservationRepository
     void DeleteReservation(int reservationId);
     List<Reservation> GetResByCusId(int id); 
     List<Reservation> GetResByResId(int id); 
+    List<Object> GetResByCusId(int id); 
 }
