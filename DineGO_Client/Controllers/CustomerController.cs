@@ -40,11 +40,13 @@ namespace DineGO_Client.Controllers
             // Giả sử bạn có endpoint cho restaurant owner, ví dụ:
             string restaurantOwnerUrl = string.Format(ApiEndpoints.RESTAURANT_OWNER_BY_CUS_ID, cus_id);
             var restaurantOwners = await _apiService.GetAsync<List<RestaurantOwner>>(restaurantOwnerUrl);
-            
+            var restaurant = await _apiService.GetAsync<List<Restaurant>>(ApiEndpoints.RESTAURANT);
+
             var viewModel = new CustomProfileViewModel
             {
                 Customer = customer,
-                RestaurantOwners = restaurantOwners
+                RestaurantOwners = restaurantOwners,
+                Restaurant = restaurant
             };
             return View(viewModel);
         }

@@ -46,14 +46,22 @@
                                         {
                                             displayName = displayName.Substring(0, 10) + "...";
                                         }
+
+                                        // Tìm res_id có resOwner_id trùng với restaurantOwner.resOwner_id
+                                        var resId = Model.Restaurant.Where(r => r.resOwner_id ==
+                                        restaurantOwner.resOwner_id)
+                                        .Select(r => r.res_id)
+                                        .FirstOrDefault(); // Nếu không tìm thấy sẽ là 0
+
                                         <div class="menu-item">
-                                            <a href="@Url.Action("Profile", "RestaurantOwner", new { Id = restaurantOwner.resOwner_id })"
+                                            <a href="@Url.Action("ProfileRestaurant", "RestaurantOwner", new { Id = resId })"
                                                 style="text-decoration:none; color:inherit;">
                                                 <i class="fas fa-user"></i> @displayName
                                                 <i class="fas fa-sign-out-alt"></i>
                                             </a>
                                         </div>
                                     }
+
                                     <div class="menu-item open-dynamic-modal" data-title="Nhập thông tin chủ nhà hàng"
                                         data-fields="Name" data-action="Create" data-controller="RestaurantOwner"
                                         data-method="POST">

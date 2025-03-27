@@ -63,9 +63,11 @@ namespace DineGO_Client.Controllers
                 resOwner_id = restaurant.resOwner_id
             };
             var jsonContent = JsonConvert.SerializeObject(updateData);
-            var res_id = HttpContext.Session.GetInt32("res_id");
-
+            System.Console.WriteLine(jsonContent);
             var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.RESTAURANT}", updateData);
+            System.Console.WriteLine(response);
+            System.Console.WriteLine(response.ToString());
+            var res_id = HttpContext.Session.GetInt32("res_id");
             if (response != null)
             {
                 TempData["SuccessMessage"] = "Cập nhật thành công!";
