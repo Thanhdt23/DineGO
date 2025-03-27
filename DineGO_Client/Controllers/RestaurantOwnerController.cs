@@ -29,6 +29,9 @@ namespace DineGO_Client.Controllers
         [HttpGet("ProfileRestaurant/{id}")] // Explicit route
         public async Task<IActionResult> ProfileRestaurant(int id)
         {
+
+            HttpContext.Session.SetInt32("res_id", id);
+            
             var reservation = await _apiService.GetAsync<List<Reservation>>($"{ApiEndpoints.RESERVATION_BY_RESID}{id}");
 
             var confirmedOrRejectedReservations = reservation
@@ -80,9 +83,11 @@ namespace DineGO_Client.Controllers
             return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = HttpContext.Session.GetInt32("res_id") });
         }
 
-        [HttpPost("UpdateProfileRestaurant")] // Unique route
+        [HttpPost] // Unique route
         public async Task<IActionResult> UpdateProfileRestaurant(Restaurant restaurant)
         {
+            System.Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaa");
+            var res_id = HttpContext.Session.GetInt32("res_id");
             var updateData = new
             {
                 res_id = restaurant.res_id,
@@ -97,9 +102,10 @@ namespace DineGO_Client.Controllers
                 cate_id = restaurant.cate_id,
                 resOwner_id = restaurant.resOwner_id
             };
-
+            System.Console.WriteLine("id" + res_id);
             var response = await _apiService.PutAsync<object, dynamic>($"{ApiEndpoints.RESTAURANT}", updateData);
-            var res_id = HttpContext.Session.GetInt32("res_id");
+            
+            System.Console.WriteLine("id1" + res_id);
             if (response != null)
             {
                 TempData["SuccessMessage"] = "Cập nhật thành công!";
@@ -110,7 +116,7 @@ namespace DineGO_Client.Controllers
                 TempData["ErrorMessage"] = "Cập nhật thất bại!";
                 TempData.Keep("ErrorMessage");
             }
-            return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = res_id });
+            return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = res_id});
         }
 
         [HttpPost("Create")]
@@ -152,7 +158,7 @@ namespace DineGO_Client.Controllers
 
             var responseRestaurant = await _apiService.PostAsync<ResResponse, dynamic>($"{ApiEndpoints.RESTAURANT}", restaurant);
 
-            HttpContext.Session.SetInt32("res_id", responseRestaurant.res_id);
+            //HttpContext.Session.SetInt32("res_id", responseRestaurant.res_id);
 
             if (responseRestaurant != null)
             {
@@ -163,7 +169,7 @@ namespace DineGO_Client.Controllers
                 TempData["ErrorMessage"] = "Tạo nhà hàng thất bại!";
             }
 
-            return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = responseRestaurant.res_id });
+            return RedirectToAction("ProfileRestaurant", "RestaurantOwner", new { id = Id });
         }
     }
 
