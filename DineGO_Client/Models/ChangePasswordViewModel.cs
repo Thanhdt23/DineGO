@@ -12,7 +12,7 @@ namespace DineGO_Client.Models
         public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu mới")]
-        [MinLength(6, ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự")]
+        [MinLength(3, ErrorMessage = "Mật khẩu phải có ít nhất 3 ký tự")]
         public string NewPassword { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập lại mật khẩu mới")]
