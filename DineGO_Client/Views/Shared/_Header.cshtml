@@ -35,7 +35,7 @@
               <span>👤 @cusName</span>
               <div class="profile-dropdown" id="profileMenu">
                 <a asp-controller="Customer" asp-action="Profile">Thông tin tài khoản</a>
-                <a href="#">Quản lý mật khẩu</a>
+                <a asp-controller="Customer" asp-action="ChangePassword">Quản lý mật khẩu</a>
                 <a href="#">Lịch sử đặt chỗ</a>
                 <a class="logout-btn btn-danger" asp-controller="Auth" asp-action="Logout">Đăng xuất</a>
               </div>
