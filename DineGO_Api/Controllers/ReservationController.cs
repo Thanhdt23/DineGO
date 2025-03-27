@@ -49,7 +49,7 @@ namespace DineGO_Api.Controllers
                 return BadRequest("Reservation ID mismatch");
 
             _reservationRepository.UpdateReservation(reservation);
-            return NoContent();
+            return Ok(_reservationRepository.GetReservations());
         }
 
         [HttpDelete("{id}")]
