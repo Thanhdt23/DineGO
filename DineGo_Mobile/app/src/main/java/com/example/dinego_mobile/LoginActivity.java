@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("USERNAME", username);
+                        editor.putString("PASSWORD", password);
                         editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
