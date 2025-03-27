@@ -58,6 +58,7 @@ namespace Core.Constant
         public const string RESERVATION ="reservation";
         public const string RESTAURANT_OWNER_BY_CUS_ID ="RestaurantOwner/cusId?Id={0}";
         public const string RESERVATION_BY_CUSID ="Reservation/cus_id?cus_id=";
+        public const string RESERVATION_BY_RESID ="Reservation/res_id?res_id=";
         public const string PAYMENT ="Payment";
         public const string PAYMENT_BY_CUSID ="Payment/cus_id?cus_id=";
     }
