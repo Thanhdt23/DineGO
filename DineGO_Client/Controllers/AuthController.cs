@@ -82,19 +82,28 @@ namespace DineGO_Client.Controllers
                 return View();
             }
 
-            // Nếu hợp lệ, gọi API để đăng ký
-            var registerData = new { Username = username, Password = password, Name = name, Email = email, Phone = phone };
-            var response = await _apiService.PostAsync<RegisterResponse, dynamic>("auth/register", registerData);
-
-            if (response != null && response.Message == "User registered successfully.")
+            try
             {
-                ViewBag.Success = "Registration successful. Please login.";
-                return RedirectToAction("Login", "Auth");
+                // Gọi API để đăng ký
+                var registerData = new { Username = username, Password = password, Name = name, Email = email, Phone = phone };
+                var response = await _apiService.PostAsync<RegisterResponse, dynamic>("auth/register", registerData);
+
+                // Nếu đăng ký thành công, chuyển hướng sang trang login
+                if (response != null && response.Message == "User registered successfully.")
+                {
+                    ViewBag.Success = "Đăng ký thành công. Vui lòng đăng nhập.";
+                    return RedirectToAction("Login", "Auth");
+                }
+            }
+            catch (Exception)
+            {
+                // Nếu API trả về lỗi => Giả định username bị trùng
+                ModelState.AddModelError("username", "Tên tài khoản đã tồn tại.");
             }
 
-            ViewBag.Error = "Username already exists.";
             return View();
         }
+
 
 
 
