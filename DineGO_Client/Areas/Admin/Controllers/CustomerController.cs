@@ -24,8 +24,14 @@ namespace DineGO_Client.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var categories = await _apiService.GetAsync<List<Customer>>(ApiEndpoints.CUSTOMER);
-            return View(categories);
+            var token = HttpContext.Session.GetString("token");
+            if (string.IsNullOrEmpty(token))
+            {
+                // Redirect về page Login (giả sử controller Auth nằm bên Root area)
+                return RedirectToAction("Login", "Auth", new { area = "Admin" });
+            }
+            var customers = await _apiService.GetAsync<List<Customer>>(ApiEndpoints.CUSTOMER);
+            return View(customers);
         }
         [HttpGet]
         public IActionResult AddCustomer()

@@ -103,6 +103,12 @@ namespace DineGO_Client.Controllers
             return RedirectToAction("Index", new { id = model.res_id });
         }
 
+        [HttpGet("Payment")]
+        public IActionResult Payment()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -1,25 +1,36 @@
 @{
     Layout = "../../Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "DeleteCategory";
+    ViewData["Title"] = "Xóa Danh Mục";
 }
 
-<form action="/delete-category" method="POST">
-    <div class="mb-3">
-        <label for="category-id" class="form-label">Category ID</label>
-        <input type="text" class="form-control" id="category-id" name="category-id" value="1" readonly>
-    </div>
-    <div class="mb-3">
-        <label for="type" class="form-label">Type</label>
-        <input type="text" class="form-control" id="type" name="type" value="Type 1aaaaaaa" readonly>
-    </div>
-    <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="4" readonly>
-People often think that eating at home is healthier. I completely agreed with this point of view until I visited Rutass restaurant. When I started college, cooking took up a lot of my time. When the wonderful time comes to go, I realized that Rutass is the best restaurant I have ever known.
-        </textarea>
-    </div>
-    <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-danger">Delete Category</button>
-        <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-    </div>
-</form>
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    <form method="post" asp-action="DeleteCategory" asp-controller="Category">
+        <input type="hidden" name="cate_id" value="@Model.cate_id" />
+
+        <div class="mb-3">
+            <label class="form-label">Mã Danh Mục</label>
+            <input type="text" class="form-control" value="@Model.cate_id" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Loại Danh Mục</label>
+            <input type="text" class="form-control" value="@Model.cate_type" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mô Tả</label>
+            <textarea class="form-control" rows="3" readonly>@Model.cate_description</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-danger">Xóa Danh Mục</button>
+           <a href="@Url.Action("Index")" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </form>
+
+</div>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
