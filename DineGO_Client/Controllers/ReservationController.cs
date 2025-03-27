@@ -87,7 +87,7 @@ namespace DineGO_Client.Controllers
                 res_id = model.res_id,
                 reser_date = reservationDate,
                 reser_quantity = model.reser_quantity,
-                reser_status = "Pending",
+                reser_status = "Chờ xử lý",
                 reser_note = model.reser_note
             };
 
