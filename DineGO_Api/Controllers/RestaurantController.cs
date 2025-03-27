@@ -43,7 +43,8 @@ namespace DineGO_Api.Controllers
         public IActionResult AddRestaurants(Restaurant p)
         {
             _restaurantsRepository.SaveRestaurant(p);
-            return Ok(_restaurantsRepository.GetRestaurants());
+            // return Ok(_restaurantsRepository.GetRestaurants());
+            return Ok(new { res_id = p.res_id});
         }
         [HttpPut]
         public IActionResult UpdateRestaurants(Restaurant p)

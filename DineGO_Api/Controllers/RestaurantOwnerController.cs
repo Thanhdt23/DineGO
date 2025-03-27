@@ -41,7 +41,7 @@ namespace DineGO_Api.Controllers
         public IActionResult Addblog(RestaurantOwner restaurantOwner)
         {
             _restaurantOwnerRepository.SaveRestaurantOwner(restaurantOwner);
-            return Ok(_restaurantOwnerRepository.GetRestaurantOwners());
+            return Ok(new { resOwner_id = restaurantOwner.resOwner_id});
         }
         [HttpPut]
         public IActionResult Updateblog(RestaurantOwner restaurantOwner)

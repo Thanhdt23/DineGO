@@ -35,7 +35,7 @@ body {
 
 .register-background{
   background-color: var(--secondary-color);
-  height: 150vh;
+  height: 120vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +60,7 @@ body {
 
 .register-container {
   height: 590px;
-  min-height: 1000px;
+  min-height: 800px;
 }
 
 .register-block,
@@ -92,7 +92,7 @@ body {
   color: #222;
   padding: 17px 20px;
   border: 1px solid var(--secondary-color);
-  margin: 20px 0;
+  margin: 10px 0;
   width: 100%;
 }
 
@@ -674,8 +674,6 @@ body {
 .form-group input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   background: #f9f9f9;
   outline: none;
 }

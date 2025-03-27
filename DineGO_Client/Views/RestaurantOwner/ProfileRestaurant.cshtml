@@ -1,0 +1,171 @@
+@model DineGO_Client.Models.Custom.CustomProfileViewModel
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <ul class="nav nav-tabs" id="restaurantTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#info">Thông tin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#history">Lịch sử đặt bàn</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#pending">Chờ xử lý</a>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="info">
+                    <form method="post" asp-action="UpdateProfileRestaurant" asp-controller="RestaurantOwner"
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="res_id" value="@ViewBag?.res_id" />
+                        <input type="hidden" name="cate_id" value="@ViewBag?.cate_id" />
+                        <input type="hidden" name="resOwner_id" value="@ViewBag?.resOwner_id" />
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                        }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Restaurant Name</label>
+                            <input type="text" name="res_name" class="form-control" value="@ViewBag?.res_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="res_address" class="form-control" value="@ViewBag?.res_address">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" name="res_phone" class="form-control" value="@ViewBag?.res_phone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Information</label>
+                            <textarea name="res_information" class="form-control">@ViewBag?.res_information</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Rating</label>
+                            <input readonly type="number" name="res_rate" class="form-control"
+                                value="@ViewBag?.res_rate" step="0.1" min="0" max="5">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Average Price</label>
+                            <input type="number" name="res_price" class="form-control" value="@ViewBag?.res_price"
+                                step="0.01">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Discount</label>
+                            <input type="number" name="res_discount" class="form-control" value="@ViewBag?.res_discount"
+                                step="0.01" min="0">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-danger">Update Restaurant</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="history">
+                    <h3 class="text-center mb-4">Lịch sử đặt bàn</h3>
+
+                    @if (Model?.ConfirmedOrRejectedReservations != null && Model.ConfirmedOrRejectedReservations.Any())
+                    {
+                        <div class="row">
+                            @foreach (var reservation in Model.ConfirmedOrRejectedReservations)
+                            {
+                                <div class="col-md-6">
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Mã đặt bàn: @reservation.reser_id</h5>
+                                            <p class="card-text"><strong>Ngày đặt:</strong>
+                                                @reservation.reser_date.ToString("dd/MM/yyyy HH:mm")</p>
+                                            <p class="card-text"><strong>Số lượng:</strong> @reservation.reser_quantity</p>
+                                            <p class="card-text"><strong>Ghi chú:</strong>
+                                                @(string.IsNullOrEmpty(reservation.reser_note) ? "Không có" :
+                                                                                        reservation.reser_note)</p>
+                                                                                                           <span
+                                                                                                               class="badge 
+                                                                        @(reservation.reser_status == "Đã xác nhận" ? "bg-success" :
+                                                                                                                                                                                                  reservation.reser_status == "Từ chối" ? "bg-danger" : "bg-warning")">
+                                        @reservation.reser_status
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                                                }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">Bạn chưa có đơn đặt bàn nào.</p>
+                    }
+                </div>
+
+                <div class="tab-pane fade" id="pending">
+                    <h3 class="text-center mb-4">Đơn đặt bàn chờ xử lý</h3>
+
+                    @if (Model?.PendingReservations != null && Model.PendingReservations.Any())
+                    {
+                        <div class="row">
+                            @foreach (var reservation in Model.PendingReservations)
+                            {
+                                <div class="col-md-6">
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Mã đặt bàn: @reservation.reser_id</h5>
+                                            <p class="card-text"><strong>Ngày đặt:</strong>
+                                                @reservation.reser_date.ToString("dd/MM/yyyy HH:mm")</p>
+                                            <p class="card-text"><strong>Số lượng:</strong> @reservation.reser_quantity</p>
+                                            <p class="card-text"><strong>Ghi chú:</strong>
+                                                @(string.IsNullOrEmpty(reservation.reser_note) ? "Không có" :
+                                                                                        reservation.reser_note)</p>
+                                    <span class="badge bg-warning">@reservation.reser_status</span>
+
+                                            <div class="mt-3">
+                                                <form method="post" asp-action="UpdateReservationStatus"
+                                                    asp-controller="RestaurantOwner">
+                                                    <input type="hidden" name="reser_id" value="@reservation.reser_id" />
+                                                    <input type="hidden" name="cus_id" value="@reservation.cus_id" />
+                                                    <input type="hidden" name="res_id" value="@reservation.res_id" />
+                                                    <input type="hidden" name="reser_date" value="@reservation.reser_date" />
+                                                    <input type="hidden" name="reser_quantity" value="@reservation.reser_quantity" />
+                                                    <input type="hidden" name="reser_note" value="@reservation.reser_note" />
+                                                    <input type="hidden" name="reser_status" value="Đã xác nhận" />
+                                                    <button type="submit" class="btn btn-success btn-sm">Xác nhận</button>
+                                                </form>
+
+                                                <form method="post" asp-action="UpdateReservationStatus"
+                                                    asp-controller="RestaurantOwner">
+                                                    <input type="hidden" name="reser_id" value="@reservation.reser_id" />
+                                                    <input type="hidden" name="cus_id" value="@reservation.cus_id" />
+                                                    <input type="hidden" name="res_id" value="@reservation.res_id" />
+                                                    <input type="hidden" name="reser_date" value="@reservation.reser_date" />
+                                                    <input type="hidden" name="reser_quantity" value="@reservation.reser_quantity" />
+                                                    <input type="hidden" name="reser_note" value="@reservation.reser_note" />
+                                                    <input type="hidden" name="reser_status" value="Từ chối" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Từ chối</button>
+                                                </form>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                                }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center text-muted">Bạn không có đơn đặt bàn nào đang chờ xử lý.</p>
+                    }
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

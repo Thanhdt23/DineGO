@@ -39,7 +39,7 @@ namespace DineGO_Api.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
            if (_context.customers.AsNoTracking().Any(u => u.cus_username == registerRequest.Username))
-                return Ok(new { Message = "Username already exists." });
+                return BadRequest();
 
             var cus = new Customer
             {
