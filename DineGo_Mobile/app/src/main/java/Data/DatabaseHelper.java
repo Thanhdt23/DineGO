@@ -16,12 +16,13 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Models.Customer;
 import Models.Notification;
 import Models.Reservation;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.50"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
@@ -76,6 +77,37 @@ public class DatabaseHelper {
             }
         });
     }
+    public void getCustomerById(int customerId, Callback<Customer> callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            Customer customer = null;
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String query = "SELECT cus_id, cus_name, cus_email, cus_phone, cus_address FROM customers WHERE cus_id = ?";
+                    PreparedStatement stmt = conn.prepareStatement(query);
+                    stmt.setInt(1, customerId);
+                    ResultSet rs = stmt.executeQuery();
+
+                    if (rs.next()) {
+                        int id = rs.getInt("cus_id");
+                        String name = rs.getString("cus_name");
+                        String email = rs.getString("cus_email");
+                        String phone = rs.getString("cus_phone");
+                        String address = rs.getString("cus_address");
+                        customer = new Customer(id, name, email, phone, address);
+                    }
+                    rs.close();
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Không thể lấy thông tin khách hàng: " + e.getMessage(), e);
+            }
+
+            Customer finalCustomer = customer;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalCustomer));
+        });
+    }
+
 
     // Lấy danh sách thông báo
     public void getNotifications(Callback<List<Notification>> callback) {
@@ -237,6 +269,39 @@ public class DatabaseHelper {
         });
     }
 
+    public void updateCustomerInfo(int customerId, String name, String email, String phone, String address, OnUpdateCallback callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            boolean success = false;
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    String sql = "UPDATE customers SET cus_name = ?, cus_email = ?, cus_phone = ?, cus_address = ? WHERE cus_id = ?";
+                    PreparedStatement stmt = conn.prepareStatement(sql);
+                    stmt.setString(1, name);
+                    stmt.setString(2, email);
+                    stmt.setString(3, phone);
+                    stmt.setString(4, address);
+                    stmt.setInt(5, customerId);
+
+                    int rowsAffected = stmt.executeUpdate();
+                    success = rowsAffected > 0;
+
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Lỗi khi cập nhật thông tin khách hàng: " + e.getMessage(), e);
+            }
+
+            boolean finalSuccess = success;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(finalSuccess));
+        });
+    }
+
+
+    // Interface callback để xử lý kết quả
+    public interface OnUpdateCallback {
+        void onResult(boolean success);
+    }
 
     // Interface để xử lý callback
     public interface Callback<T> {

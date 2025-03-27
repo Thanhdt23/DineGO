@@ -52,13 +52,14 @@ public class LoginActivity extends AppCompatActivity {
 
             // Thực thi đăng nhập trên luồng khác
             executorService.execute(() -> {
-                boolean isSuccess = checkLogin(username, password);
+                int customerId = checkLogin(username, password);
                 runOnUiThread(() -> {
-                    if (isSuccess) {
+                    if (customerId != -1) {
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                         // Lưu username vào SharedPreferences khi đăng nhập thành công
                         SharedPreferences sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("CUS_ID", customerId); // Lưu cus_id
                         editor.putString("USERNAME", username);
                         editor.putString("PASSWORD", password);
                         editor.apply();
@@ -81,8 +82,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkLogin(String username, String password) {
-        boolean isSuccess = false;
+    private int checkLogin(String username, String password) {
+        int cusId = -1;
         Connection connection = Data.DatabaseHelper.getConnection();
         if (connection != null) {
             try {
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                 stmt.setString(2, password);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    isSuccess = true;
+                    cusId = rs.getInt("cus_id"); // Lấy ID khách hàng
                 }
                 rs.close();
                 stmt.close();
@@ -101,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        return isSuccess;
+        return cusId;
     }
 
     @Override
