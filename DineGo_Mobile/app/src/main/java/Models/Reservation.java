@@ -13,7 +13,7 @@ public class Reservation {
 
     public Reservation(int reId, String reStatus, String reDate, String reQuantity, String reNote, int cusId ,int resId) {
         this.reId = reId;
-        this.reStatus = reStatus;
+        this.reStatus = "Pending";
         this.reDate = reDate;
         this.reQuantity = reQuantity;
         this.reNote = reNote;

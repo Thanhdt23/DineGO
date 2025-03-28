@@ -1,12 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewReservations"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Restaurant"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"/>
+
+        <Spinner
+            android:id="@+id/spinner_restaurants"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reservation Date"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/edit_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select date"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reservation Time"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/edit_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Select time"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Number of People"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/edit_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter number of people"
+            android:inputType="number"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notes (optional)"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/edit_note"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="Enter notes"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Make Reservation"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"/>
+
+    </LinearLayout>
+</ScrollView>
