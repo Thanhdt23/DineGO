@@ -22,7 +22,7 @@ import Models.Reservation;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.43"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.195"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
@@ -150,7 +150,7 @@ public class DatabaseHelper {
             List<Restaurant> restaurantList = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String query = "SELECT res_id, res_name, res_address, res_phone, res_images FROM restaurants";
+                    String query = "SELECT res_id, res_name, res_address, res_phone, res_images, res_information, res_price FROM restaurants";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
 
@@ -163,7 +163,8 @@ public class DatabaseHelper {
                         String information = rs.getString("res_information");
                         Double price = rs.getDouble("res_price");
 
-                        restaurantList.add(new Restaurant(id,name, address, phone, image));
+
+                        restaurantList.add(new Restaurant(id, name, address, phone, image, information, price));
                     }
                     rs.close();
                     stmt.close();
@@ -195,10 +196,7 @@ public class DatabaseHelper {
                         String reservationStatus = rs.getString("re_status");
                         String reservationNote = rs.getString("re_note");
 
-
                         reservationList.add(new Reservation(id, reservationStatus, reservationDate, reservationQuantity, reservationNote, customerId, resId));
-
-
                     }
                     rs.close();
                     stmt.close();

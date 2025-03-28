@@ -17,6 +17,16 @@ public class Restaurant {
         this.type = type;
         this.imageUrl = imageUrl;
     }
+
+    public Restaurant(int id, String name, String address, String type, String imageUrl, String information, Double price) {
+        this.name = name;
+        this.address = address;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.information = information;
+        this.price = price;
+    }
+
     public int getId() { return id; }
     public String getName() { return name; }
     public String getAddress() { return address; }
@@ -28,5 +38,7 @@ public class Restaurant {
         return name; // Hiển thị tên nhà hàng trong Spinner
     }
 
+    public String getInformation() { return information; }
+    public Double getPrice() { return price; }
 }
 
