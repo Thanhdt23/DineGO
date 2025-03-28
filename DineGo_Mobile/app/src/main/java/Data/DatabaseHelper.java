@@ -150,11 +150,12 @@ public class DatabaseHelper {
             List<Restaurant> restaurantList = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String query = "SELECT res_name, res_address, res_phone, res_images, res_information, res_price FROM restaurants";
+                    String query = "SELECT res_id, res_name, res_address, res_phone, res_images FROM restaurants";
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
 
                     while (rs.next()) {
+                        int id=rs.getInt("res_id");
                         String name = rs.getString("res_name");
                         String address = rs.getString("res_address");
                         String phone = rs.getString("res_phone");
@@ -162,7 +163,7 @@ public class DatabaseHelper {
                         String information = rs.getString("res_information");
                         Double price = rs.getDouble("res_price");
 
-                        restaurantList.add(new Restaurant(name, address, phone, image, information, price));
+                        restaurantList.add(new Restaurant(id,name, address, phone, image));
                     }
                     rs.close();
                     stmt.close();
@@ -216,18 +217,19 @@ public class DatabaseHelper {
             List<Restaurant> filteredRestaurants = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String sql = "SELECT res_name, res_address, res_type, res_images FROM restaurants WHERE res_name LIKE ?";
+                    String sql = "SELECT res_id, res_name, res_address, res_type, res_images FROM restaurants WHERE res_name LIKE ?";
                     PreparedStatement stmt = conn.prepareStatement(sql);
                     stmt.setString(1, "%" + query + "%"); // Tìm kiếm gần đúng
 
                     ResultSet rs = stmt.executeQuery();
                     while (rs.next()) {
+                        int id = rs.getInt("res_id");
                         String name = rs.getString("res_name");
                         String address = rs.getString("res_address");
                         String type = rs.getString("res_type");
                         String image = rs.getString("res_images");
 
-                        filteredRestaurants.add(new Restaurant(name, address, type, image));
+                        filteredRestaurants.add(new Restaurant( id, name, address, type, image));
                     }
                     rs.close();
                     stmt.close();
@@ -247,18 +249,20 @@ public class DatabaseHelper {
             List<Restaurant> filteredRestaurants = new ArrayList<>();
             try (Connection conn = getConnection()) {
                 if (conn != null) {
-                    String sql = "SELECT res_name, res_address, res_type, res_images FROM restaurants WHERE res_type LIKE ?";
+                    String sql = "SELECT res_id, res_name, res_address, res_type, res_images FROM restaurants WHERE res_type LIKE ?";
                     PreparedStatement stmt = conn.prepareStatement(sql);
                     stmt.setString(1, "%" + resType + "%"); // Tìm kiếm theo loại
 
                     ResultSet rs = stmt.executeQuery();
                     while (rs.next()) {
+                        int id = rs.getInt("res_id");
+
                         String name = rs.getString("res_name");
                         String address = rs.getString("res_address");
                         String type = rs.getString("res_type");
                         String image = rs.getString("res_images");
 
-                        filteredRestaurants.add(new Restaurant(name, address, type, image));
+                        filteredRestaurants.add(new Restaurant(id,name, address, type, image));
                     }
                     rs.close();
                     stmt.close();
@@ -299,11 +303,55 @@ public class DatabaseHelper {
         });
     }
 
+    public void createReservation(int customerId, int restaurantId, String date,
+                                  String quantity, String note, OnCreateReservationCallback callback) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(() -> {
+            boolean success = false;
+            int reservationId = -1;
+            try (Connection conn = getConnection()) {
+                if (conn != null) {
+                    // Sử dụng CAST để đảm bảo chuyển đổi đúng kiểu DATETIME2
+                    String sql = "INSERT INTO reservations (cus_id, res_id, re_date, re_quantity, re_status, re_note) " +
+                            "VALUES (?, ?, CAST(? AS DATETIME2(7)), ?, 'Pending', ?)";
+                    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    stmt.setInt(1, customerId);
+                    stmt.setInt(2, restaurantId);
+                    stmt.setString(3, date); // Đã được định dạng chuẩn từ Fragment
+                    stmt.setString(4, quantity);
+                    stmt.setString(5, note);
+
+                    int rowsAffected = stmt.executeUpdate();
+                    if (rowsAffected > 0) {
+                        ResultSet rs = stmt.getGeneratedKeys();
+                        if (rs.next()) {
+                            reservationId = rs.getInt(1);
+                        }
+                        success = true;
+                    }
+                    stmt.close();
+                }
+            } catch (Exception e) {
+                Log.e("DB_ERROR", "Lỗi khi tạo reservation: " + e.getMessage(), e);
+            }
+
+            boolean finalSuccess = success;
+            int finalReservationId = reservationId;
+            new Handler(Looper.getMainLooper()).post(() ->
+                    callback.onResult(finalSuccess, finalReservationId));
+        });
+    }
+
+    public interface OnCreateReservationCallback {
+        void onResult(boolean success, int reservationId);
+    }
+
 
     // Interface callback để xử lý kết quả
     public interface OnUpdateCallback {
         void onResult(boolean success);
     }
+
 
     // Interface để xử lý callback
     public interface Callback<T> {
