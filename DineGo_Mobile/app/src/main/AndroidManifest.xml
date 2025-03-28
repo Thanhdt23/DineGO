@@ -32,6 +32,8 @@
         <activity android:name=".RestaurantDetailActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".ReservationActivity" />
+
 
 
 

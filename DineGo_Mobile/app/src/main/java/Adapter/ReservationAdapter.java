@@ -5,27 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.dinego_mobile.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import Models.Reservation;
 
 public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.ViewHolder> {
-    private List<Models.Reservation> reservationList;
+    private List<Reservation> reservationList;
     private Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onViewDetailsClick(Models.Reservation reservation);
+        void onViewDetailsClick(Reservation reservation);
     }
 
-    public ReservationAdapter(Context context, List<Reservation> reservationList) {
+    public ReservationAdapter(Context context, List<Reservation> reservationList, OnItemClickListener listener) {
         this.context = context;
         this.reservationList = reservationList;
         this.listener = listener;
@@ -34,7 +38,8 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(com.example.dinego_mobile.R.layout.item_reservation, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_reservation, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,16 +47,34 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Reservation reservation = reservationList.get(position);
 
+        // Format lại ngày
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSS", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
-        holder.reservation_date.setText("Date: " + reservation.getReDate());
-        holder.reservation_quantity.setText("Quantity: " + reservation.getReQuantity());
-        holder.reservation_status.setText("Status " + reservation.getReStatus());
+        try {
+            Date date = inputFormat.parse(reservation.getReDate());
+            holder.reservationDate.setText("Date: " + outputFormat.format(date));
+        } catch (ParseException e) {
+            holder.reservationDate.setText("Date: " + reservation.getReDate()); // Giữ nguyên nếu lỗi
+        }
 
+        holder.reservationStatus.setText("Status: " + reservation.getReStatus());
+        holder.reservationQuantity.setText("Quantity: " + reservation.getReQuantity());
 
+        if (reservation.getReNote() != null && !reservation.getReNote().isEmpty()) {
+            holder.reservationNote.setText("Note: " + reservation.getReNote());
+            holder.reservationNote.setVisibility(View.VISIBLE);
+        } else {
+            holder.reservationNote.setVisibility(View.GONE);
+        }
 
-        // Xử lý khi click vào nút "View Details"
-        holder.btn_view_details.setOnClickListener(v -> listener.onViewDetailsClick(reservation));
+        holder.btnViewDetails.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewDetailsClick(reservation);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -59,18 +82,16 @@ public class ReservationAdapter extends RecyclerView.Adapter<ReservationAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView reservation_date, reservation_quantity, reservation_status;
-        ImageView reservation_image;
-        Button btn_view_details;
+        TextView reservationDate, reservationStatus, reservationQuantity, reservationNote;
+        Button btnViewDetails;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            reservation_date = itemView.findViewById(com.example.dinego_mobile.R.id.reservation_date);
-            reservation_quantity = itemView.findViewById(com.example.dinego_mobile.R.id.reservation_quantity);
-            reservation_status = itemView.findViewById(com.example.dinego_mobile.R.id.reservation_status);
-            reservation_image = itemView.findViewById(com.example.dinego_mobile.R.id.reservation_image);
-            btn_view_details = itemView.findViewById(com.example.dinego_mobile.R.id.btn_view_details);
+            reservationDate = itemView.findViewById(R.id.reservation_date);
+            reservationStatus = itemView.findViewById(R.id.reservation_status);
+            reservationQuantity = itemView.findViewById(R.id.reservation_quantity);
+            reservationNote = itemView.findViewById(R.id.reservation_note);
+            btnViewDetails = itemView.findViewById(R.id.btn_view_details);
         }
     }
 }

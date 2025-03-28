@@ -1,99 +1,140 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@android:color/white">
 
-    <LinearLayout
+    <!-- Nội dung có thể cuộn -->
+    <ScrollView
+        android:id="@+id/restaurant_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:layout_above="@id/bottom_buttons"> <!-- Đảm bảo nội dung nằm trên nút bấm -->
 
-        <!-- Ảnh nhà hàng -->
-        <ImageView
-            android:id="@+id/restaurant_detail_image"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="@android:color/darker_gray" />
-
-        <!-- Nội dung chi tiết -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="center_horizontal">
 
-            <!-- Tên nhà hàng -->
-            <TextView
-                android:id="@+id/restaurant_detail_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:paddingTop="10dp" />
+            <!-- Ảnh nhà hàng -->
+            <ImageView
+                android:id="@+id/restaurant_detail_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:background="@android:color/darker_gray" />
 
-            <!-- Địa chỉ -->
+            <!-- Nội dung chi tiết -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="5dp">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_location"
-                    android:layout_marginEnd="6dp" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/restaurant_detail_address"
+                    android:id="@+id/restaurant_detail_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="123 Main Street, New York"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:paddingTop="10dp" />
 
-            <!-- Loại hình nhà hàng -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="5dp">
+                <!-- Địa chỉ -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="5dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_phone"
-                    android:layout_marginEnd="6dp" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_location"
+                        android:layout_marginEnd="6dp" />
 
+                    <TextView
+                        android:id="@+id/restaurant_detail_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/holo_blue_dark"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:text="123 Main Street, New York"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Loại hình nhà hàng -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingTop="5dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_phone"
+                        android:layout_marginEnd="6dp" />
+
+                    <TextView
+                        android:id="@+id/restaurant_detail_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/holo_red_dark"/>
+                </LinearLayout>
+
+                <!-- Thông tin nhà hàng -->
                 <TextView
-                    android:id="@+id/restaurant_detail_type"
+                    android:id="@+id/restaurant_detail_information"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Restaurant Information"
                     android:textSize="20sp"
-                    android:textColor="@android:color/holo_red_dark"/>
+                    android:textColor="@android:color/black"
+                    android:textStyle="italic"
+                    android:paddingTop="10dp"/>
             </LinearLayout>
 
-            <!-- Thông tin nhà hàng -->
-            <TextView
-                android:id="@+id/restaurant_detail_information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Restaurant Information"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
-                android:textStyle="italic"
-                android:paddingTop="10dp"/>
         </LinearLayout>
+    </ScrollView>
+
+    <!-- Nút bấm nằm cố định dưới cùng -->
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:elevation="8dp">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Back"
+            android:background="@android:color/holo_red_light"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btn_make_reservation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Make Reservation"
+            android:background="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="10dp"/>
     </LinearLayout>
-</ScrollView>
+
+</RelativeLayout>
