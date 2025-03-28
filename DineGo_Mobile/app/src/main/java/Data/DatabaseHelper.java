@@ -22,11 +22,11 @@ import Models.Reservation;
 import Models.Restaurant;
 
 public class DatabaseHelper {
-    private static final String IP = "192.168.1.145"; // Địa chỉ SQL Server
+    private static final String IP = "192.168.1.54"; // Địa chỉ SQL Server
     private static final String PORT = "1433"; // Cổng mặc định
     private static final String DATABASE_NAME = "DineGo_DB_CodeFirst";
     private static final String USERNAME = "sa";
-    private static final String PASSWORD = "12345";
+    private static final String PASSWORD = "123456";
 
     public static Connection getConnection() {
         Connection connection = null;

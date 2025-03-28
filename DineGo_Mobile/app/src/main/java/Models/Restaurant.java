@@ -19,6 +19,7 @@ public class Restaurant {
     }
 
     public Restaurant(int id, String name, String address, String type, String imageUrl, String information, Double price) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.type = type;
