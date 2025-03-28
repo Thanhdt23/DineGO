@@ -3,7 +3,11 @@ package com.example.dinego_mobile;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +19,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 public class RestaurantDetailActivity extends AppCompatActivity {
     private ImageView restaurantImage;
     private TextView restaurantName, restaurantAddress, restaurantType,restaurantInformation;
-
+    private Button btnBack, btnMakeReservation;
+    private ScrollView scrollView;
+    private LinearLayout bottomButtons;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +33,14 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         restaurantAddress = findViewById(R.id.restaurant_detail_address);
         restaurantType = findViewById(R.id.restaurant_detail_type);
         restaurantInformation = findViewById(R.id.restaurant_detail_information);
+        btnBack = findViewById(R.id.btn_back);
+        btnMakeReservation = findViewById(R.id.btn_make_reservation);
+        scrollView = findViewById(R.id.restaurant_scroll_view);
+        bottomButtons = findViewById(R.id.bottom_buttons);
 
         // Nhận dữ liệu từ Intent
         Intent intent = getIntent();
+        int id = intent.getIntExtra("restaurant_id", -1);
         String name = intent.getStringExtra("restaurant_name");
         String address = intent.getStringExtra("restaurant_address");
         String type = intent.getStringExtra("restaurant_type");
@@ -67,6 +78,33 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                 Intent chooser = Intent.createChooser(mapIntent, "Chọn ứng dụng để mở bản đồ");
                 startActivity(chooser);
             }
+        });
+
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+            int diff = view.getBottom() - (scrollView.getHeight() + scrollView.getScrollY());
+
+            if (diff <= 0) {
+                bottomButtons.setVisibility(View.VISIBLE);
+            } else {
+                bottomButtons.setVisibility(View.GONE);
+            }
+        });
+
+        // Xử lý nút Back
+        btnBack.setOnClickListener(v -> finish());
+
+        // Xử lý nút Make Reservation
+        btnMakeReservation.setOnClickListener(v -> {
+            Intent reservationIntent = new Intent(RestaurantDetailActivity.this, ReservationActivity.class);
+            reservationIntent.putExtra("restaurant_id", id);
+            reservationIntent.putExtra("restaurant_name", name);
+            reservationIntent.putExtra("restaurant_address", address);
+//            SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putInt("RES_ID", id);
+//            editor.apply();
+            startActivity(reservationIntent);
         });
 
 

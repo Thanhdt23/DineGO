@@ -56,6 +56,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         // Bắt sự kiện nhấn vào nhà hàng
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RestaurantDetailActivity.class);
+            intent.putExtra("restaurant_id", restaurant.getId());
             intent.putExtra("restaurant_name", restaurant.getName());
             intent.putExtra("restaurant_address", restaurant.getAddress());
             intent.putExtra("restaurant_type", restaurant.getType());
