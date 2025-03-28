@@ -17,13 +17,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.dinego_mobile.ChangePasswordActivity;
 import com.example.dinego_mobile.LoginActivity;
 import com.example.dinego_mobile.R;
 import Data.DatabaseHelper;
 
 public class ProfileFragment extends Fragment {
     private TextView userName, userEmail, userPhone, userAddress;
-    private Button editProfileButton;
+    private Button editProfileButton, changePasswordButton;
     private int customerId = -1; // ID khách hàng, có thể lấy từ SharedPreferences hoặc Argument
     private DatabaseHelper databaseHelper; // Đối tượng truy vấn DB
 
@@ -44,6 +45,7 @@ public class ProfileFragment extends Fragment {
         userPhone = view.findViewById(R.id.user_phone);
         userAddress = view.findViewById(R.id.user_address);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
+        changePasswordButton = view.findViewById(R.id.change_password_button);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserSession", getContext().MODE_PRIVATE);
         customerId = sharedPreferences.getInt("CUS_ID", -1); // Mặc định -1 nếu không tìm thấy
 
@@ -73,7 +75,11 @@ public class ProfileFragment extends Fragment {
         });
         // Xử lý khi nhấn nút Edit Profile
         editProfileButton.setOnClickListener(v -> openEditProfileDialog());
-
+        // Xử lý sự kiện cho nút "Change Password"
+        changePasswordButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChangePasswordActivity.class);
+            startActivity(intent);
+        });
         return view;
     }
 
