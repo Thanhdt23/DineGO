@@ -1,0 +1,112 @@
+/* Thanh_Start_Css */
+/* Begin Admin layout */
+
+body {
+  background-color: #f8f9fc;
+}
+.sidebar {
+  background-color: #4e73df;
+  min-height: 100vh;
+  min-width: 210px
+}
+.sidebar .nav-link {
+  color: white;
+}
+.sidebar .nav-link:hover {
+  background-color: #2e59d9;
+}
+.sidebar .nav-link.active {
+  background-color: #2e59d9;
+}
+.topbar {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.progress-bar {
+  background-color: #36b9cc;
+}
+
+/* End Admin layout */
+
+
+/* Login Admin */
+.body-login {
+  background: linear-gradient(to right, #ff512f, #dd2476);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background: rgb(160 48 48 / 90%);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container img {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.login-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.body-login .form-control {
+  background: #791515;
+  border: none;
+  color: #fff;
+}
+
+.body-login .form-control::placeholder {
+  color: #fff;
+}
+
+.btn-login {
+  background: #1b1712;
+  border: none;
+}
+
+/* End Login Admin */
+
+/*Begin css for table */
+
+.table td {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.table td.description {
+  max-width: 200px;
+}
+
+/* End css for table */
+
+/* Thanh_End_Css */
+
+
+
+/* Thang _ Reservation _ Start */
+body {
+  background-color: #f8f9fa;
+}
+.booking-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* Thang _ Reservation _ End */
+

@@ -1,0 +1,52 @@
+@model DineGO_Admin.Model.Category
+@{
+    Layout = "../../Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Cập nhật danh mục";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    <form method="post" asp-action="UpdateCategory" asp-controller="Category">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success mb-3">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger mb-3">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <div class="mb-3">
+            <label for="category-id" class="form-label">Mã danh mục</label>
+            <input type="text" class="form-control" id="category-id" name="cate_id" value="@Model.cate_id" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="category-type" class="form-label">Loại danh mục *</label>
+            <input type="text" class="form-control" id="category-type" name="cate_type" value="@Model.cate_type" required>
+            <span asp-validation-for="cate_type" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="category-description" class="form-label">Mô tả</label>
+            <textarea class="form-control" id="category-description" name="cate_description" rows="3">@Model.cate_description</textarea>
+            <span asp-validation-for="cate_description" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Cập nhật danh mục</button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

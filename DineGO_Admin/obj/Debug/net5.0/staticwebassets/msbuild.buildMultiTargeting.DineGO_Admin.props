@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\DineGO_Admin.props" />
+</Project>

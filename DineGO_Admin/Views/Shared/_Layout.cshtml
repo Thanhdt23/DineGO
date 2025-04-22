@@ -1,0 +1,85 @@
+﻿
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - DineGO_Admin</title>
+    <link rel="icon" type="image/png" href="/images/favicon.ico" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column p-3">
+            <div class="d-flex align-items-center mb-4">
+                <i class="fas fa-user text-white fa-2x"></i>
+                <span class="ml-2 text-white h4 mb-0">DineGo<Sup>Admin</Sup></span>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link" href="/Admin/Home"><i class="fas fa-tachometer-alt"></i> Bảng Điều Khiển</a>
+                <div class="mt-4">
+                    <h6 class="text-white-50">Quản Lý</h6>
+                    <a class="nav-link" href="/Restaurant/Restaurant"><i class="fas fa-utensils"></i> Nhà Hàng</a>
+                    <a class="nav-link" href="/Category/Index"><i class="fas fa-list"></i> Danh Mục</a>
+                    <a class="nav-link" href="/Customer/Index"><i class="fas fa-user-friends"></i> Khách Hàng</a>
+                    <a class="nav-link" href="/Reservation/Reservation"><i class="fas fa-hourglass-start"></i> Đơn Đặt Bàn</a>
+                    <a class="nav-link" href="/Blog/Index"><i class="fas fa-newspaper"></i> Bài Viết</a>   
+                     <a class="nav-link" href="/RestaurantOwner/Index"><i class="fas fa-user-tie"></i> Chủ Nhà Hàng</a>                   
+                </div>
+            </nav>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4">
+            <!-- Topbar -->
+            <div class="topbar d-flex justify-content-between align-items-center mb-4 p-3">
+                <div class="input-group w-50">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="position-relative">
+                        <i class="fas fa-bell text-gray-500 fa-lg"></i>
+                        <span class="position-absolute top-0 right-0 bg-danger text-white rounded-circle px-1">3+</span>
+                    </div>
+                    <div class="position-relative ml-4">
+                        <i class="fas fa-envelope text-gray-500 fa-lg"></i>
+                        <span class="position-absolute top-0 right-0 bg-danger text-white rounded-circle px-1">7</span>
+                    </div>
+                    <div class="ml-4 position-relative">
+                        <img src="https://placehold.co/40x40" class="rounded-circle" alt="User profile picture" width="40" height="40">
+                        <div class="dropdown-menu dropdown-menu-right mt-2">
+                            <a class="dropdown-item" href="/Admin/Home/Profile">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="#">Activity Log</a>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+            @RenderBody()
+        </div>
+    </div>
+
+    <!-- Các script cần thiết -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Toggle user menu
+        document.querySelector('.position-relative img').addEventListener('click', function() {
+            this.nextElementSibling.classList.toggle('show');
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
